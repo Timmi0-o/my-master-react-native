@@ -1,0 +1,53 @@
+---
+description: Core React Native/Expo project rules
+alwaysApply: true
+---
+
+# my-master-react-native project rules
+
+## Stack and architecture
+
+- Stack: Expo + React Native + TypeScript + `expo-router` + Uniwind + `heroui-native`.
+- UI primitives and form controls must come from `heroui-native`; custom UI wrappers are allowed only when they compose `heroui-native`.
+- Before implementing, check existing project patterns; if existing approach is weak, explicitly use a better one.
+
+## Files, naming, and typing
+
+- File names: kebab-case.
+- Interfaces and object-only types: `I` prefix (example: `IProfileCard`).
+- Boolean names: `is*` prefix only for booleans.
+- Constants in `constants/`: UPPER_CASE.
+- Avoid `any`; if unavoidable, limit scope and justify with a short comment.
+- Public functions/hooks/components must have explicit return types.
+
+## Data and code organization
+
+- Arrays for rendering (menu/stats/actions/options) store in nearby `data/` files, not inline in large screen components.
+- Avoid long inline object types in component files; define reusable interfaces/types.
+- Keep screens focused on composition; move business logic to hooks/helpers/actions.
+- DRY first: duplicated logic must be extracted.
+
+## React Native UI/UX rules
+
+- Every screen must handle safe areas (`SafeAreaView`) and use consistent page background including safe zones.
+- Use `ScrollView`/`FlatList` deliberately: `FlatList` for long dynamic lists, `ScrollView` for short static layouts.
+- No hardcoded magic spacing patterns repeated across the screen; keep spacing systematic.
+- No raw inline SVG in JSX for screens; use assets/components.
+
+## State and effects
+
+- Do not use `useEffect` for derivable state; derive from props/state or compute in handlers.
+- Side effects reused across screens must be extracted to shared hooks.
+- Keep conditionals explicit and readable; avoid complex one-line boolean chains.
+
+## API/actions and errors
+
+- Do not call `fetch` directly inside screen components; use actions/helpers/api layer.
+- API errors must be normalized and surfaced as user-readable states (empty/error/retry), not silent fails.
+- Auth-related logic must go through project auth context/store/helpers only.
+
+## Quality bar
+
+- No hacks, no brittle workarounds, no overengineering.
+- Priorities: correctness and edge cases first, speed second.
+- Preserve accessibility basics (touch targets, text readability, loading/disabled states).
