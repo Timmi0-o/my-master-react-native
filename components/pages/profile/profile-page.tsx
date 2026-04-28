@@ -1,6 +1,7 @@
 import { IUser } from '@/actions/user/models/user.schema'
 import { PageScreen } from '@/components/ui/page-screen'
 import { useAuth } from '@/configs/auth/auth-context'
+import { Ionicons } from '@expo/vector-icons'
 import { Avatar, Button, Card, Chip } from 'heroui-native'
 import { ScrollView, Text, View } from 'react-native'
 
@@ -11,7 +12,7 @@ export default function ProfilePage({ data }: { data: IUser }) {
 		<PageScreen>
 			<ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
 				<View style={{ rowGap: 20 }}>
-					<Card className='rounded-none'>
+					<Card>
 						<Card.Header className='flex items-center'>
 							<Avatar alt={data.name} size='lg' color='accent'>
 								<Avatar.Fallback
@@ -44,10 +45,16 @@ export default function ProfilePage({ data }: { data: IUser }) {
 						<Card.Body className='mt-4 p-0'>
 							<View className='mt-3 gap-2'>
 								<Button variant='tertiary' isDisabled>
-									Изменить пароль
+									<Ionicons
+										name='lock-closed-outline'
+										size={20}
+										color='white'
+									/>
+									<Button.Label>Изменить пароль</Button.Label>
 								</Button>
 								<Button variant='danger' onPress={() => signOut()}>
-									Выйти
+									<Ionicons name='log-out-outline' size={20} color='white' />
+									<Button.Label>Выйти</Button.Label>
 								</Button>
 							</View>
 						</Card.Body>
