@@ -31,13 +31,13 @@ class AuthContextStore implements IAuthContextValue {
 	signIn: IAuthContextValue['signIn'] = async (credentials) => {
 		const res = await login(credentials)
 
-		if (res.error || !res.result?.data) {
+		if (res.error || !res.result?.data?.tokens) {
 			return res as IActionResponse<IAuthSession | null>
 		}
 
 		const session = await authStore.commitSession({
-			accessToken: res.result.data.accessToken,
-			sid: res.result.data.sid,
+			accessToken: res.result.data.tokens.accessToken,
+			refreshToken: res.result.data.tokens.refreshToken,
 		})
 
 		if (!session) {
@@ -56,10 +56,10 @@ class AuthContextStore implements IAuthContextValue {
 	}
 
 	signOut: IAuthContextValue['signOut'] = async () => {
-		const sid = this.state.session?.sid
-		if (sid) {
+		const refreshToken = this.state.session?.refreshToken
+		if (refreshToken) {
 			try {
-				await logout(sid)
+				await logout({ refreshToken })
 			} catch (e) {
 				authLog.warn('Server logout failed, clearing locally', e)
 			}

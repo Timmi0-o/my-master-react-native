@@ -1,4 +1,4 @@
-import { PageScreen } from '@/components/ui/page-screen'
+import { BasePage } from '@/components/ui/base-page'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { Card, Switch } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -8,8 +8,11 @@ export default function SettingsPage(): ReactElement {
 	const { resolvedColorScheme, setDarkModeEnabled } = useThemeApp()
 
 	return (
-		<PageScreen>
-			<View className='flex-1 pt-1'>
+		<BasePage>
+			<View className='flex-1 pt-1 gap-3'>
+				<Text className='text-2xl font-bold text-foreground ml-2'>
+					Настройки
+				</Text>
 				<Card>
 					<Card.Header>
 						<Text className='text-lg font-bold text-foreground'>
@@ -34,6 +37,6 @@ export default function SettingsPage(): ReactElement {
 					</Card.Body>
 				</Card>
 			</View>
-		</PageScreen>
+		</BasePage>
 	)
 }

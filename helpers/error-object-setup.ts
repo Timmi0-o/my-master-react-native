@@ -48,7 +48,7 @@ export const ErrorObjectSetup = async (res: Response) => {
 		errorData = {
 			statusCode: res.status,
 			timestamp: new Date().toISOString(),
-			message: `Ошибка запроса (${res.status})`,
+			message: `Ошибка запроса (LOCAL APP ERROR) (${res.status})`,
 			error: res.statusText || 'Unknown Error',
 		}
 	}

@@ -17,6 +17,8 @@ export interface IApiParams<
 	isPublic?: boolean
 }
 
+const API_REQUEST_TIMEOUT_MS = 15_000
+
 const buildRequestInit = <T>(
 	params: IHttpParams<T>,
 	json: boolean,
@@ -53,6 +55,21 @@ const buildRequestInit = <T>(
 	}
 }
 
+const fetchWithTimeout = async (
+	url: string,
+	init: RequestInit,
+	timeoutMs = API_REQUEST_TIMEOUT_MS,
+): Promise<Response> => {
+	const controller = new AbortController()
+	const timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+
+	try {
+		return await fetch(url, { ...init, signal: controller.signal })
+	} finally {
+		clearTimeout(timeoutId)
+	}
+}
+
 export const api = async <
 	T extends BodyInit | null | undefined | unknown = unknown,
 >({
@@ -62,8 +79,8 @@ export const api = async <
 	isPublic = false,
 }: IApiParams<T>): Promise<Response> => {
 	const accessToken = isPublic ? null : await authStore.getAccessToken()
-
-	const res = await fetch(url, buildRequestInit(params, json, accessToken, isPublic))
+	const initialInit = buildRequestInit(params, json, accessToken, isPublic)
+	const res = await fetchWithTimeout(url, initialInit)
 
 	if (!isPublic && res.status === 401) {
 		const refreshed = await authStore.refreshSession()
@@ -73,7 +90,13 @@ export const api = async <
 			return res
 		}
 
-		return fetch(url, buildRequestInit(params, json, refreshed.accessToken, isPublic))
+		const retryInit = buildRequestInit(
+			params,
+			json,
+			refreshed.accessToken,
+			isPublic,
+		)
+		return fetchWithTimeout(url, retryInit)
 	}
 
 	return res

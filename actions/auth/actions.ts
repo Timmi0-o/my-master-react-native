@@ -1,40 +1,56 @@
 import { API_ROUTES } from '@/constants/api-routes'
 import { abstractMutateAction } from '@/helpers/action.helper'
 import { IActionResponse } from '@/types/i-action.types'
-import { IResetPasswordRequest, ISetNewPassword } from './models/auth.model'
-import { ILogin } from './models/login.schema'
-
-export type LoginSuccess = { sid: string; accessToken: string }
+import {
+	ILogin,
+	ILoginResponse,
+	ILogoutRequest,
+	ILogoutResponse,
+	IRefreshRequest,
+	IRefreshResponse,
+} from './models/login.schema'
+import {
+	IResetPasswordRequest,
+	ISetNewPassword,
+} from './models/resret-password.schema'
 
 export const login = async (
 	data: ILogin,
-): Promise<IActionResponse<LoginSuccess | null>> => {
-	return abstractMutateAction<ILogin, LoginSuccess>({
+): Promise<IActionResponse<ILoginResponse | null>> => {
+	return abstractMutateAction<ILogin, ILoginResponse>({
 		url: API_ROUTES.auth.login,
 		isPublic: true,
 		params: {
-			headers: {
-				'tourgis-custom-user-source': 'ADMIN',
-				'tourgis-custom-user-identity-key': 'ADMIN',
-			},
 			method: 'POST',
 			body: {
-				email: data.email,
+				identifier: data.identifier,
 				password: data.password,
-				fingerprint: data.fingerprint,
 			},
 		},
 	})
 }
 
+export const refresh = async (
+	payload: IRefreshRequest,
+): Promise<IActionResponse<IRefreshResponse | null>> => {
+	return abstractMutateAction<IRefreshRequest, IRefreshResponse>({
+		url: API_ROUTES.auth.refresh,
+		isPublic: true,
+		params: {
+			method: 'POST',
+			body: payload,
+		},
+	})
+}
+
 export const logout = async (
-	sid: string,
-): Promise<IActionResponse<boolean | null>> => {
-	return abstractMutateAction<{ sid: string }, boolean>({
+	payload: ILogoutRequest,
+): Promise<IActionResponse<ILogoutResponse | null>> => {
+	return abstractMutateAction<ILogoutRequest, ILogoutResponse>({
 		url: API_ROUTES.auth.logout,
 		params: {
 			method: 'POST',
-			body: { sid },
+			body: payload,
 		},
 	})
 }

@@ -1,5 +1,5 @@
 import { ILogin, LoginSchema } from '@/actions/auth/models/login.schema'
-import { PageScreen } from '@/components/ui/page-screen'
+import { BasePage } from '@/components/ui/base-page'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Spinner, useThemeColor } from 'heroui-native'
@@ -44,7 +44,7 @@ export default function LoginPage(): ReactElement {
 	])
 
 	return (
-		<PageScreen>
+		<BasePage>
 			<KeyboardAvoidingView
 				style={{ flex: 1 }}
 				behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -89,16 +89,15 @@ export default function LoginPage(): ReactElement {
 					>
 						<AuthInputField
 							control={control}
-							name='email'
-							label='Email'
+							name='identifier'
+							label='Email или username'
 							leftIcon='mail-outline'
 							isDisabled={isSubmitting}
 							inputProps={{
-								placeholder: 'you@example.com',
-								keyboardType: 'email-address',
+								placeholder: 'you@example.com / username',
 								autoCapitalize: 'none',
-								autoComplete: 'email',
-								textContentType: 'emailAddress',
+								autoComplete: 'username',
+								textContentType: 'username',
 								returnKeyType: 'next',
 							}}
 						/>
@@ -157,6 +156,6 @@ export default function LoginPage(): ReactElement {
 					</Animated.View>
 				</ScrollView>
 			</KeyboardAvoidingView>
-		</PageScreen>
+		</BasePage>
 	)
 }

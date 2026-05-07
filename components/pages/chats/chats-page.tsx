@@ -1,4 +1,4 @@
-import { PageScreen } from '@/components/ui/page-screen'
+import { BasePage } from '@/components/ui/base-page'
 import { Skeleton } from 'heroui-native'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -7,7 +7,7 @@ const CHAT_SKELETON_COUNT = 16
 
 export const ChatsPage = () => {
 	return (
-		<PageScreen>
+		<BasePage>
 			<ScrollView
 				className='flex-1'
 				contentContainerClassName='gap-3 py-5'
@@ -21,7 +21,7 @@ export const ChatsPage = () => {
 					<ChatSkeletonItem key={index} />
 				))}
 			</ScrollView>
-		</PageScreen>
+		</BasePage>
 	)
 }
 

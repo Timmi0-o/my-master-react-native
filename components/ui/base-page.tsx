@@ -1,13 +1,14 @@
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import type { ReactElement, ReactNode } from 'react'
-import type { StyleProp, ViewStyle } from 'react-native'
+import { ScrollView, type StyleProp, type ViewStyle } from 'react-native'
 import {
-	type Edge,
 	SafeAreaView,
+	useSafeAreaInsets,
+	type Edge,
 } from 'react-native-safe-area-context'
 
-interface IPageScreenProps {
+interface IBasePageProps {
 	children: ReactNode
 	/**
 	 * Which screen edges should respect safe-area insets. Defaults to top+bottom
@@ -17,25 +18,13 @@ interface IPageScreenProps {
 	style?: StyleProp<ViewStyle>
 }
 
-const DEFAULT_EDGES: readonly Edge[] = ['top', 'bottom']
-
-/**
- * Page-level container that:
- *  - applies safe-area insets,
- *  - paints the background through `style` (NOT className), because Uniwind
- *    does not bind `className` to the third-party native SafeAreaView, which
- *    leaves safe-area zones transparent and shows the white system layer.
- */
-export function PageScreen({
-	children,
-	edges = DEFAULT_EDGES,
-	style,
-}: IPageScreenProps): ReactElement {
+export function BasePage({ children, style }: IBasePageProps): ReactElement {
 	const { resolvedColorScheme } = useThemeApp()
+
+	const { bottom, top } = useSafeAreaInsets()
 
 	return (
 		<SafeAreaView
-			edges={edges}
 			style={[
 				{
 					flex: 1,
@@ -44,7 +33,11 @@ export function PageScreen({
 				style,
 			]}
 		>
-			{children}
+			<ScrollView
+				style={{ marginTop: top - 60, marginBottom: bottom + 20, flex: 1 }}
+			>
+				{children}
+			</ScrollView>
 		</SafeAreaView>
 	)
 }

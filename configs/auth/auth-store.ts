@@ -1,5 +1,5 @@
-import { API_ROUTES } from '@/constants/api-routes'
 import { isJWTExpired, parseJwt } from '@/helpers/jwt.helper'
+import { refresh } from '@/actions/auth/actions'
 import { authLog } from './auth-logger'
 import { authStorage, IPersistedSession } from './auth-storage'
 
@@ -10,7 +10,7 @@ export type AuthStatus = 'loading' | 'authenticated' | 'unauthenticated'
 
 export interface IAuthSession {
 	accessToken: string
-	sid: string
+	refreshToken: string
 	accessTokenExpires: number
 }
 
@@ -33,7 +33,7 @@ const buildSession = (session: IPersistedSession): IAuthSession | null => {
 	if (!payload?.exp) return null
 	return {
 		accessToken: session.accessToken,
-		sid: session.sid,
+		refreshToken: session.refreshToken,
 		accessTokenExpires: payload.exp * MILLISEC,
 	}
 }
@@ -78,34 +78,23 @@ const createAuthStore = () => {
 		if (inflightRefresh) return inflightRefresh
 
 		const current = state.session
-		if (!current?.sid) {
-			authLog.warn('Refresh skipped: no sid')
+		if (!current?.refreshToken) {
+			authLog.warn('Refresh skipped: no refreshToken')
 			return null
 		}
 
 		inflightRefresh = (async () => {
 			try {
 				authLog.action('Refresh: start')
-				const res = await fetch(API_ROUTES.auth.refresh, {
-					method: 'POST',
-					headers: { 'Content-Type': 'application/json' },
-					body: JSON.stringify({ sid: current.sid }),
+				const res = await refresh({ refreshToken: current.refreshToken })
+				if (res.error || !res.result?.data?.tokens) {
+					authLog.warn(`Refresh failed: ${res.error?.statusCode ?? 'unknown'}`)
+					return null
+				}
+				const next = buildSession({
+					accessToken: res.result.data.tokens.accessToken,
+					refreshToken: res.result.data.tokens.refreshToken,
 				})
-
-				if (!res.ok) {
-					authLog.warn(`Refresh failed: ${res.status}`)
-					return null
-				}
-
-				const data = await res.json()
-				const accessToken: string | undefined = data?.result?.data?.accessToken
-
-				if (!accessToken) {
-					authLog.warn('Refresh: no accessToken in response')
-					return null
-				}
-
-				const next = buildSession({ accessToken, sid: current.sid })
 				if (!next) {
 					authLog.warn('Refresh: invalid token payload')
 					return null
@@ -113,7 +102,7 @@ const createAuthStore = () => {
 
 				await authStorage.write({
 					accessToken: next.accessToken,
-					sid: next.sid,
+					refreshToken: next.refreshToken,
 				})
 				setState({ status: 'authenticated', session: next })
 				authLog.success('Refresh: ok')
@@ -147,7 +136,7 @@ const createAuthStore = () => {
 
 	const commitSession = async (input: {
 		accessToken: string
-		sid: string
+		refreshToken: string
 	}): Promise<IAuthSession | null> => {
 		const session = buildSession(input)
 		if (!session) {
@@ -156,7 +145,7 @@ const createAuthStore = () => {
 		}
 		await authStorage.write({
 			accessToken: session.accessToken,
-			sid: session.sid,
+			refreshToken: session.refreshToken,
 		})
 		setState({ status: 'authenticated', session })
 		return session
