@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store'
+import { platformStorage } from '@/configs/platform-storage'
 
 const KEYS = {
 	accessToken: 'auth.accessToken',
@@ -14,9 +14,9 @@ export interface IPersistedSession {
 export const authStorage = {
 	async read(): Promise<IPersistedSession | null> {
 		const [accessToken, refreshToken, legacySid] = await Promise.all([
-			SecureStore.getItemAsync(KEYS.accessToken),
-			SecureStore.getItemAsync(KEYS.refreshToken),
-			SecureStore.getItemAsync(KEYS.legacySid),
+			platformStorage.getItem(KEYS.accessToken),
+			platformStorage.getItem(KEYS.refreshToken),
+			platformStorage.getItem(KEYS.legacySid),
 		])
 		const actualRefreshToken = refreshToken ?? legacySid
 		if (!accessToken || !actualRefreshToken) return null
@@ -25,17 +25,17 @@ export const authStorage = {
 
 	async write(session: IPersistedSession): Promise<void> {
 		await Promise.all([
-			SecureStore.setItemAsync(KEYS.accessToken, session.accessToken),
-			SecureStore.setItemAsync(KEYS.refreshToken, session.refreshToken),
-			SecureStore.deleteItemAsync(KEYS.legacySid),
+			platformStorage.setItem(KEYS.accessToken, session.accessToken),
+			platformStorage.setItem(KEYS.refreshToken, session.refreshToken),
+			platformStorage.deleteItem(KEYS.legacySid),
 		])
 	},
 
 	async clear(): Promise<void> {
 		await Promise.all([
-			SecureStore.deleteItemAsync(KEYS.accessToken),
-			SecureStore.deleteItemAsync(KEYS.refreshToken),
-			SecureStore.deleteItemAsync(KEYS.legacySid),
+			platformStorage.deleteItem(KEYS.accessToken),
+			platformStorage.deleteItem(KEYS.refreshToken),
+			platformStorage.deleteItem(KEYS.legacySid),
 		])
 	},
 }

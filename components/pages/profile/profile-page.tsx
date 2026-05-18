@@ -1,5 +1,5 @@
-import { IOrder, IUser } from '@/actions/user/models/user.schema'
-import { BasePage } from '@/components/ui/base-page'
+import { IUser } from '@/actions/user/models/user.schema'
+import { BasePage } from '@/components/shared/ui/base-page'
 import { useAuth } from '@/configs/auth/auth-context'
 import { Ionicons } from '@expo/vector-icons'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
@@ -65,23 +65,6 @@ export default function ProfilePage({ data }: { data: IUser }) {
 
 					<Card>
 						<Card.Header>
-							<Text className='text-lg font-bold text-foreground'>Заказы</Text>
-						</Card.Header>
-						<Card.Body className='mt-4 p-0'>
-							<View className='mt-3 gap-3'>
-								{data.orders.length === 0 ? (
-									<Text className='text-base text-muted'>Заказов пока нет</Text>
-								) : (
-									data.orders.map((order) => (
-										<OrderListItem key={order.id} order={order} />
-									))
-								)}
-							</View>
-						</Card.Body>
-					</Card>
-
-					<Card>
-						<Card.Header>
 							<Text className='text-lg font-bold text-foreground'>
 								Управление аккаунтом
 							</Text>
@@ -107,38 +90,5 @@ export default function ProfilePage({ data }: { data: IUser }) {
 				</View>
 			</ScrollView>
 		</BasePage>
-	)
-}
-
-function OrderListItem({ order }: { order: IOrder }) {
-	const totalItemsCount = order.items.reduce(
-		(total, item) => total + item.quantity,
-		0,
-	)
-
-	const statusLabel = order.status === 'completed' ? 'Завершен' : 'В работе'
-	const statusColor = order.status === 'completed' ? 'success' : 'warning'
-
-	return (
-		<View className='rounded-2xl border border-border bg-background-secondary p-3'>
-			<View className='flex-row items-start justify-between gap-3'>
-				<View className='gap-1'>
-					<Text className='text-base font-semibold text-foreground'>
-						Заказ #{order.id}
-					</Text>
-					<Text className='text-sm text-muted'>{order.date}</Text>
-				</View>
-				<Chip variant='soft' color={statusColor}>
-					{statusLabel}
-				</Chip>
-			</View>
-
-			<Text className='mt-3 text-sm text-foreground'>
-				Позиций: {totalItemsCount}
-			</Text>
-			<Text className='mt-1 text-sm text-foreground'>
-				Сумма: {order.total} ₽
-			</Text>
-		</View>
 	)
 }

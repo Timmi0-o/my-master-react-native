@@ -65,7 +65,7 @@ const createAuthStore = () => {
 					return
 				}
 				setState({ status: 'authenticated', session })
-				authLog.info('Hydrated session from secure-store')
+				authLog.info('Hydrated session from storage')
 			} catch (e) {
 				authLog.error('Hydration error', e)
 				setState({ status: 'unauthenticated', session: null })

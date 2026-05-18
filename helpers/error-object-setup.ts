@@ -1,11 +1,9 @@
-import { IActionErrorField } from '@/types/i-action.types'
-
 interface IErrorResponse {
-	message?: string
-	errors?: IActionErrorField[]
-	statusCode?: number
-	timestamp?: string
-	error?: string
+	error: {
+		statusCode: number
+		message: string
+	}
+	result: null
 }
 
 export const ErrorObjectSetup = async (res: Response) => {
@@ -16,40 +14,18 @@ export const ErrorObjectSetup = async (res: Response) => {
 	try {
 		const errorResponse = (await res.json()) as IErrorResponse
 
-		const messagePart =
-			typeof errorResponse.message === 'string'
-				? errorResponse.message
-						.split(',')
-						.map((item: string) => item.trim())
-						.join(', ')
-				: ''
-		const errorsPart =
-			Array.isArray(errorResponse.errors) && errorResponse.errors.length > 0
-				? errorResponse.errors
-						.map(
-							(item: IActionErrorField) =>
-								`Поле ${item.field}: ${item.message}`,
-						)
-						.join(', ')
-				: ''
-		const errorMessage = [messagePart, errorsPart]
-			.filter(Boolean)
-			.join(' ')
-			.trim()
+		console.log('errorResponse', errorResponse)
 
 		errorData = {
-			statusCode: errorResponse.statusCode ?? res.status,
-			errors: errorResponse.errors,
-			timestamp: errorResponse.timestamp ?? new Date().toISOString(),
-			message: errorMessage || `Ошибка запроса (${res.status})`,
-			error: errorResponse.error || res.statusText || 'Unknown Error',
+			statusCode: errorResponse.error.statusCode ?? res.status,
+			timestamp: new Date().toISOString(),
+			message: errorResponse.error.message || `Ошибка запроса (${res.status})`,
 		}
 	} catch {
 		errorData = {
 			statusCode: res.status,
 			timestamp: new Date().toISOString(),
 			message: `Ошибка запроса (LOCAL APP ERROR) (${res.status})`,
-			error: res.statusText || 'Unknown Error',
 		}
 	}
 

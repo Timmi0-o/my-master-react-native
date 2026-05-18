@@ -48,18 +48,6 @@ export const abstractMutateAction = async <T, R>({
 	onOk,
 	isPublic = false,
 }: IMutateActionOptions<T>): Promise<IActionResponse<R | null>> => {
-	if (!url) {
-		return {
-			error: {
-				statusCode: 400,
-				timestamp: new Date().toISOString(),
-				error: 'Bad Request',
-				message: 'URL is required',
-			},
-			result: { data: null },
-		}
-	}
-
 	const res = await api({ url, params, json, isPublic })
 
 	const errorResult = await ErrorObjectSetup(res)

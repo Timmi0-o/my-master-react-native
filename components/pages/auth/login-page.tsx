@@ -1,5 +1,5 @@
 import { ILogin, LoginSchema } from '@/actions/auth/models/login.schema'
-import { BasePage } from '@/components/ui/base-page'
+import { BasePage } from '@/components/shared/ui/base-page'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Spinner, useThemeColor } from 'heroui-native'

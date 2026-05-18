@@ -1,4 +1,4 @@
-import { BasePage } from '@/components/ui/base-page'
+import { BasePage } from '@/components/shared/ui/base-page'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { Card, Switch } from 'heroui-native'
 import type { ReactElement } from 'react'

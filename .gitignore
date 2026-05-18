@@ -41,3 +41,10 @@ app-example
 # generated native folders
 /ios
 /android
+
+package-lock.json
+yarn.lock
+
+# heroui-agents-md
+.heroui-docs/
+

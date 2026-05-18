@@ -1,4 +1,4 @@
-import { BasePage } from '@/components/ui/base-page'
+import { BasePage } from '@/components/shared/ui/base-page'
 import { Skeleton } from 'heroui-native'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'

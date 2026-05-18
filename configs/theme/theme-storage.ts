@@ -1,4 +1,4 @@
-import * as SecureStore from 'expo-secure-store'
+import { platformStorage } from '@/configs/platform-storage'
 
 const THEME_MODE_KEY = 'app.theme.mode'
 
@@ -6,7 +6,7 @@ export type ThemeMode = 'system' | 'light' | 'dark'
 
 export const themeStorage = {
 	async readMode(): Promise<ThemeMode | null> {
-		const value = await SecureStore.getItemAsync(THEME_MODE_KEY)
+		const value = await platformStorage.getItem(THEME_MODE_KEY)
 		if (value === 'system' || value === 'light' || value === 'dark') {
 			return value
 		}
@@ -14,6 +14,6 @@ export const themeStorage = {
 	},
 
 	async writeMode(mode: ThemeMode): Promise<void> {
-		await SecureStore.setItemAsync(THEME_MODE_KEY, mode)
+		await platformStorage.setItem(THEME_MODE_KEY, mode)
 	},
 }
