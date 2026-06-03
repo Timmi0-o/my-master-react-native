@@ -19,14 +19,14 @@ const matchesSearchQuery = (
 	query: string,
 	service: IRecommendedService,
 ): boolean => {
-	const masterName = formatServiceMasterName(service.master).toLowerCase()
+	const masterName = service.masterProfile
+		? formatServiceMasterName(service.masterProfile).toLowerCase()
+		: ''
 
 	return (
 		service.name.toLowerCase().includes(query) ||
 		masterName.includes(query) ||
-		service.master.surname.toLowerCase().includes(query) ||
-		service.master.name.toLowerCase().includes(query) ||
-		service.master.patronymic.toLowerCase().includes(query)
+		service.description.toLowerCase().includes(query)
 	)
 }
 
@@ -38,8 +38,9 @@ export const SearchPage = () => {
 	] = useState(false)
 
 	const foregroundColor = useThemeColor('foreground')
-	const { data: masters } = useMasterGetMany()
-	const { data: recommendedServices } = useServiceGetRecommendedForYou()
+	const { data: masters, isLoading: isMastersLoading } = useMasterGetMany()
+	const { data: recommendedServices, isLoading: isServicesLoading } =
+		useServiceGetRecommendedForYou()
 
 	const query = value.trim().toLowerCase()
 
@@ -56,8 +57,9 @@ export const SearchPage = () => {
 
 		return masters.filter(
 			(master) =>
-				master.name.toLowerCase().includes(query) ||
-				master.services.some((service) =>
+				master.displayName.toLowerCase().includes(query) ||
+				master.description.toLowerCase().includes(query) ||
+				(master.services ?? []).some((service) =>
 					service.name.toLowerCase().includes(query),
 				),
 		)
@@ -130,7 +132,7 @@ export const SearchPage = () => {
 							</ScrollView>
 						) : (
 							<Text className='text-base text-muted ml-2'>
-								Услуги не найдены
+								{isServicesLoading ? 'Загрузка услуг...' : 'Услуги не найдены'}
 							</Text>
 						)}
 					</Card.Body>
@@ -143,9 +145,19 @@ export const SearchPage = () => {
 						</Text>
 					</Card.Header>
 					<Card.Body className='gap-3'>
+						{isMastersLoading && !filteredMasters?.length ? (
+							<Text className='text-base text-muted ml-2'>
+								Загрузка мастеров...
+							</Text>
+						) : null}
 						{filteredMasters?.map((master) => (
 							<MasterCard key={master.id} master={master} />
 						))}
+						{!isMastersLoading && filteredMasters?.length === 0 ? (
+							<Text className='text-base text-muted ml-2'>
+								Мастера не найдены
+							</Text>
+						) : null}
 					</Card.Body>
 				</Card>
 			</ScrollView>

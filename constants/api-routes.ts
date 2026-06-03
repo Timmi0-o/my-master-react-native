@@ -9,4 +9,10 @@ export const API_ROUTES = {
 		resetPassword: `${API_URL}/auth/reset-password`,
 		requestResetPassword: `${API_URL}/auth/send-reset-password-email`,
 	},
+	masterProfiles: {
+		many: `${API_URL}/master-profiles`,
+	},
+	masterServices: {
+		many: `${API_URL}/master-services`,
+	},
 } as const

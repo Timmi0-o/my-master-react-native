@@ -1,55 +1,30 @@
+import { API_ROUTES } from '@/constants/api-routes'
+import { abstractGetAction } from '@/helpers/action.helper'
+import { listQueryFormatter } from '@/helpers/list-query-formatter'
 import { IActionResponse } from '@/types/i-action.types'
-import { IMaster } from './models/master.schema'
+import type {
+	IMasterProfile,
+	IMasterProfileGetManyParams,
+} from './models/master-profile.schema'
 
-const MOCK_MASTERS: IMaster[] = [
-	{
-		id: '1',
-		name: 'Анна Иванова',
-		rating: 4.9,
-		reviewsCount: 128,
-		services: [
-			{ id: '1', name: 'Стрижка' },
-			{ id: '2', name: 'Окрашивание' },
-			{ id: '3', name: 'Укладка' },
-		],
-	},
-	{
-		id: '2',
-		name: 'Мария Петрова',
-		rating: 4.7,
-		reviewsCount: 94,
-		services: [
-			{ id: '4', name: 'Маникюр' },
-			{ id: '5', name: 'Педикюр' },
-		],
-	},
-	{
-		id: '3',
-		name: 'Елена Смирнова',
-		rating: 4.8,
-		reviewsCount: 76,
-		services: [
-			{ id: '6', name: 'Макияж' },
-			{ id: '7', name: 'Брови' },
-			{ id: '8', name: 'Ресницы' },
-		],
-	},
-	{
-		id: '4',
-		name: 'Ольга Козлова',
-		rating: 4.6,
-		reviewsCount: 52,
-		services: [
-			{ id: '9', name: 'Массаж' },
-			{ id: '10', name: 'СПА-уход' },
-		],
-	},
-]
+const DEFAULT_FILTERS: IMasterProfileGetManyParams = {
+	preset: 'BASE',
+	page: 1,
+	limit: 50,
+	orderField: 'rating',
+	orderDir: 'desc',
+}
 
-export const masterGetMany = async (): Promise<IActionResponse<IMaster[]>> => {
-	return Promise.resolve({
-		result: {
-			data: MOCK_MASTERS,
-		},
+export const masterProfilesGetMany = async (
+	filters?: IMasterProfileGetManyParams,
+): Promise<IActionResponse<IMasterProfile[]>> => {
+	return abstractGetAction<IMasterProfile[]>({
+		url: API_ROUTES.masterProfiles.many,
+		params: { method: 'GET' },
+		filters: { ...DEFAULT_FILTERS, ...filters },
+		customFormatter: listQueryFormatter,
 	})
 }
+
+/** @deprecated используй masterProfilesGetMany */
+export const masterGetMany = masterProfilesGetMany

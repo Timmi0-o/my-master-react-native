@@ -1,0 +1,67 @@
+---
+description: Клиентский слой API — actions, типы, hooks, без склейки данных
+globs: "{actions,hooks,helpers}/**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# RN: API, actions, данные с бэка
+
+## Принцип
+
+Один экран / один список → **один** list-endpoint. Вложения (`services`, `masterProfile`) приходят с бэка в `preset=BASE`, не собираются на клиенте.
+
+## Actions (`actions/<feature>/actions.ts`)
+
+- Только `abstractGetAction` / `abstractMutateAction` из `@/helpers/action.helper`.
+- URL из `@/constants/api-routes`.
+- List: `filters` + `customFormatter: listQueryFormatter`.
+- Дефолты query (`preset`, `page`, `limit`, `orderField`, `orderDir`) — в action, не размазаны по экранам.
+- Типы ответа — Zod/infer в `actions/<feature>/models/*.schema.ts` по полям API (`displayName`, не `name`).
+- Без `map*`, без `Promise.all` двух list’ов для одной view-model.
+
+Пример формы:
+
+```typescript
+export const masterProfilesGetMany = async (filters?: IMasterProfileGetManyParams) =>
+  abstractGetAction<IMasterProfile[]>({
+    url: API_ROUTES.masterProfiles.many,
+    params: { method: 'GET' },
+    filters: { preset: 'BASE', page: 1, limit: 50, orderField: 'rating', orderDir: 'desc', ...filters },
+    customFormatter: listQueryFormatter,
+  })
+```
+
+Пустой list с API приходит как `200` + `data: []` — отдельная нормализация 404 в actions не нужна.
+
+## Hooks (`hooks/actions/**`)
+
+- `useQuery` → action → `res.result.data ?? []`
+- Ошибки: toast + `throw` для react-query
+- `queryKey` включает сущность и сценарий (`['master-profiles', 'many']`)
+
+## UI
+
+- Компоненты принимают типы из `actions/*/models`, не локальные «удобные» DTO.
+- Фильтрация поиска — по полям API (`displayName`, `description`, `service.name`).
+- `fetch` только через `api.helper` / actions.
+
+## Контракт ответа
+
+```typescript
+interface IActionResponse<T> {
+  result: { data: T }  // для list T = Item[]
+  error?: IActionError
+}
+```
+
+Не ожидать `data.data` или клиентский merge профилей и услуг.
+
+## Связь с бэком
+
+| Задача | Клиент | Сервер |
+|--------|--------|--------|
+| Список мастеров с услугами | `GET master-profiles?preset=BASE` | preset BASE + include services |
+| Рекомендуемые услуги с мастером | `GET master-services?preset=BASE&orderField=price` | preset BASE + include masterProfile |
+| CRUD | `abstractMutateAction` + payload schemas | use-case + owner/staff guards |
+
+Сквозная схема — `../../.cursor/rules/project-data-flow.mdc`.

@@ -1,4 +1,4 @@
-import { IRecommendedService } from '@/actions/service/models/service.schema'
+import type { IRecommendedService } from '@/actions/service/models/service.schema'
 import { formatServiceMasterName } from '@/helpers/service/format-service-master-name'
 import { Ionicons } from '@expo/vector-icons'
 import { useThemeColor } from 'heroui-native'
@@ -21,7 +21,7 @@ export function ServiceCard({
 	style,
 }: IServiceCardProps): ReactElement {
 	const mutedColor = useThemeColor('muted')
-	const masterName = formatServiceMasterName(service.master)
+	const masterProfile = service.masterProfile
 
 	return (
 		<Pressable
@@ -36,15 +36,19 @@ export function ServiceCard({
 
 				<View className='flex-row items-center justify-between gap-3'>
 					<Text className='flex-1 text-sm text-muted' numberOfLines={2}>
-						{masterName}
+						{masterProfile
+							? formatServiceMasterName(masterProfile)
+							: 'Мастер'}
 					</Text>
 
-					<View className='flex-row items-center gap-1'>
-						<Ionicons name='star' size={16} color={mutedColor} />
-						<Text className='text-sm font-medium text-foreground'>
-							{service.master.rating}
-						</Text>
-					</View>
+					{masterProfile ? (
+						<View className='flex-row items-center gap-1'>
+							<Ionicons name='star' size={16} color={mutedColor} />
+							<Text className='text-sm font-medium text-foreground'>
+								{masterProfile.rating}
+							</Text>
+						</View>
+					) : null}
 				</View>
 			</View>
 		</Pressable>

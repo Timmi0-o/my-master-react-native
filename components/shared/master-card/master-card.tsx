@@ -1,16 +1,17 @@
-import { IMaster } from '@/actions/master/models/master.schema'
+import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { Ionicons } from '@expo/vector-icons'
 import { Avatar, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Pressable, Text, View, type StyleProp, type ViewStyle } from 'react-native'
 
 interface IMasterCardProps {
-	master: IMaster
+	master: IMasterProfile
 	style?: StyleProp<ViewStyle>
 }
 
 export function MasterCard({ master, style }: IMasterCardProps): ReactElement {
 	const mutedColor = useThemeColor('muted')
+	const services = master.services ?? []
 
 	return (
 		<Pressable
@@ -19,14 +20,14 @@ export function MasterCard({ master, style }: IMasterCardProps): ReactElement {
 			style={style}
 		>
 			<View className='flex-row items-start gap-3'>
-				<Avatar alt={master.name} color='accent'>
-					<Avatar.Fallback>{master.name[0]}</Avatar.Fallback>
+				<Avatar alt={master.displayName} color='accent'>
+					<Avatar.Fallback>{master.displayName[0]}</Avatar.Fallback>
 				</Avatar>
 
 				<View className='flex-1 gap-2'>
 					<View className='flex-row items-start justify-between gap-3'>
 						<Text className='flex-1 text-base font-semibold text-foreground'>
-							{master.name}
+							{master.displayName}
 						</Text>
 
 						<View className='flex-row items-center gap-1'>
@@ -37,12 +38,12 @@ export function MasterCard({ master, style }: IMasterCardProps): ReactElement {
 						</View>
 					</View>
 
-					<Text className='text-sm text-muted'>
-						{master.reviewsCount} отзывов
+					<Text className='text-sm text-muted' numberOfLines={2}>
+						{master.description}
 					</Text>
 
 					<View className='flex-row flex-wrap gap-2'>
-						{master.services.map((service) => (
+						{services.map((service) => (
 							<Chip key={service.id} variant='soft' color='accent'>
 								{service.name}
 							</Chip>

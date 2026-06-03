@@ -73,7 +73,10 @@ const defaultQueryFormatter = (
 			key === 'limit' ||
 			key === 'page' ||
 			key === 'status' ||
-			key === 'search'
+			key === 'search' ||
+			key === 'preset' ||
+			key === 'orderField' ||
+			key === 'orderDir'
 		) {
 			params[key] = typeof value === 'string' ? value : String(value)
 			return

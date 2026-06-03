@@ -1,5 +1,5 @@
-import { serviceGetRecommendedForYou } from '@/actions/service/actions'
-import { IRecommendedService } from '@/actions/service/models/service.schema'
+import { masterServicesGetRecommended } from '@/actions/service/actions'
+import type { IRecommendedService } from '@/actions/service/models/service.schema'
 import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
@@ -7,9 +7,9 @@ export const useServiceGetRecommendedForYou = () => {
 	const { toast } = useToast()
 
 	const { data, isLoading, error } = useQuery<IRecommendedService[]>({
-		queryKey: ['services', 'recommended-for-you'],
+		queryKey: ['master-services', 'recommended'],
 		queryFn: async () => {
-			const res = await serviceGetRecommendedForYou()
+			const res = await masterServicesGetRecommended()
 
 			if (res.error?.message) {
 				toast.show({
@@ -20,7 +20,7 @@ export const useServiceGetRecommendedForYou = () => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data
+			return res.result.data ?? []
 		},
 	})
 

@@ -1,17 +1,7 @@
-import { z } from 'zod'
+export type { IMasterProfile, IMasterProfileService } from './master-profile.schema'
 
-export const MasterServiceSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-})
+/** @deprecated используй IMasterProfile */
+export type IMaster = import('./master-profile.schema').IMasterProfile
 
-export const MasterSchema = z.object({
-	id: z.string(),
-	name: z.string(),
-	rating: z.number(),
-	reviewsCount: z.number(),
-	services: z.array(MasterServiceSchema),
-})
-
-export type IMaster = z.infer<typeof MasterSchema>
-export type IMasterService = z.infer<typeof MasterServiceSchema>
+/** @deprecated используй IMasterProfileService */
+export type IMasterService = import('./master-profile.schema').IMasterProfileService

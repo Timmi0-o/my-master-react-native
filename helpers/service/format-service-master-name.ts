@@ -1,4 +1,5 @@
-import { IServiceMaster } from '@/actions/service/models/service.schema'
+import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 
-export const formatServiceMasterName = (master: IServiceMaster): string =>
-	[master.surname, master.name, master.patronymic].filter(Boolean).join(' ')
+export const formatServiceMasterName = (
+	masterProfile: NonNullable<IMasterService['masterProfile']>,
+): string => masterProfile.displayName
