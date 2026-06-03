@@ -1,4 +1,4 @@
 export const LOGIN_FORM_DEFAULT_VALUES = {
-	identifier: 'admin@tourgis.com',
+	email: 'user01@example.com',
 	password: 'password',
 }

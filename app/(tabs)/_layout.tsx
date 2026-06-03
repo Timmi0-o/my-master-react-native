@@ -1,12 +1,12 @@
-import { Icon, Label, NativeTabs } from 'expo-router/unstable-native-tabs'
+import { NativeTabs } from 'expo-router/unstable-native-tabs'
 import React from 'react'
 
 export default function TabLayout() {
 	return (
 		<NativeTabs blurEffect='systemDefault' minimizeBehavior='automatic'>
 			<NativeTabs.Trigger name='general/index'>
-				<Label>Главная</Label>
-				<Icon
+				<NativeTabs.Trigger.Label>Главная</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon
 					sf={{
 						default: 'house',
 						selected: 'house.fill',
@@ -15,8 +15,8 @@ export default function TabLayout() {
 			</NativeTabs.Trigger>
 
 			<NativeTabs.Trigger name='search/index'>
-				<Label>Поиск</Label>
-				<Icon
+				<NativeTabs.Trigger.Label>Поиск</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon
 					sf={{
 						default: 'magnifyingglass',
 						selected: 'magnifyingglass.circle.fill',
@@ -25,8 +25,8 @@ export default function TabLayout() {
 			</NativeTabs.Trigger>
 
 			<NativeTabs.Trigger name='chats/index'>
-				<Label>Чаты</Label>
-				<Icon
+				<NativeTabs.Trigger.Label>Чаты</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon
 					sf={{
 						default: 'message',
 						selected: 'message.fill',
@@ -34,8 +34,8 @@ export default function TabLayout() {
 				/>
 			</NativeTabs.Trigger>
 			<NativeTabs.Trigger name='index'>
-				<Label>Профиль</Label>
-				<Icon
+				<NativeTabs.Trigger.Label>Профиль</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon
 					sf={{
 						default: 'person',
 						selected: 'person.fill',
@@ -43,8 +43,8 @@ export default function TabLayout() {
 				/>
 			</NativeTabs.Trigger>
 			<NativeTabs.Trigger name='settings/index'>
-				<Label>Настройки</Label>
-				<Icon
+				<NativeTabs.Trigger.Label>Настройки</NativeTabs.Trigger.Label>
+				<NativeTabs.Trigger.Icon
 					sf={{
 						default: 'gearshape',
 						selected: 'gearshape.fill',

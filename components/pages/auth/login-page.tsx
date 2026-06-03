@@ -89,15 +89,16 @@ export default function LoginPage(): ReactElement {
 					>
 						<AuthInputField
 							control={control}
-							name='identifier'
-							label='Email или username'
+							name='email'
+							label='Email'
 							leftIcon='mail-outline'
 							isDisabled={isSubmitting}
 							inputProps={{
-								placeholder: 'you@example.com / username',
+								placeholder: 'you@example.com',
 								autoCapitalize: 'none',
-								autoComplete: 'username',
-								textContentType: 'username',
+								autoComplete: 'email',
+								textContentType: 'emailAddress',
+								keyboardType: 'email-address',
 								returnKeyType: 'next',
 							}}
 						/>

@@ -14,7 +14,10 @@ export const IAuthSessionUserSchema = z.object({
 })
 
 export const LoginSchema = z.object({
-	identifier: z.string().min(1, 'Введите email или username'),
+	email: z
+		.string()
+		.min(1, 'Введите email')
+		.email('Неверный формат email'),
 	password: z.string().min(8, 'Пароль должен быть не менее 8 символов'),
 })
 

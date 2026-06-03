@@ -1,5 +1,6 @@
-import { isJWTExpired, parseJwt } from '@/helpers/jwt.helper'
 import { refresh } from '@/actions/auth/actions'
+import { getAuthPayloadFromResponse } from '@/helpers/auth-response.helper'
+import { isJWTExpired, parseJwt } from '@/helpers/jwt.helper'
 import { authLog } from './auth-logger'
 import { authStorage, IPersistedSession } from './auth-storage'
 
@@ -87,13 +88,14 @@ const createAuthStore = () => {
 			try {
 				authLog.action('Refresh: start')
 				const res = await refresh({ refreshToken: current.refreshToken })
-				if (res.error || !res.result?.data?.tokens) {
+				const authPayload = getAuthPayloadFromResponse(res)
+				if (!authPayload?.tokens) {
 					authLog.warn(`Refresh failed: ${res.error?.statusCode ?? 'unknown'}`)
 					return null
 				}
 				const next = buildSession({
-					accessToken: res.result.data.tokens.accessToken,
-					refreshToken: res.result.data.tokens.refreshToken,
+					accessToken: authPayload.tokens.accessToken,
+					refreshToken: authPayload.tokens.refreshToken,
 				})
 				if (!next) {
 					authLog.warn('Refresh: invalid token payload')

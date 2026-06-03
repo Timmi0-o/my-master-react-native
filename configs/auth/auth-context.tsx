@@ -1,5 +1,6 @@
 import { login, logout } from '@/actions/auth/actions'
 import { ILogin } from '@/actions/auth/models/login.schema'
+import { getAuthPayloadFromResponse } from '@/helpers/auth-response.helper'
 import { IActionResponse } from '@/types/i-action.types'
 import { makeAutoObservable, runInAction } from 'mobx'
 import { ReactNode, useEffect } from 'react'
@@ -31,13 +32,14 @@ class AuthContextStore implements IAuthContextValue {
 	signIn: IAuthContextValue['signIn'] = async (credentials) => {
 		const res = await login(credentials)
 
-		if (res.error || !res.result?.data?.tokens) {
+		const authPayload = getAuthPayloadFromResponse(res)
+		if (!authPayload?.tokens) {
 			return res as IActionResponse<IAuthSession | null>
 		}
 
 		const session = await authStore.commitSession({
-			accessToken: res.result.data.tokens.accessToken,
-			refreshToken: res.result.data.tokens.refreshToken,
+			accessToken: authPayload.tokens.accessToken,
+			refreshToken: authPayload.tokens.refreshToken,
 		})
 
 		if (!session) {

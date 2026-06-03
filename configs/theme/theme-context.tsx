@@ -9,7 +9,11 @@ import {
 	useMemo,
 	useState,
 } from 'react'
-import { useColorScheme } from 'react-native'
+import { ColorSchemeName, useColorScheme } from 'react-native'
+
+const toResolvedColorScheme = (
+	scheme: ColorSchemeName | null | undefined,
+): 'light' | 'dark' => (scheme === 'dark' ? 'dark' : 'light')
 import { Uniwind } from 'uniwind'
 import { ThemeMode, themeStorage } from './theme-storage'
 
@@ -23,10 +27,11 @@ interface IThemeContextValue {
 const ThemeContext = createContext<IThemeContextValue | null>(null)
 
 export const ThemeProviderApp = ({ children }: { children: ReactNode }) => {
-	const systemColorScheme = useColorScheme() ?? 'light'
+	const systemColorScheme = toResolvedColorScheme(useColorScheme())
 	const [mode, setModeState] = useState<ThemeMode>('system')
 
-	const resolvedColorScheme = mode === 'system' ? systemColorScheme : mode
+	const resolvedColorScheme: 'light' | 'dark' =
+		mode === 'system' ? systemColorScheme : mode
 
 	useEffect(() => {
 		themeStorage

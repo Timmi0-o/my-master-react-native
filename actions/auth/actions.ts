@@ -23,7 +23,7 @@ export const login = async (
 		params: {
 			method: 'POST',
 			body: {
-				identifier: data.identifier,
+				email: data.email,
 				password: data.password,
 			},
 		},
