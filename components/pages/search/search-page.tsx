@@ -6,6 +6,7 @@ import { ServiceCard } from '@/components/shared/service-card/service-card'
 import { BasePage } from '@/components/shared/ui/base-page'
 import { useMasterProfileGetMany } from '@/hooks/actions/master/use-master-profile-get-many'
 import { useMasterServiceGetMany } from '@/hooks/actions/master-service/use-master-service-get-many'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useManageSearchParams } from '@/hooks/use-manage-search-params'
 import { useQuerySynchronization } from '@/hooks/use-query-synchronization'
@@ -20,6 +21,9 @@ const VIEW_MORE_BUTTON_STYLE: ViewStyle = { minHeight: 88, width: 120 }
 const SEARCH_QUERY_DEBOUNCE_MS = 500
 
 export const SearchPage = () => {
+	const { t } = useScopedTranslation('pages', 'search')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
 	const { searchParams, handlePushKeyInSearchParams } = useManageSearchParams()
 
 	const search = searchParams.search ?? ''
@@ -87,7 +91,7 @@ export const SearchPage = () => {
 						<SearchField.SearchIcon />
 						<SearchField.Input
 							style={{ minHeight: 60 }}
-							placeholder='Найдите услуги...'
+							placeholder={tPlaceholder('searchServices')}
 						/>
 						<SearchField.ClearButton />
 					</SearchField.Group>
@@ -96,7 +100,7 @@ export const SearchPage = () => {
 				<Card className='gap-2'>
 					<Card.Header>
 						<Text className='text-2xl font-bold text-foreground ml-2'>
-							Специально для вас
+							{t('recommendedForYou')}
 						</Text>
 					</Card.Header>
 					<Card.Body className='mt-1 p-0'>
@@ -126,13 +130,15 @@ export const SearchPage = () => {
 											size={20}
 											color={foregroundColor}
 										/>
-										<Button.Label>Еще</Button.Label>
+										<Button.Label>{tBtn('more')}</Button.Label>
 									</Button>
 								)}
 							</ScrollView>
 						) : (
 							<Text className='text-base text-muted ml-2'>
-								{isServicesLoading ? 'Загрузка услуг...' : 'Услуги не найдены'}
+								{isServicesLoading
+									? t('loadingServices')
+									: t('servicesNotFound')}
 							</Text>
 						)}
 					</Card.Body>
@@ -141,13 +147,13 @@ export const SearchPage = () => {
 				<Card className='gap-2'>
 					<Card.Header>
 						<Text className='text-2xl font-bold text-foreground ml-2'>
-							Популярные мастера
+							{t('popularMasters')}
 						</Text>
 					</Card.Header>
 					<Card.Body className='gap-3'>
 						{isMastersLoading && !masters?.length ? (
 							<Text className='text-base text-muted ml-2'>
-								Загрузка мастеров...
+								{t('loadingMasters')}
 							</Text>
 						) : null}
 						{masters?.map((master) => (
@@ -155,7 +161,7 @@ export const SearchPage = () => {
 						))}
 						{!isMastersLoading && masters?.length === 0 ? (
 							<Text className='text-base text-muted ml-2'>
-								Мастера не найдены
+								{t('mastersNotFound')}
 							</Text>
 						) : null}
 					</Card.Body>

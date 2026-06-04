@@ -1,5 +1,10 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { ScheduleSimpleField } from '@/components/pages/master-settings/schedule-simple-field'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useAppointmentCreate } from '@/hooks/actions/appointment/use-appointment-create'
 import { useMasterServiceGetAvailableSlots } from '@/hooks/actions/master-service/use-master-service-get-available-slots'
 import { formatDate } from '@/utils/format-date.util'
@@ -36,26 +41,34 @@ function buildDateOptions(count: number): string[] {
 	})
 }
 
-function formatSlotTime(iso: string, timezone?: string): string {
-	const date = new Date(iso)
-	return date.toLocaleTimeString('ru-RU', {
-		hour: '2-digit',
-		minute: '2-digit',
-		timeZone: timezone || undefined,
-	})
-}
-
 export function BookAppointmentModal({
 	isVisible,
 	service,
 	onClose,
 }: IBookAppointmentModalProps): ReactElement {
 	const router = useRouter()
+	const { t, i18n } = useScopedTranslation('pages', 'masterService.bookModal')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tField } = useScopedTranslation('ui', 'field')
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
+	const { t: tUi } = useScopedTranslation('ui')
 	const createAppointment = useAppointmentCreate()
 	const dateOptions = useMemo(() => buildDateOptions(BOOKING_DATE_OPTIONS_COUNT), [])
 	const [selectedDate, setSelectedDate] = useState(dateOptions[0] ?? '')
 	const [selectedStartsAt, setSelectedStartsAt] = useState<string | null>(null)
 	const [message, setMessage] = useState('')
+
+	const formatSlotTime = (iso: string, timezone?: string): string => {
+		const date = new Date(iso)
+		return date.toLocaleTimeString(
+			toDateTimeLocale(resolveLocale(i18n.language)),
+			{
+				hour: '2-digit',
+				minute: '2-digit',
+				timeZone: timezone || undefined,
+			},
+		)
+	}
 
 	const slotsQuery = useMasterServiceGetAvailableSlots(
 		service.id,
@@ -110,6 +123,14 @@ export function BookAppointmentModal({
 	const slots = slotsQuery.data?.slots ?? []
 	const timezone = slotsQuery.data?.timezone
 
+	const descriptionParts = [
+		service.name,
+		tUi('priceRub', { price: service.price }),
+		...(service.durationMinutes != null
+			? [tUi('durationMinutes', { count: service.durationMinutes })]
+			: []),
+	]
+
 	return (
 		<BottomSheet isOpen={isVisible} onOpenChange={handleOpenChange}>
 			<BottomSheet.Portal>
@@ -120,12 +141,9 @@ export function BookAppointmentModal({
 					enableOverDrag={false}
 					snapPoints={['75%', '92%']}
 				>
-					<BottomSheet.Title>Запись на услугу</BottomSheet.Title>
+					<BottomSheet.Title>{t('title')}</BottomSheet.Title>
 					<BottomSheet.Description>
-						{service.name} · {service.price} ₽
-						{service.durationMinutes != null
-							? ` · ${service.durationMinutes} мин`
-							: ''}
+						{descriptionParts.join(' · ')}
 					</BottomSheet.Description>
 
 					<BottomSheetScrollView
@@ -134,7 +152,9 @@ export function BookAppointmentModal({
 						showsVerticalScrollIndicator={false}
 					>
 						<View className='gap-2'>
-							<Text className='text-sm font-medium text-foreground'>Дата</Text>
+							<Text className='text-sm font-medium text-foreground'>
+								{tField('date')}
+							</Text>
 							<View className='flex-row flex-wrap gap-2'>
 								{dateOptions.map((date) => {
 									const label = formatDate(date)
@@ -159,16 +179,14 @@ export function BookAppointmentModal({
 
 						<View className='gap-2'>
 							<Text className='text-sm font-medium text-foreground'>
-								Свободное время
+								{t('freeTime')}
 							</Text>
 							{slotsQuery.isLoading ? (
 								<View className='items-center py-6'>
 									<Spinner size='sm' />
 								</View>
 							) : slots.length === 0 ? (
-								<Text className='text-sm text-muted'>
-									На выбранную дату свободных окон нет
-								</Text>
+								<Text className='text-sm text-muted'>{t('noSlots')}</Text>
 							) : (
 								<View className='flex-row flex-wrap gap-2'>
 									{slots.map((slot) => {
@@ -192,13 +210,13 @@ export function BookAppointmentModal({
 						</View>
 
 						<ScheduleSimpleField
-							label='Сообщение мастеру (необязательно)'
+							label={tField('messageToMaster')}
 							value={message}
 							onChangeText={setMessage}
 							inputProps={{
 								multiline: true,
 								numberOfLines: 3,
-								placeholder: 'Пожелания или вопрос перед записью',
+								placeholder: tPlaceholder('bookingMessage'),
 							}}
 						/>
 
@@ -215,7 +233,7 @@ export function BookAppointmentModal({
 							{createAppointment.isPending ? (
 								<Spinner size='sm' color='white' />
 							) : (
-								<Button.Label>Подтвердить запись</Button.Label>
+								<Button.Label>{tBtn('confirmBooking')}</Button.Label>
 							)}
 						</Button>
 					</BottomSheetScrollView>

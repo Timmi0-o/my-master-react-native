@@ -1,4 +1,5 @@
 import ProfilePage from '@/components/pages/profile/profile-page'
+import { routeErrorText } from '@/configs/i18n/use-route-feedback'
 import { useMasterProfileGetMine } from '@/hooks/actions/master/use-master-profile-get-mine'
 import { useUserProfileGetMine } from '@/hooks/actions/user-profile/use-user-profile-get-mine'
 import type { ReactElement } from 'react'
@@ -19,7 +20,7 @@ export default function Profile(): ReactElement {
 	const error = clientError ?? masterError
 
 	if (error?.message) {
-		return <Text>Ошибка: {error.message}</Text>
+		return <Text>{routeErrorText(error.message)}</Text>
 	}
 
 	return (

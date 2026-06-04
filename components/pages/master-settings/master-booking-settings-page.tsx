@@ -3,7 +3,9 @@ import type {
 	TMasterBookingStatus,
 } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { BOOKING_STATUS_LABELS } from '@/constants/master-schedule.constants'
+import { scopedT } from '@/configs/i18n/scoped-t'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterProfileUpdate } from '@/hooks/actions/master/use-master-profile-update'
 import { useRouter } from 'expo-router'
 import { Button, Card } from 'heroui-native'
@@ -29,6 +31,11 @@ export function MasterBookingSettingsPage({
 }: IMasterBookingSettingsPageProps): ReactElement {
 	const router = useRouter()
 	const { toast } = useToast()
+	const { t } = useScopedTranslation('pages', 'masterSettings')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tField } = useScopedTranslation('ui', 'field')
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
+	const bookingStatusLabel = useEnumLabel('enums.bookingStatus')
 	const updateMutation = useMasterProfileUpdate(masterProfile.id)
 
 	const [bookingStatus, setBookingStatus] = useState<TMasterBookingStatus>(
@@ -73,19 +80,21 @@ export function MasterBookingSettingsPage({
 
 		toast.show({
 			variant: 'success',
-			label: 'Сохранено',
+			label: scopedT('saved', 'common', 'toasts'),
 		})
 		router.back()
 	}
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title='Приём записей' />
+			<ScheduleScreenHeader title={t('bookingTitle')} />
 
 			<View style={{ rowGap: 16 }}>
 				<Card>
 					<Card.Header>
-						<Text className='font-semibold text-foreground'>Статус</Text>
+						<Text className='font-semibold text-foreground'>
+							{tField('status')}
+						</Text>
 					</Card.Header>
 					<Card.Body className='gap-2 p-0'>
 						{BOOKING_STATUSES.map((status) => (
@@ -95,7 +104,7 @@ export function MasterBookingSettingsPage({
 								size='sm'
 								onPress={() => setBookingStatus(status)}
 							>
-								<Button.Label>{BOOKING_STATUS_LABELS[status]}</Button.Label>
+								<Button.Label>{bookingStatusLabel(status)}</Button.Label>
 							</Button>
 						))}
 					</Card.Body>
@@ -103,38 +112,38 @@ export function MasterBookingSettingsPage({
 
 				{bookingStatus === 'PAUSED' ? (
 					<ScheduleSimpleField
-						label='Пауза до (YYYY-MM-DD HH:mm)'
+						label={tField('pauseUntil')}
 						value={pausedUntil}
 						onChangeText={setPausedUntil}
-						inputProps={{ placeholder: '2026-06-10 18:00' }}
+						inputProps={{ placeholder: tPlaceholder('pauseUntil') }}
 					/>
 				) : null}
 
 				<ScheduleSimpleField
-					label='Часовой пояс (IANA)'
+					label={tField('timezone')}
 					value={timezone}
 					onChangeText={setTimezone}
 				/>
 				<ScheduleSimpleField
-					label='Мин. время до записи (минуты)'
+					label={tField('minLeadMinutes')}
 					value={minNoticeMinutes}
 					onChangeText={setMinNoticeMinutes}
 					inputProps={{ keyboardType: 'number-pad' }}
 				/>
 				<ScheduleSimpleField
-					label='Макс. дней вперёд для брони'
+					label={tField('maxDaysAhead')}
 					value={maxBookingDaysAhead}
 					onChangeText={setMaxBookingDaysAhead}
 					inputProps={{ keyboardType: 'number-pad' }}
 				/>
 				<ScheduleSimpleField
-					label='Шаг слотов (минуты)'
+					label={tField('slotStepMinutes')}
 					value={slotStepMinutes}
 					onChangeText={setSlotStepMinutes}
 					inputProps={{ keyboardType: 'number-pad' }}
 				/>
 				<ScheduleSimpleField
-					label='Пауза между записями (минуты)'
+					label={tField('gapMinutes')}
 					value={bufferBetweenAppointmentsMinutes}
 					onChangeText={setBufferBetweenAppointmentsMinutes}
 					inputProps={{ keyboardType: 'number-pad' }}
@@ -146,7 +155,7 @@ export function MasterBookingSettingsPage({
 					isDisabled={updateMutation.isPending}
 				>
 					<Button.Label>
-						{updateMutation.isPending ? 'Сохранение...' : 'Сохранить'}
+						{updateMutation.isPending ? tBtn('saving') : tBtn('save')}
 					</Button.Label>
 				</Button>
 			</View>

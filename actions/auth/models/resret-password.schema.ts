@@ -1,20 +1,40 @@
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { z } from 'zod'
 
-export const ResetPasswordRequestSchema = z.object({
-	email: z.string().regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Неверный email'),
-})
-
-export const SetNewPasswordSchema = z
-	.object({
-		password: z.string().min(8, 'Пароль должен быть не менее 8 символов'),
-		confirmPassword: z.string().min(1, 'Подтвердите пароль'),
-	})
-	.refine((data) => data.password === data.confirmPassword, {
-		message: 'Пароли не совпадают',
-		path: ['confirmPassword'],
+export const createResetPasswordRequestSchema = () =>
+	z.object({
+		email: z
+			.string()
+			.regex(
+				/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+				scopedT('emailRegex', 'common', 'validation.auth'),
+			),
 	})
 
-export type IResetPasswordRequest = z.infer<typeof ResetPasswordRequestSchema>
-export type ISetNewPassword = z.infer<typeof SetNewPasswordSchema> & {
+export const createSetNewPasswordSchema = () =>
+	z
+		.object({
+			password: z
+				.string()
+				.min(8, scopedT('passwordMin', 'common', 'validation.auth')),
+			confirmPassword: z
+				.string()
+				.min(1, scopedT('confirmPasswordRequired', 'common', 'validation.auth')),
+		})
+		.refine((data) => data.password === data.confirmPassword, {
+			message: scopedT('passwordsMismatch', 'common', 'validation.auth'),
+			path: ['confirmPassword'],
+		})
+
+export type IResetPasswordRequest = z.infer<
+	ReturnType<typeof createResetPasswordRequestSchema>
+>
+export type ISetNewPassword = z.infer<
+	ReturnType<typeof createSetNewPasswordSchema>
+> & {
 	token: string
 }
+
+/** @deprecated Use create* factories for localized messages */
+export const ResetPasswordRequestSchema = createResetPasswordRequestSchema()
+export const SetNewPasswordSchema = createSetNewPasswordSchema()

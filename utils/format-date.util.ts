@@ -1,22 +1,31 @@
-const MONTHS_SHORT = [
-	'янв',
-	'фев',
-	'мар',
-	'апр',
-	'май',
-	'июн',
-	'июл',
-	'авг',
-	'сен',
-	'окт',
-	'ноя',
-	'дек',
-] as const
+import { i18n } from '@/configs/i18n/i18n'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
+import { scopedT } from '@/configs/i18n/scoped-t'
 
 export interface IFormattedDate {
 	day: string
 	month: string
 	full: string
+}
+
+const getIntlLocale = (): string =>
+	toDateTimeLocale(resolveLocale(i18n.language))
+
+const formatShortMonth = (
+	year: number,
+	monthIndex: number,
+	day: number,
+): string => {
+	try {
+		return new Intl.DateTimeFormat(getIntlLocale(), { month: 'short' }).format(
+			new Date(year, monthIndex, day),
+		)
+	} catch {
+		return scopedT('invalidDate', 'common', 'fallback')
+	}
 }
 
 export function formatDate(date: string): IFormattedDate {
@@ -25,7 +34,7 @@ export function formatDate(date: string): IFormattedDate {
 	if (!match) {
 		return {
 			day: '--',
-			month: 'дата',
+			month: scopedT('invalidDate', 'common', 'fallback'),
 			full: date,
 		}
 	}
@@ -38,14 +47,14 @@ export function formatDate(date: string): IFormattedDate {
 	if (!isValidDateParts(yearNumber, monthIndex, dayNumber)) {
 		return {
 			day: '--',
-			month: 'дата',
+			month: scopedT('invalidDate', 'common', 'fallback'),
 			full: date,
 		}
 	}
 
 	return {
 		day: String(dayNumber).padStart(2, '0'),
-		month: MONTHS_SHORT[monthIndex],
+		month: formatShortMonth(yearNumber, monthIndex, dayNumber),
 		full: `${day.padStart(2, '0')}.${month}.${year}`,
 	}
 }
@@ -55,7 +64,7 @@ function isValidDateParts(
 	monthIndex: number,
 	day: number,
 ): boolean {
-	if (monthIndex < 0 || monthIndex >= MONTHS_SHORT.length || day < 1) {
+	if (monthIndex < 0 || monthIndex > 11 || day < 1) {
 		return false
 	}
 

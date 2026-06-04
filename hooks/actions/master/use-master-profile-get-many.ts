@@ -3,6 +3,7 @@ import type { IMasterProfile } from '@/actions/master/models/master-profile.sche
 import { formatQueryGetMasterProfiles } from '@/helpers/format-query-object/format-query-get-master-profiles'
 import { useManageSearchParams } from '@/hooks/use-manage-search-params'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterProfileGetMany = () => {
@@ -26,7 +27,7 @@ export const useMasterProfileGetMany = () => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки мастеров',
+					label: scopedT('loadManyFailed', 'common', 'toasts.masterProfile'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

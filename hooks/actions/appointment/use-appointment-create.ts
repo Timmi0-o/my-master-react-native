@@ -1,5 +1,6 @@
 import { appointmentsCreate } from '@/actions/appointment/actions'
 import type { IAppointmentCreatePayload } from '@/actions/appointment/models/appointment-create-payload.schema'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
@@ -14,7 +15,7 @@ export const useAppointmentCreate = () => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось создать запись',
+					label: scopedT('createFailed', 'common', 'toasts.appointment'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)
@@ -28,8 +29,8 @@ export const useAppointmentCreate = () => {
 			})
 			toast.show({
 				variant: 'success',
-				label: 'Запись создана',
-				description: 'Мастер получит вашу заявку',
+				label: scopedT('created', 'common', 'toasts.appointment'),
+				description: scopedT('createdDescription', 'common', 'toasts.appointment'),
 			})
 		},
 	})

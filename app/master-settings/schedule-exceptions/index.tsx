@@ -1,5 +1,9 @@
 import { MasterScheduleExceptionsListPage } from '@/components/pages/master-settings/master-schedule-exceptions-list-page'
 import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import {
+	routeErrorText,
+	routeLoadingText,
+} from '@/configs/i18n/use-route-feedback'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -15,7 +19,7 @@ export default function MasterScheduleExceptionsIndexScreen(): ReactElement {
 				style={{ paddingTop: insets.top }}
 			>
 				<Text className='text-muted'>
-					{error?.message ?? 'Загрузка...'}
+					{error?.message ? routeErrorText(error.message) : routeLoadingText()}
 				</Text>
 			</View>
 		)

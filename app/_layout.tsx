@@ -1,6 +1,8 @@
 import '@/app/global.css'
+import '@/configs/i18n/i18n'
 import { ActiveProfileModeProvider } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { AuthProvider, useAuth } from '@/configs/auth/auth-context'
+import { LocaleProviderApp } from '@/configs/i18n/locale-context'
 import { ThemeProviderApp, useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import {
@@ -100,9 +102,11 @@ export default function RootLayout() {
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<SafeAreaProvider>
 					<HeroUINativeProvider>
-						<ThemeProviderApp>
-							<AppNavigation />
-						</ThemeProviderApp>
+						<LocaleProviderApp>
+							<ThemeProviderApp>
+								<AppNavigation />
+							</ThemeProviderApp>
+						</LocaleProviderApp>
 					</HeroUINativeProvider>
 				</SafeAreaProvider>
 			</GestureHandlerRootView>

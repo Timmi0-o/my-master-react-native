@@ -1,0 +1,103 @@
+{
+	"settings": {
+		"title": "Settings",
+		"appearance": {
+			"title": "Appearance",
+			"darkMode": "Dark theme",
+			"darkModeHint": "Enables dark styling for the app"
+		},
+		"language": {
+			"title": "Language",
+			"hint": "App interface language"
+		}
+	},
+	"tabs": {
+		"home": "Home",
+		"search": "Search",
+		"chats": "Chats",
+		"profile": "Profile",
+		"settings": "Settings"
+	},
+	"home": {
+		"titleClient": "My bookings",
+		"titleMaster": "My clients' bookings",
+		"empty": "No bookings yet",
+		"allRecordsTitle": "All bookings",
+		"allRecordsCount": "Total bookings: {{count}}"
+	},
+	"chats": {
+		"title": "Chats",
+		"emptyClient": "No chats with masters yet",
+		"emptyMaster": "No chats with clients yet"
+	},
+	"search": {
+		"loadingServices": "Loading services...",
+		"servicesNotFound": "No services found",
+		"recommendedForYou": "Picked for you",
+		"servicesTotalCount": "Total services: {{count}}",
+		"popularMasters": "Popular masters",
+		"loadingMasters": "Loading masters...",
+		"mastersNotFound": "No masters found"
+	},
+	"profile": {
+		"loading": "Loading...",
+		"masterNotFound": "Master profile not found",
+		"clientNotFound": "Client profile not found",
+		"accountManagement": "Account",
+		"ratingChip": "Rating: {{rating}}"
+	},
+	"auth": {
+		"login": {
+			"title": "Welcome",
+			"subtitle": "Sign in to continue",
+			"emailLabel": "Email",
+			"passwordLabel": "Password"
+		}
+	},
+	"master": {
+		"loadingProfile": "Loading profile...",
+		"profileNotFound": "Master profile not found",
+		"servicesTitle": "Services",
+		"noServices": "This master has no services yet"
+	},
+	"masterService": {
+		"loading": "Loading service...",
+		"notFound": "Service not found",
+		"masterSection": "Master",
+		"bookModal": {
+			"title": "Book service",
+			"freeTime": "Available time",
+			"noSlots": "No available slots for this date"
+		}
+	},
+	"record": {
+		"notFound": "Booking not found",
+		"peerSectionClient": "Client",
+		"peerSectionMaster": "Master",
+		"serviceSection": "Service",
+		"cancellation": "Cancellation"
+	},
+	"masterSettings": {
+		"hubTitle": "Schedule & bookings",
+		"currentStatus": "Current status",
+		"bookingRules": "Bookings & rules",
+		"weeklySchedule": "Weekly schedule",
+		"exceptions": "Days off & exceptions",
+		"weeklyListTitle": "Weekly schedule",
+		"exceptionsListTitle": "Days off & exceptions",
+		"bookingTitle": "Accepting bookings",
+		"exceptionEdit": "Edit exception",
+		"exceptionNew": "New exception",
+		"intervalEdit": "Edit time slot",
+		"intervalNew": "New time slot",
+		"masterProfileNotFound": "Master profile not found",
+		"pausedUntil": "Paused until: {{date}}",
+		"emptyExceptions": "No exceptions yet. Add a day off or vacation.",
+		"emptyIntervals": "No time slots yet. Add working hours by weekday.",
+		"customHours": "Hours: {{start}} – {{end}}"
+	},
+	"routes": {
+		"chatNotFound": "Chat not found",
+		"loadingChat": "Loading chat..."
+	}
+}

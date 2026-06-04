@@ -1,4 +1,5 @@
 import type { IRecommendedService } from '@/actions/service/models/service.schema'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
@@ -23,6 +24,7 @@ export function ServiceCard({
 	onBeforeNavigate,
 }: IServiceCardProps): ReactElement {
 	const router = useRouter()
+	const { t } = useScopedTranslation('common', 'fallback')
 	const mutedColor = useThemeColor('muted')
 	const masterProfile = service.masterProfile
 
@@ -45,7 +47,7 @@ export function ServiceCard({
 
 				<View className='flex-row items-center justify-between gap-3'>
 					<Text className='flex-1 text-sm text-muted' numberOfLines={2}>
-						{masterProfile?.displayName ?? 'Мастер'}
+						{masterProfile?.displayName ?? t('master')}
 					</Text>
 
 					{masterProfile ? (

@@ -2,6 +2,7 @@ import { ChatListItem } from '@/components/shared/chat-list-item/chat-list-item'
 import { BasePage } from '@/components/shared/ui/base-page'
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Skeleton } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
@@ -20,10 +21,9 @@ export const ChatsPage = ({
 	chats,
 	isLoading,
 }: IChatsPageProps): ReactElement => {
+	const { t } = useScopedTranslation('pages', 'chats')
 	const emptyLabel =
-		mode === 'master'
-			? 'Пока нет чатов с клиентами'
-			: 'Пока нет чатов с мастерами'
+		mode === 'master' ? t('emptyMaster') : t('emptyClient')
 
 	return (
 		<BasePage>
@@ -33,7 +33,9 @@ export const ChatsPage = ({
 				showsVerticalScrollIndicator={false}
 			>
 				<View className='mb-2'>
-					<Text className='ml-2 text-2xl font-bold text-foreground'>Чаты</Text>
+					<Text className='ml-2 text-2xl font-bold text-foreground'>
+						{t('title')}
+					</Text>
 				</View>
 
 				{isLoading ? (

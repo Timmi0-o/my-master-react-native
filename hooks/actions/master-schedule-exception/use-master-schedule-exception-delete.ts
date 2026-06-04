@@ -1,5 +1,6 @@
 import { masterScheduleExceptionsDelete } from '@/actions/master-schedule-exception/actions'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterScheduleExceptionDelete = (masterProfileId: string) => {
@@ -13,7 +14,7 @@ export const useMasterScheduleExceptionDelete = (masterProfileId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось удалить исключение',
+					label: scopedT('deleteFailed', 'common', 'toasts.scheduleException'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

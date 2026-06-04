@@ -1,6 +1,7 @@
 import { appointmentsGetOne } from '@/actions/appointment/actions'
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentGetOne = (appointmentId: string) => {
@@ -17,7 +18,7 @@ export const useAppointmentGetOne = (appointmentId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки записи',
+					label: scopedT('loadOneFailed', 'common', 'toasts.appointment'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

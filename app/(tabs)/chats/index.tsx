@@ -1,6 +1,7 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { ChatsPage } from '@/components/pages/chats/chats-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
+import { routeErrorText } from '@/configs/i18n/use-route-feedback'
 import { useAppointmentGetMyClientsMany } from '@/hooks/actions/appointment/use-appointment-get-my-clients-many'
 import { useAppointmentGetMyMany } from '@/hooks/actions/appointment/use-appointment-get-my-many'
 import type { ReactElement } from 'react'
@@ -54,7 +55,7 @@ export default function Chats(): ReactElement {
 	}, [activeQuery.data])
 
 	if (activeQuery.error?.message) {
-		return <Text>Ошибка: {activeQuery.error.message}</Text>
+		return <Text>{routeErrorText(activeQuery.error.message)}</Text>
 	}
 
 	return (

@@ -5,15 +5,12 @@ import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profi
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { ACTIVE_PROFILE_MODES } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useAuth } from '@/configs/auth/auth-context'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip } from 'heroui-native'
 import { ScrollView, Text, View } from 'react-native'
-
-const MODE_LABELS: Record<ActiveProfileMode, string> = {
-	client: 'Клиент профиль',
-	master: 'Мастер профиль',
-}
 
 interface IProfilePageProps {
 	clientProfile: IUserProfile | null
@@ -30,6 +27,10 @@ export default function ProfilePage({
 }: IProfilePageProps) {
 	const { signOut } = useAuth()
 	const router = useRouter()
+	const { t } = useScopedTranslation('pages', 'profile')
+	const { t: tMasterSettings } = useScopedTranslation('pages', 'masterSettings')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const profileModeLabel = useEnumLabel('enums.profileMode')
 
 	const { mode, setMode } = useActiveProfileMode()
 
@@ -61,7 +62,9 @@ export default function ProfilePage({
 											onPress={() => handleModeChange(profileMode)}
 											variant={isSelected ? 'primary' : 'outline'}
 										>
-											<Button.Label>{MODE_LABELS[profileMode]}</Button.Label>
+											<Button.Label>
+												{profileModeLabel(profileMode)}
+											</Button.Label>
 										</Button>
 									)
 								})}
@@ -73,7 +76,7 @@ export default function ProfilePage({
 						<Card className='rounded-none shadow-none bg-background-secondary'>
 							<Card.Header className='flex items-center gap-3'>
 								<Avatar
-									alt={displayName || MODE_LABELS[mode]}
+									alt={displayName || profileModeLabel(mode)}
 									color='accent'
 									style={{ width: 100, height: 100 }}
 								>
@@ -87,7 +90,7 @@ export default function ProfilePage({
 								</Avatar>
 
 								{isLoading ? (
-									<Text className='text-base text-muted'>Загрузка...</Text>
+									<Text className='text-base text-muted'>{t('loading')}</Text>
 								) : activeProfile ? (
 									<>
 										<Text
@@ -97,14 +100,16 @@ export default function ProfilePage({
 											{displayName}
 										</Text>
 										<View className='mt-3 flex-row gap-3'>
-											<Chip color='default'>Рейтинг: {rating}</Chip>
+											<Chip color='default'>
+												{t('ratingChip', { rating })}
+											</Chip>
 										</View>
 									</>
 								) : (
 									<Text className='text-base text-muted text-center px-4'>
 										{mode === 'master'
-											? 'Профиль мастера не найден'
-											: 'Профиль клиента не найден'}
+											? t('masterNotFound')
+											: t('clientNotFound')}
 									</Text>
 								)}
 							</Card.Header>
@@ -114,13 +119,13 @@ export default function ProfilePage({
 							<Card>
 								<Card.Header>
 									<Text className='text-lg font-bold text-foreground'>
-										Расписание и записи
+										{tMasterSettings('hubTitle')}
 									</Text>
 								</Card.Header>
 								<Card.Body className='mt-2 p-0'>
 									<Button onPress={() => router.push('/master-settings')}>
 										<Ionicons name='calendar-outline' size={20} color='white' />
-										<Button.Label>Настроить расписание</Button.Label>
+										<Button.Label>{tBtn('configureSchedule')}</Button.Label>
 									</Button>
 								</Card.Body>
 							</Card>
@@ -129,7 +134,7 @@ export default function ProfilePage({
 						<Card>
 							<Card.Header>
 								<Text className='text-lg font-bold text-foreground'>
-									Управление аккаунтом
+									{t('accountManagement')}
 								</Text>
 							</Card.Header>
 
@@ -141,11 +146,11 @@ export default function ProfilePage({
 											size={20}
 											color='white'
 										/>
-										<Button.Label>Изменить пароль</Button.Label>
+										<Button.Label>{tBtn('changePassword')}</Button.Label>
 									</Button>
 									<Button variant='danger' onPress={() => signOut()}>
 										<Ionicons name='log-out-outline' size={20} color='white' />
-										<Button.Label>Выйти</Button.Label>
+										<Button.Label>{tBtn('signOut')}</Button.Label>
 									</Button>
 								</View>
 							</Card.Body>

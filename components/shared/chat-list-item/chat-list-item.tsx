@@ -1,8 +1,13 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
 import { useRouter } from 'expo-router'
 import { Avatar, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Pressable, Text, View } from 'react-native'
 
 interface IChatListItemProps {
@@ -15,6 +20,7 @@ export function ChatListItem({
 	mode,
 }: IChatListItemProps): ReactElement | null {
 	const router = useRouter()
+	const { t, i18n } = useScopedTranslation('common', 'chat')
 	const chat = appointment.chat
 	if (!chat) {
 		return null
@@ -26,9 +32,10 @@ export function ChatListItem({
 				? [appointment.clientUser.name, appointment.clientUser.surname, appointment.clientUser.patronymic]
 						.filter(Boolean)
 						.join(' ')
-						.trim() || 'Клиент'
-				: 'Клиент'
-			: (appointment.masterProfile?.displayName ?? 'Мастер')
+						.trim() || t('clientFallback')
+				: t('clientFallback')
+			: (appointment.masterProfile?.displayName ??
+				t('masterFallback'))
 
 	const messages = chat.messages ?? []
 	const lastMessage =
@@ -40,12 +47,13 @@ export function ChatListItem({
 				)[0]
 			: null
 
-	const preview = lastMessage?.body ?? 'Нет сообщений'
+	const preview = lastMessage?.body ?? t('noMessages')
 	const timeSource = lastMessage?.createdAt ?? appointment.startsAt
 	const timeDate = new Date(timeSource)
+	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 	const timeLabel = Number.isNaN(timeDate.getTime())
 		? ''
-		: timeDate.toLocaleTimeString('ru-RU', {
+		: timeDate.toLocaleTimeString(dateTimeLocale, {
 				hour: '2-digit',
 				minute: '2-digit',
 			})

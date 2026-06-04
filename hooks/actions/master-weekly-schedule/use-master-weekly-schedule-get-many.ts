@@ -1,6 +1,7 @@
 import { masterWeeklySchedulesGetMany } from '@/actions/master-weekly-schedule/actions'
 import type { IMasterWeeklySchedule } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterWeeklyScheduleGetMany = (
@@ -29,7 +30,7 @@ export const useMasterWeeklyScheduleGetMany = (
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки расписания',
+					label: scopedT('loadManyFailed', 'common', 'toasts.weeklySchedule'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

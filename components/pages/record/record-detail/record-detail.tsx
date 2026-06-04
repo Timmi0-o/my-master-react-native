@@ -1,6 +1,12 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { formatDate } from '@/utils/format-date.util'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
@@ -13,24 +19,26 @@ interface IRecordDetailProps {
 	mode: ActiveProfileMode
 }
 
-const CANCELLED_BY_LABELS = {
-	CLIENT: 'Клиент',
-	MASTER: 'Мастер',
-	STAFF: 'Сотрудник',
-} as const
-
 export default function RecordDetail({
 	appointment,
 	mode,
 }: IRecordDetailProps): ReactElement {
 	const router = useRouter()
+	const { t, i18n } = useScopedTranslation('pages', 'record')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tField } = useScopedTranslation('ui', 'field')
+	const { t: tUi } = useScopedTranslation('ui')
+	const { t: tFallback } = useScopedTranslation('common', 'fallback')
+	const cancelledByLabel = useEnumLabel('enums.cancelledBy')
 	const mutedColor = useThemeColor('muted')
+	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
+
 	const dateKey = appointment.startsAt.slice(0, 10)
 	const formattedDate = formatDate(dateKey)
 	const startsAtDate = new Date(appointment.startsAt)
 	const timeLabel = Number.isNaN(startsAtDate.getTime())
 		? appointment.startsAt
-		: startsAtDate.toLocaleTimeString('ru-RU', {
+		: startsAtDate.toLocaleTimeString(dateTimeLocale, {
 				hour: '2-digit',
 				minute: '2-digit',
 			})
@@ -46,21 +54,38 @@ export default function RecordDetail({
 			? [clientUser.name, clientUser.surname, clientUser.patronymic]
 					.filter(Boolean)
 					.join(' ')
-					.trim() || 'Клиент'
-			: 'Клиент'
-		: (masterProfile?.displayName ?? 'Мастер')
+					.trim() || tFallback('client')
+			: tFallback('client')
+		: (masterProfile?.displayName ?? tFallback('master'))
 
-	const peerSectionTitle = isMasterMode ? 'Клиент' : 'Мастер'
+	const peerSectionTitle = isMasterMode
+		? t('peerSectionClient')
+		: t('peerSectionMaster')
 	const isCancelled =
 		appointment.status === 'CANCELLED' ||
 		appointment.cancelledAt != null ||
 		appointment.cancelReason != null
 
-	const cancelledByLabel =
+	const cancelledByValue =
 		appointment.cancelledBy != null
-			? (CANCELLED_BY_LABELS[appointment.cancelledBy] ??
-				appointment.cancelledBy)
+			? cancelledByLabel(appointment.cancelledBy)
 			: null
+
+	const formatDateTime = (iso: string): string => {
+		const date = new Date(iso)
+
+		if (Number.isNaN(date.getTime())) {
+			return iso
+		}
+
+		return date.toLocaleString(dateTimeLocale, {
+			day: '2-digit',
+			month: '2-digit',
+			year: 'numeric',
+			hour: '2-digit',
+			minute: '2-digit',
+		})
+	}
 
 	return (
 		<BasePage>
@@ -72,7 +97,7 @@ export default function RecordDetail({
 					variant='ghost'
 				>
 					<Ionicons name='arrow-back' size={20} color={mutedColor} />
-					<Button.Label>Назад</Button.Label>
+					<Button.Label>{tBtn('back')}</Button.Label>
 				</Button>
 
 				<Card className='rounded-none shadow-none bg-background-secondary'>
@@ -101,35 +126,37 @@ export default function RecordDetail({
 					<Card.Body className='mt-2 gap-3 p-0'>
 						<RecordInfoRow
 							icon='calendar-outline'
-							label='Дата'
+							label={tField('date')}
 							value={formattedDate.full}
 						/>
 						<RecordInfoRow
 							icon='time-outline'
-							label='Время начала'
+							label={tField('startTime')}
 							value={timeLabel}
 						/>
 						<RecordInfoRow
 							icon='hourglass-outline'
-							label='Длительность'
-							value={`${appointment.durationMinutes} мин`}
+							label={tField('duration')}
+							value={tUi('durationMinutes', {
+								count: appointment.durationMinutes,
+							})}
 						/>
 						<RecordInfoRow
 							icon='cash-outline'
-							label='Стоимость'
-							value={`${appointment.totalPrice} ₽`}
+							label={tField('cost')}
+							value={tUi('priceRub', { price: appointment.totalPrice })}
 						/>
 						{appointment.createdAt ? (
 							<RecordInfoRow
 								icon='create-outline'
-								label='Создана'
+								label={tField('createdAt')}
 								value={formatDateTime(appointment.createdAt)}
 							/>
 						) : null}
 						{appointment.updatedAt ? (
 							<RecordInfoRow
 								icon='refresh-outline'
-								label='Обновлена'
+								label={tField('updatedAt')}
 								value={formatDateTime(appointment.updatedAt)}
 							/>
 						) : null}
@@ -140,28 +167,28 @@ export default function RecordDetail({
 					<Card>
 						<Card.Header>
 							<Text className='text-lg font-bold text-foreground'>
-								Отмена
+								{t('cancellation')}
 							</Text>
 						</Card.Header>
 						<Card.Body className='mt-2 gap-3 p-0'>
 							{appointment.cancelledAt ? (
 								<RecordInfoRow
 									icon='close-circle-outline'
-									label='Дата отмены'
+									label={tField('cancelledAt')}
 									value={formatDateTime(appointment.cancelledAt)}
 								/>
 							) : null}
-							{cancelledByLabel ? (
+							{cancelledByValue ? (
 								<RecordInfoRow
 									icon='person-circle-outline'
-									label='Кто отменил'
-									value={cancelledByLabel}
+									label={tField('cancelledBy')}
+									value={cancelledByValue}
 								/>
 							) : null}
 							{appointment.cancelReason ? (
 								<RecordInfoRow
 									icon='chatbox-ellipses-outline'
-									label='Причина'
+									label={tField('cancelReason')}
 									value={appointment.cancelReason}
 								/>
 							) : null}
@@ -191,17 +218,17 @@ export default function RecordDetail({
 							<>
 								<RecordInfoRow
 									icon='at-outline'
-									label='Username'
+									label={tField('username')}
 									value={clientUser.username}
 								/>
 								<RecordInfoRow
 									icon='call-outline'
-									label='Телефон'
+									label={tField('phone')}
 									value={clientUser.phone ?? '—'}
 								/>
 								<RecordInfoRow
 									icon='mail-outline'
-									label='Email'
+									label={tField('email')}
 									value={clientUser.email}
 								/>
 							</>
@@ -211,13 +238,13 @@ export default function RecordDetail({
 							<>
 								<RecordInfoRow
 									icon='star-outline'
-									label='Рейтинг'
+									label={tField('rating')}
 									value={String(masterProfile.rating)}
 								/>
 								{masterProfile.description ? (
 									<RecordInfoRow
 										icon='information-circle-outline'
-										label='Описание'
+										label={tField('description')}
 										value={masterProfile.description}
 									/>
 								) : null}
@@ -228,41 +255,45 @@ export default function RecordDetail({
 
 				<Card>
 					<Card.Header>
-						<Text className='text-lg font-bold text-foreground'>Услуга</Text>
+						<Text className='text-lg font-bold text-foreground'>
+							{t('serviceSection')}
+						</Text>
 					</Card.Header>
 					<Card.Body className='mt-2 gap-3 p-0'>
 						<RecordInfoRow
 							icon='briefcase-outline'
-							label='Название'
+							label={tField('name')}
 							value={appointment.serviceName}
 						/>
 						{masterService?.name &&
 						masterService.name !== appointment.serviceName ? (
 							<RecordInfoRow
 								icon='pricetag-outline'
-								label='Услуга мастера'
+								label={tField('masterService')}
 								value={masterService.name}
 							/>
 						) : null}
 						{masterService?.description ? (
 							<RecordInfoRow
 								icon='document-text-outline'
-								label='Описание'
+								label={tField('description')}
 								value={masterService.description}
 							/>
 						) : null}
 						{masterService?.price != null ? (
 							<RecordInfoRow
 								icon='wallet-outline'
-								label='Цена услуги'
-								value={`${masterService.price} ₽`}
+								label={tField('servicePrice')}
+								value={tUi('priceRub', { price: masterService.price })}
 							/>
 						) : null}
 						{masterService?.durationMinutes != null ? (
 							<RecordInfoRow
 								icon='timer-outline'
-								label='Длительность услуги'
-								value={`${masterService.durationMinutes} мин`}
+								label={tField('serviceDuration')}
+								value={tUi('durationMinutes', {
+									count: masterService.durationMinutes,
+								})}
 							/>
 						) : null}
 					</Card.Body>
@@ -275,7 +306,7 @@ export default function RecordDetail({
 						variant='outline'
 					>
 						<Ionicons name='chatbubble-outline' size={20} color={mutedColor} />
-						<Button.Label>Открыть чат</Button.Label>
+						<Button.Label>{tBtn('openChat')}</Button.Label>
 					</Button>
 				) : null}
 			</View>
@@ -305,20 +336,4 @@ function RecordInfoRow({
 			</View>
 		</View>
 	)
-}
-
-function formatDateTime(iso: string): string {
-	const date = new Date(iso)
-
-	if (Number.isNaN(date.getTime())) {
-		return iso
-	}
-
-	return date.toLocaleString('ru-RU', {
-		day: '2-digit',
-		month: '2-digit',
-		year: 'numeric',
-		hour: '2-digit',
-		minute: '2-digit',
-	})
 }

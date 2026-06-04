@@ -1,6 +1,7 @@
 import { masterWeeklySchedulesUpdate } from '@/actions/master-weekly-schedule/actions'
 import type { IMasterWeeklyScheduleUpdatePayload } from '@/actions/master-weekly-schedule/models/master-weekly-schedule-update-payload.schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterWeeklyScheduleUpdate = (masterProfileId: string) => {
@@ -20,7 +21,7 @@ export const useMasterWeeklyScheduleUpdate = (masterProfileId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось обновить интервал',
+					label: scopedT('updateFailed', 'common', 'toasts.weeklySchedule'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

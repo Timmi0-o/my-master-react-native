@@ -1,6 +1,7 @@
 import { appointmentChatsGetOne } from '@/actions/appointment-chat/actions'
 import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentChatGetOne = (chatId: string) => {
@@ -17,7 +18,7 @@ export const useAppointmentChatGetOne = (chatId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки чата',
+					label: scopedT('loadFailed', 'common', 'toasts.appointmentChat'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

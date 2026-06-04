@@ -1,6 +1,7 @@
 import { masterServicesGetMany } from '@/actions/master-service/actions'
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterServiceGetMany = () => {
@@ -21,7 +22,7 @@ export const useMasterServiceGetMany = () => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки услуг',
+					label: scopedT('loadManyFailed', 'common', 'toasts.masterService'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

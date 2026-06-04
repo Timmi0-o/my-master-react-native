@@ -1,5 +1,6 @@
 import { IRecommendedService } from '@/actions/service/models/service.schema'
 import { ServiceCard } from '@/components/shared/service-card/service-card'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { BottomSheet } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -16,6 +17,8 @@ export function RecommendedServicesModal({
 	services,
 	onClose,
 }: IRecommendedServicesModalProps): ReactElement {
+	const { t } = useScopedTranslation('pages', 'search')
+
 	const handleOpenChange = (value: boolean) => {
 		if (!value) {
 			onClose()
@@ -32,9 +35,9 @@ export function RecommendedServicesModal({
 					enableOverDrag={false}
 					snapPoints={['60%', '85%']}
 				>
-					<BottomSheet.Title>Специально для вас</BottomSheet.Title>
+					<BottomSheet.Title>{t('recommendedForYou')}</BottomSheet.Title>
 					<BottomSheet.Description>
-						Всего услуг: {services.length}
+						{t('servicesTotalCount', { count: services.length })}
 					</BottomSheet.Description>
 
 					<BottomSheetScrollView
@@ -42,7 +45,9 @@ export function RecommendedServicesModal({
 						showsVerticalScrollIndicator={false}
 					>
 						{services.length === 0 ? (
-							<Text className='text-base text-muted'>Услуги не найдены</Text>
+							<Text className='text-base text-muted'>
+								{t('servicesNotFound')}
+							</Text>
 						) : (
 							services.map((service) => (
 								<ServiceCard

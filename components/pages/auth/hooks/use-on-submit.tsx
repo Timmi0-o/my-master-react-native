@@ -1,5 +1,6 @@
 import { ILogin } from '@/actions/auth/models/login.schema'
 import { useAuth } from '@/configs/auth/auth-context'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { useThemeColor, useToast } from 'heroui-native'
@@ -20,13 +21,15 @@ export const useOnSubmit = () => {
 		if (!isSuccess) {
 			toast.show({
 				variant: 'danger',
-				label: 'Ошибка входа',
-				description: res.error?.message ?? 'Не удалось выполнить вход',
+				label: scopedT('loginFailed', 'common', 'toasts.auth'),
+				description:
+					res.error?.message ??
+					scopedT('loginFailedDescription', 'common', 'toasts.auth'),
 			})
 		} else {
 			toast.show({
 				variant: 'success',
-				label: 'Вход выполнен успешно',
+				label: scopedT('loginSuccess', 'common', 'toasts.auth'),
 				icon: (
 					<Ionicons
 						name='checkmark-circle-outline'

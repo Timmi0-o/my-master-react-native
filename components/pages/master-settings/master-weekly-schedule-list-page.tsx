@@ -4,10 +4,9 @@ import type {
 	TDayOfWeek,
 } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import {
-	DAY_OF_WEEK_LABELS,
-	DAY_OF_WEEK_ORDER,
-} from '@/constants/master-schedule.constants'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import { DAY_OF_WEEK_ORDER } from '@/constants/master-schedule.constants'
 import { useMasterWeeklyScheduleDelete } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-delete'
 import { useMasterWeeklyScheduleGetMany } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-get-many'
 import { useRouter } from 'expo-router'
@@ -38,6 +37,10 @@ export function MasterWeeklyScheduleListPage({
 	masterProfile,
 }: IMasterWeeklyScheduleListPageProps): ReactElement {
 	const router = useRouter()
+	const { t } = useScopedTranslation('pages', 'masterSettings')
+	const { t: tCommon } = useScopedTranslation('common')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const dayOfWeekLabel = useEnumLabel('enums.dayOfWeek')
 	const { data = [], isLoading } = useMasterWeeklyScheduleGetMany(
 		masterProfile.id,
 	)
@@ -46,7 +49,7 @@ export function MasterWeeklyScheduleListPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title='Недельное расписание' />
+			<ScheduleScreenHeader title={t('weeklyListTitle')} />
 
 			<Button
 				className='mb-4'
@@ -55,11 +58,11 @@ export function MasterWeeklyScheduleListPage({
 					router.push('/master-settings/weekly-schedule/edit')
 				}
 			>
-				<Button.Label>Добавить интервал</Button.Label>
+				<Button.Label>{tBtn('addInterval')}</Button.Label>
 			</Button>
 
 			{isLoading ? (
-				<Text className='text-muted'>Загрузка...</Text>
+				<Text className='text-muted'>{tCommon('loading')}</Text>
 			) : (
 				<View style={{ rowGap: 12 }}>
 					{DAY_OF_WEEK_ORDER.map((day) => {
@@ -70,7 +73,7 @@ export function MasterWeeklyScheduleListPage({
 							<Card key={day}>
 								<Card.Header>
 									<Text className='font-semibold text-foreground'>
-										{DAY_OF_WEEK_LABELS[day]}
+										{dayOfWeekLabel(day)}
 									</Text>
 								</Card.Header>
 								<Card.Body className='gap-2 p-0'>
@@ -94,7 +97,7 @@ export function MasterWeeklyScheduleListPage({
 														})
 													}
 												>
-													<Button.Label>Изм.</Button.Label>
+													<Button.Label>{tBtn('editShort')}</Button.Label>
 												</Button>
 												<Button
 													size='sm'
@@ -104,7 +107,7 @@ export function MasterWeeklyScheduleListPage({
 													}
 													isDisabled={deleteMutation.isPending}
 												>
-													<Button.Label>Удал.</Button.Label>
+													<Button.Label>{tBtn('deleteShort')}</Button.Label>
 												</Button>
 											</View>
 										</View>
@@ -115,7 +118,7 @@ export function MasterWeeklyScheduleListPage({
 					})}
 					{!data.length ? (
 						<Text className='text-center text-muted'>
-							Нет интервалов. Добавьте рабочие часы по дням недели.
+							{t('emptyIntervals')}
 						</Text>
 					) : null}
 				</View>

@@ -1,0 +1,103 @@
+{
+	"settings": {
+		"title": "الإعدادات",
+		"appearance": {
+			"title": "المظهر",
+			"darkMode": "السمة الداكنة",
+			"darkModeHint": "تفعيل التنسيق الداكن للتطبيق"
+		},
+		"language": {
+			"title": "اللغة",
+			"hint": "لغة واجهة التطبيق"
+		}
+	},
+	"tabs": {
+		"home": "الرئيسية",
+		"search": "بحث",
+		"chats": "المحادثات",
+		"profile": "الملف الشخصي",
+		"settings": "الإعدادات"
+	},
+	"home": {
+		"titleClient": "حجوزاتي",
+		"titleMaster": "حجوزات عملائي",
+		"empty": "لا توجد حجوزات بعد",
+		"allRecordsTitle": "كل الحجوزات",
+		"allRecordsCount": "إجمالي الحجوزات: {{count}}"
+	},
+	"chats": {
+		"title": "المحادثات",
+		"emptyClient": "لا توجد محادثات مع المختصين بعد",
+		"emptyMaster": "لا توجد محادثات مع العملاء بعد"
+	},
+	"search": {
+		"loadingServices": "جارٍ تحميل الخدمات...",
+		"servicesNotFound": "لم يتم العثور على خدمات",
+		"recommendedForYou": "مختار لك",
+		"servicesTotalCount": "إجمالي الخدمات: {{count}}",
+		"popularMasters": "مختصون مشهورون",
+		"loadingMasters": "جارٍ تحميل المختصين...",
+		"mastersNotFound": "لم يتم العثور على مختصين"
+	},
+	"profile": {
+		"loading": "جارٍ التحميل...",
+		"masterNotFound": "لم يتم العثور على ملف المختص",
+		"clientNotFound": "لم يتم العثور على ملف العميل",
+		"accountManagement": "إدارة الحساب",
+		"ratingChip": "التقييم: {{rating}}"
+	},
+	"auth": {
+		"login": {
+			"title": "مرحبًا",
+			"subtitle": "سجّل الدخول للمتابعة",
+			"emailLabel": "البريد الإلكتروني",
+			"passwordLabel": "كلمة المرور"
+		}
+	},
+	"master": {
+		"loadingProfile": "جارٍ تحميل الملف...",
+		"profileNotFound": "لم يتم العثور على ملف المختص",
+		"servicesTitle": "الخدمات",
+		"noServices": "لا توجد خدمات لهذا المختص بعد"
+	},
+	"masterService": {
+		"loading": "جارٍ تحميل الخدمة...",
+		"notFound": "لم يتم العثور على الخدمة",
+		"masterSection": "مختص",
+		"bookModal": {
+			"title": "حجز الخدمة",
+			"freeTime": "الوقت المتاح",
+			"noSlots": "لا توجد مواعيد متاحة لهذا التاريخ"
+		}
+	},
+	"record": {
+		"notFound": "لم يتم العثور على الحجز",
+		"peerSectionClient": "عميل",
+		"peerSectionMaster": "مختص",
+		"serviceSection": "خدمة",
+		"cancellation": "إلغاء"
+	},
+	"masterSettings": {
+		"hubTitle": "الجدول والحجوزات",
+		"currentStatus": "الحالة الحالية",
+		"bookingRules": "الحجوزات والقواعد",
+		"weeklySchedule": "الجدول الأسبوعي",
+		"exceptions": "أيام الإجازة والاستثناءات",
+		"weeklyListTitle": "الجدول الأسبوعي",
+		"exceptionsListTitle": "أيام الإجازة والاستثناءات",
+		"bookingTitle": "قبول الحجوزات",
+		"exceptionEdit": "تعديل الاستثناء",
+		"exceptionNew": "استثناء جديد",
+		"intervalEdit": "تعديل الفترة الزمنية",
+		"intervalNew": "فترة زمنية جديدة",
+		"masterProfileNotFound": "لم يتم العثور على ملف المختص",
+		"pausedUntil": "متوقف حتى: {{date}}",
+		"emptyExceptions": "لا توجد استثناءات. أضف يوم إجازة أو عطلة.",
+		"emptyIntervals": "لا توجد فترات. أضف ساعات العمل حسب أيام الأسبوع.",
+		"customHours": "الساعات: {{start}} – {{end}}"
+	},
+	"routes": {
+		"chatNotFound": "لم يتم العثور على المحادثة",
+		"loadingChat": "جارٍ تحميل المحادثة..."
+	}
+}

@@ -2,6 +2,7 @@ import { masterProfilesUpdate } from '@/actions/master/actions'
 import type { IMasterProfileUpdatePayload } from '@/actions/master/models/master-profile-update-payload.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterProfileUpdate = (masterProfileId: string) => {
@@ -15,7 +16,7 @@ export const useMasterProfileUpdate = (masterProfileId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось сохранить',
+					label: scopedT('saveFailed', 'common', 'toasts.masterProfile'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

@@ -1,0 +1,112 @@
+{
+	"chat": {
+		"clientFallback": "عميل",
+		"masterFallback": "مختص",
+		"noMessages": "لا توجد رسائل",
+		"firstMessage": "اكتب أول رسالة"
+	},
+	"fallback": {
+		"client": "عميل",
+		"master": "مختص",
+		"invalidDate": "تاريخ"
+	},
+	"loading": "جارٍ التحميل...",
+	"errorPrefix": "خطأ: {{message}}",
+	"enums": {
+		"dayOfWeek": {
+			"MONDAY": "الاثنين",
+			"TUESDAY": "الثلاثاء",
+			"WEDNESDAY": "الأربعاء",
+			"THURSDAY": "الخميس",
+			"FRIDAY": "الجمعة",
+			"SATURDAY": "السبت",
+			"SUNDAY": "الأحد"
+		},
+		"bookingStatus": {
+			"ACCEPTING": "يقبل الحجوزات",
+			"PAUSED": "لا يقبل مؤقتًا",
+			"CLOSED": "مغلق للحجوزات"
+		},
+		"exceptionKind": {
+			"CLOSED": "يوم إجازة / غير متاح",
+			"CUSTOM_HOURS": "ساعات مخصصة"
+		},
+		"cancelledBy": {
+			"CLIENT": "عميل",
+			"MASTER": "مختص",
+			"STAFF": "الموظفون"
+		},
+		"profileMode": {
+			"client": "ملف العميل",
+			"master": "ملف المختص"
+		}
+	},
+	"toasts": {
+		"saved": "تم الحفظ",
+		"appointment": {
+			"createFailed": "تعذّر إنشاء الحجز",
+			"created": "تم إنشاء الحجز",
+			"createdDescription": "سيستلم المختص طلبك",
+			"loadOneFailed": "تعذّر تحميل الحجز",
+			"loadManyFailed": "تعذّر تحميل الحجوزات"
+		},
+		"appointmentChat": {
+			"loadFailed": "تعذّر تحميل المحادثة",
+			"sendFailed": "تعذّر إرسال الرسالة"
+		},
+		"masterService": {
+			"loadOneFailed": "تعذّر تحميل الخدمة",
+			"loadManyFailed": "تعذّر تحميل الخدمات",
+			"slotsLoadFailed": "تعذّر تحميل المواعيد المتاحة"
+		},
+		"masterProfile": {
+			"loadOneFailed": "تعذّر تحميل ملف المختص",
+			"loadManyFailed": "تعذّر تحميل المختصين",
+			"loadMineFailed": "تعذّر تحميل ملف المختص",
+			"saveFailed": "تعذّر الحفظ"
+		},
+		"userProfile": {
+			"loadMineFailed": "تعذّر تحميل ملف العميل"
+		},
+		"user": {
+			"loadFailed": "تعذّر تحميل المستخدم"
+		},
+		"weeklySchedule": {
+			"createFailed": "تعذّر إنشاء الفترة الزمنية",
+			"updateFailed": "تعذّر تحديث الفترة الزمنية",
+			"deleteFailed": "تعذّر حذف الفترة الزمنية",
+			"loadOneFailed": "تعذّر تحميل الفترة الزمنية",
+			"loadManyFailed": "تعذّر تحميل الجدول"
+		},
+		"scheduleException": {
+			"createFailed": "تعذّر إنشاء الاستثناء",
+			"updateFailed": "تعذّر تحديث الاستثناء",
+			"deleteFailed": "تعذّر حذف الاستثناء",
+			"loadOneFailed": "تعذّر تحميل الاستثناء",
+			"loadManyFailed": "تعذّر تحميل الاستثناءات"
+		},
+		"auth": {
+			"loginFailed": "فشل تسجيل الدخول",
+			"loginFailedDescription": "تعذّر تسجيل الدخول",
+			"loginSuccess": "تم تسجيل الدخول بنجاح"
+		}
+	},
+	"validation": {
+		"auth": {
+			"emailRequired": "أدخل البريد الإلكتروني",
+			"emailInvalid": "صيغة البريد الإلكتروني غير صالحة",
+			"passwordMin": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+			"emailRegex": "بريد إلكتروني غير صالح",
+			"confirmPasswordRequired": "أكّد كلمة المرور",
+			"passwordsMismatch": "كلمتا المرور غير متطابقتين"
+		},
+		"time": {
+			"hhMmFormat": "صيغة الوقت: HH:mm"
+		}
+	},
+	"errors": {
+		"requestFailed": "خطأ في الطلب ({{status}})",
+		"localAppError": "خطأ في الطلب (خطأ محلي في التطبيق) ({{status}})",
+		"authTokenParse": "تعذّر تحليل رمز المصادقة"
+	}
+}

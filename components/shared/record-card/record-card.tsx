@@ -1,5 +1,10 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
 import { formatDate } from '@/utils/format-date.util'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
@@ -27,6 +32,7 @@ export function RecordCard({
 	onBeforeNavigate,
 }: IRecordCardProps): ReactElement {
 	const router = useRouter()
+	const { t: tFallback, i18n } = useScopedTranslation('common', 'fallback')
 	const [accentColor, accentForegroundColor, mutedColor] = useThemeColor([
 		'accent',
 		'accent-foreground',
@@ -36,9 +42,10 @@ export function RecordCard({
 	const dateKey = appointment.startsAt.slice(0, 10)
 	const formattedDate = formatDate(dateKey)
 	const startsAtDate = new Date(appointment.startsAt)
+	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 	const timeLabel = Number.isNaN(startsAtDate.getTime())
 		? appointment.startsAt
-		: startsAtDate.toLocaleTimeString('ru-RU', {
+		: startsAtDate.toLocaleTimeString(dateTimeLocale, {
 				hour: '2-digit',
 				minute: '2-digit',
 			})
@@ -53,9 +60,9 @@ export function RecordCard({
 					]
 						.filter(Boolean)
 						.join(' ')
-						.trim() || 'Клиент'
-				: 'Клиент'
-			: (appointment.masterProfile?.displayName ?? 'Мастер')
+						.trim() || tFallback('client')
+				: tFallback('client')
+			: (appointment.masterProfile?.displayName ?? tFallback('master'))
 
 	const handlePress = (): void => {
 		onBeforeNavigate?.()

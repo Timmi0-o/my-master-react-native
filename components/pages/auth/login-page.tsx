@@ -1,9 +1,11 @@
-import { ILogin, LoginSchema } from '@/actions/auth/models/login.schema'
+import { createLoginSchema, type ILogin } from '@/actions/auth/models/login.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
+import { useAppLocale } from '@/configs/i18n/locale-context'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Spinner, useThemeColor } from 'heroui-native'
-import { ReactElement, useState } from 'react'
+import { ReactElement, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import {
 	KeyboardAvoidingView,
@@ -23,12 +25,17 @@ import { LOGIN_FORM_DEFAULT_VALUES } from './data/login-form-default-values'
 import { useOnSubmit } from './hooks/use-on-submit'
 
 export default function LoginPage(): ReactElement {
+	const { locale } = useAppLocale()
+	const { t: tAuth } = useScopedTranslation('pages', 'auth.login')
+	const { t: tUi } = useScopedTranslation('ui')
+	const loginSchema = useMemo(() => createLoginSchema(), [locale])
+
 	const {
 		control,
 		handleSubmit,
 		formState: { isSubmitting },
 	} = useForm<ILogin>({
-		resolver: zodResolver(LoginSchema),
+		resolver: zodResolver(loginSchema),
 		defaultValues: LOGIN_FORM_DEFAULT_VALUES,
 		mode: 'onTouched',
 	})
@@ -76,10 +83,10 @@ export default function LoginPage(): ReactElement {
 							/>
 						</View>
 						<Text className='text-3xl font-bold text-foreground'>
-							Добро пожаловать
+							{tAuth('title')}
 						</Text>
 						<Text className='mt-2 text-center text-base text-muted'>
-							Войдите в аккаунт, чтобы продолжить
+							{tAuth('subtitle')}
 						</Text>
 					</Animated.View>
 
@@ -90,11 +97,11 @@ export default function LoginPage(): ReactElement {
 						<AuthInputField
 							control={control}
 							name='email'
-							label='Email'
+							label={tAuth('emailLabel')}
 							leftIcon='mail-outline'
 							isDisabled={isSubmitting}
 							inputProps={{
-								placeholder: 'you@example.com',
+								placeholder: tUi('placeholder.loginEmail'),
 								autoCapitalize: 'none',
 								autoComplete: 'email',
 								textContentType: 'emailAddress',
@@ -106,7 +113,7 @@ export default function LoginPage(): ReactElement {
 						<AuthInputField
 							control={control}
 							name='password'
-							label='Пароль'
+							label={tAuth('passwordLabel')}
 							leftIcon='lock-closed-outline'
 							isDisabled={isSubmitting}
 							rightSlot={
@@ -115,7 +122,9 @@ export default function LoginPage(): ReactElement {
 									hitSlop={20}
 									accessibilityRole='button'
 									accessibilityLabel={
-										isPasswordVisible ? 'Скрыть пароль' : 'Показать пароль'
+										isPasswordVisible
+											? tUi('accessibility.hidePassword')
+											: tUi('accessibility.showPassword')
 									}
 								>
 									<Ionicons
@@ -126,7 +135,7 @@ export default function LoginPage(): ReactElement {
 								</Pressable>
 							}
 							inputProps={{
-								placeholder: '••••••••',
+								placeholder: tUi('placeholder.loginPassword'),
 								secureTextEntry: !isPasswordVisible,
 								autoCapitalize: 'none',
 								autoComplete: 'password',
@@ -150,7 +159,7 @@ export default function LoginPage(): ReactElement {
 										color={accentForegroundColor}
 									/>
 								) : (
-									'Войти'
+									tUi('button.login')
 								)}
 							</Button>
 						</View>

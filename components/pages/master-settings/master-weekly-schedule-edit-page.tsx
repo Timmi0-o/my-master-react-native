@@ -1,10 +1,10 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import type { TDayOfWeek } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import {
-	DAY_OF_WEEK_LABELS,
-	DAY_OF_WEEK_ORDER,
-} from '@/constants/master-schedule.constants'
+import { scopedT } from '@/configs/i18n/scoped-t'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import { DAY_OF_WEEK_ORDER } from '@/constants/master-schedule.constants'
 import { useMasterWeeklyScheduleCreate } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-create'
 import { useMasterWeeklyScheduleGetOne } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-get-one'
 import { useMasterWeeklyScheduleUpdate } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-update'
@@ -28,6 +28,12 @@ export function MasterWeeklyScheduleEditPage({
 }: IMasterWeeklyScheduleEditPageProps): ReactElement {
 	const router = useRouter()
 	const { toast } = useToast()
+	const { t } = useScopedTranslation('pages', 'masterSettings')
+	const { t: tCommon } = useScopedTranslation('common')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tField } = useScopedTranslation('ui', 'field')
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
+	const dayOfWeekLabel = useEnumLabel('enums.dayOfWeek')
 	const isEdit = Boolean(scheduleId)
 
 	const { data: existing, isLoading } = useMasterWeeklyScheduleGetOne(
@@ -64,14 +70,17 @@ export function MasterWeeklyScheduleEditPage({
 			})
 		}
 
-		toast.show({ variant: 'success', label: 'Сохранено' })
+		toast.show({
+			variant: 'success',
+			label: scopedT('saved', 'common', 'toasts'),
+		})
 		router.back()
 	}
 
 	if (isEdit && isLoading) {
 		return (
 			<BasePage>
-				<Text className='text-muted'>Загрузка...</Text>
+				<Text className='text-muted'>{tCommon('loading')}</Text>
 			</BasePage>
 		)
 	}
@@ -79,13 +88,15 @@ export function MasterWeeklyScheduleEditPage({
 	return (
 		<BasePage>
 			<ScheduleScreenHeader
-				title={isEdit ? 'Редактировать интервал' : 'Новый интервал'}
+				title={isEdit ? t('intervalEdit') : t('intervalNew')}
 			/>
 
 			<View style={{ rowGap: 16 }}>
 				<Card>
 					<Card.Header>
-						<Text className='font-semibold text-foreground'>День недели</Text>
+						<Text className='font-semibold text-foreground'>
+							{tField('dayOfWeek')}
+						</Text>
 					</Card.Header>
 					<Card.Body className='flex-row flex-wrap gap-2 p-0'>
 						{DAY_OF_WEEK_ORDER.map((day) => (
@@ -95,23 +106,23 @@ export function MasterWeeklyScheduleEditPage({
 								variant={dayOfWeek === day ? 'primary' : 'outline'}
 								onPress={() => setDayOfWeek(day)}
 							>
-								<Button.Label>{DAY_OF_WEEK_LABELS[day]}</Button.Label>
+								<Button.Label>{dayOfWeekLabel(day)}</Button.Label>
 							</Button>
 						))}
 					</Card.Body>
 				</Card>
 
 				<ScheduleSimpleField
-					label='Начало (HH:mm)'
+					label={tField('startHhMm')}
 					value={startTime}
 					onChangeText={setStartTime}
-					inputProps={{ placeholder: '09:00' }}
+					inputProps={{ placeholder: tPlaceholder('timeStart') }}
 				/>
 				<ScheduleSimpleField
-					label='Конец (HH:mm)'
+					label={tField('endHhMm')}
 					value={endTime}
 					onChangeText={setEndTime}
-					inputProps={{ placeholder: '18:00' }}
+					inputProps={{ placeholder: tPlaceholder('timeEnd') }}
 				/>
 
 				<Button
@@ -119,7 +130,7 @@ export function MasterWeeklyScheduleEditPage({
 					onPress={() => void handleSave()}
 					isDisabled={createMutation.isPending || updateMutation.isPending}
 				>
-					<Button.Label>Сохранить</Button.Label>
+					<Button.Label>{tBtn('save')}</Button.Label>
 				</Button>
 			</View>
 		</BasePage>

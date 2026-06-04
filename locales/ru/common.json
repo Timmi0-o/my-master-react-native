@@ -1,0 +1,112 @@
+{
+	"chat": {
+		"clientFallback": "Клиент",
+		"masterFallback": "Мастер",
+		"noMessages": "Нет сообщений",
+		"firstMessage": "Напишите первое сообщение"
+	},
+	"fallback": {
+		"client": "Клиент",
+		"master": "Мастер",
+		"invalidDate": "дата"
+	},
+	"loading": "Загрузка...",
+	"errorPrefix": "Ошибка: {{message}}",
+	"enums": {
+		"dayOfWeek": {
+			"MONDAY": "Понедельник",
+			"TUESDAY": "Вторник",
+			"WEDNESDAY": "Среда",
+			"THURSDAY": "Четверг",
+			"FRIDAY": "Пятница",
+			"SATURDAY": "Суббота",
+			"SUNDAY": "Воскресенье"
+		},
+		"bookingStatus": {
+			"ACCEPTING": "Принимаю записи",
+			"PAUSED": "Временно не принимаю",
+			"CLOSED": "Закрыт для записи"
+		},
+		"exceptionKind": {
+			"CLOSED": "Выходной / недоступен",
+			"CUSTOM_HOURS": "Особые часы"
+		},
+		"cancelledBy": {
+			"CLIENT": "Клиент",
+			"MASTER": "Мастер",
+			"STAFF": "Сотрудник"
+		},
+		"profileMode": {
+			"client": "Клиент профиль",
+			"master": "Мастер профиль"
+		}
+	},
+	"toasts": {
+		"saved": "Сохранено",
+		"appointment": {
+			"createFailed": "Не удалось создать запись",
+			"created": "Запись создана",
+			"createdDescription": "Мастер получит вашу заявку",
+			"loadOneFailed": "Ошибка загрузки записи",
+			"loadManyFailed": "Ошибка загрузки записей"
+		},
+		"appointmentChat": {
+			"loadFailed": "Ошибка загрузки чата",
+			"sendFailed": "Не удалось отправить"
+		},
+		"masterService": {
+			"loadOneFailed": "Ошибка загрузки услуги",
+			"loadManyFailed": "Ошибка загрузки услуг",
+			"slotsLoadFailed": "Не удалось загрузить слоты"
+		},
+		"masterProfile": {
+			"loadOneFailed": "Ошибка загрузки профиля мастера",
+			"loadManyFailed": "Ошибка загрузки мастеров",
+			"loadMineFailed": "Ошибка загрузки профиля мастера",
+			"saveFailed": "Не удалось сохранить"
+		},
+		"userProfile": {
+			"loadMineFailed": "Ошибка загрузки профиля клиента"
+		},
+		"user": {
+			"loadFailed": "Ошибка загрузки пользователя"
+		},
+		"weeklySchedule": {
+			"createFailed": "Не удалось создать интервал",
+			"updateFailed": "Не удалось обновить интервал",
+			"deleteFailed": "Не удалось удалить интервал",
+			"loadOneFailed": "Ошибка загрузки интервала",
+			"loadManyFailed": "Ошибка загрузки расписания"
+		},
+		"scheduleException": {
+			"createFailed": "Не удалось создать исключение",
+			"updateFailed": "Не удалось обновить исключение",
+			"deleteFailed": "Не удалось удалить исключение",
+			"loadOneFailed": "Ошибка загрузки исключения",
+			"loadManyFailed": "Ошибка загрузки исключений"
+		},
+		"auth": {
+			"loginFailed": "Ошибка входа",
+			"loginFailedDescription": "Не удалось выполнить вход",
+			"loginSuccess": "Вход выполнен успешно"
+		}
+	},
+	"validation": {
+		"auth": {
+			"emailRequired": "Введите email",
+			"emailInvalid": "Неверный формат email",
+			"passwordMin": "Пароль должен быть не менее 8 символов",
+			"emailRegex": "Неверный email",
+			"confirmPasswordRequired": "Подтвердите пароль",
+			"passwordsMismatch": "Пароли не совпадают"
+		},
+		"time": {
+			"hhMmFormat": "Формат времени: HH:mm"
+		}
+	},
+	"errors": {
+		"requestFailed": "Ошибка запроса ({{status}})",
+		"localAppError": "Ошибка запроса (LOCAL APP ERROR) ({{status}})",
+		"authTokenParse": "Не удалось разобрать токен авторизации"
+	}
+}

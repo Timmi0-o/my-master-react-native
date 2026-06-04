@@ -1,6 +1,11 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { BOOKING_STATUS_LABELS } from '@/constants/master-schedule.constants'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useRouter } from 'expo-router'
 import { Button, Card, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -15,22 +20,28 @@ export function MasterSettingsHub({
 	masterProfile,
 }: IMasterSettingsHubProps): ReactElement {
 	const router = useRouter()
+	const { t, i18n } = useScopedTranslation('pages', 'masterSettings')
+	const bookingStatusLabel = useEnumLabel('enums.bookingStatus')
 	const bookingStatus = masterProfile.bookingStatus ?? 'ACCEPTING'
-	const statusLabel = BOOKING_STATUS_LABELS[bookingStatus]
+	const statusLabel = bookingStatusLabel(bookingStatus)
+	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title='Расписание и записи' />
+			<ScheduleScreenHeader title={t('hubTitle')} />
 
 			<View style={{ rowGap: 16 }}>
 				<Card>
 					<Card.Body className='gap-2'>
-						<Text className='text-muted'>Текущий статус</Text>
+						<Text className='text-muted'>{t('currentStatus')}</Text>
 						<Chip color='accent'>{statusLabel}</Chip>
 						{masterProfile.pausedUntil ? (
 							<Text className='text-sm text-muted'>
-								Пауза до:{' '}
-								{new Date(masterProfile.pausedUntil).toLocaleString('ru-RU')}
+								{t('pausedUntil', {
+									date: new Date(masterProfile.pausedUntil).toLocaleString(
+										dateTimeLocale,
+									),
+								})}
 							</Text>
 						) : null}
 					</Card.Body>
@@ -42,13 +53,13 @@ export function MasterSettingsHub({
 							variant='secondary'
 							onPress={() => router.push('/master-settings/booking')}
 						>
-							<Button.Label>Приём записей и правила</Button.Label>
+							<Button.Label>{t('bookingRules')}</Button.Label>
 						</Button>
 						<Button
 							variant='secondary'
 							onPress={() => router.push('/master-settings/weekly-schedule')}
 						>
-							<Button.Label>Недельное расписание</Button.Label>
+							<Button.Label>{t('weeklySchedule')}</Button.Label>
 						</Button>
 						<Button
 							variant='secondary'
@@ -56,7 +67,7 @@ export function MasterSettingsHub({
 								router.push('/master-settings/schedule-exceptions')
 							}
 						>
-							<Button.Label>Выходные и исключения</Button.Label>
+							<Button.Label>{t('exceptions')}</Button.Label>
 						</Button>
 					</Card.Body>
 				</Card>

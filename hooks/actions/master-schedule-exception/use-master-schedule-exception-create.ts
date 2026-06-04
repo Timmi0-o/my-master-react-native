@@ -1,6 +1,7 @@
 import { masterScheduleExceptionsCreate } from '@/actions/master-schedule-exception/actions'
 import type { IMasterScheduleExceptionCreatePayload } from '@/actions/master-schedule-exception/models/master-schedule-exception-create-payload.schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterScheduleExceptionCreate = (masterProfileId: string) => {
@@ -14,7 +15,7 @@ export const useMasterScheduleExceptionCreate = (masterProfileId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось создать исключение',
+					label: scopedT('createFailed', 'common', 'toasts.scheduleException'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

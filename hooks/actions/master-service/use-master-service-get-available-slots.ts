@@ -1,6 +1,7 @@
 import { masterServicesGetAvailableSlots } from '@/actions/master-service/actions'
 import type { IMasterServiceAvailableSlots } from '@/actions/master-service/models/master-service-available-slots.schema'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterServiceGetAvailableSlots = (
@@ -21,7 +22,7 @@ export const useMasterServiceGetAvailableSlots = (
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось загрузить слоты',
+					label: scopedT('slotsLoadFailed', 'common', 'toasts.masterService'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

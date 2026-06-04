@@ -1,3 +1,5 @@
+import { scopedT } from '@/configs/i18n/scoped-t'
+
 interface IErrorResponse {
 	error: {
 		statusCode: number
@@ -19,13 +21,17 @@ export const ErrorObjectSetup = async (res: Response) => {
 		errorData = {
 			statusCode: errorResponse.error.statusCode ?? res.status,
 			timestamp: new Date().toISOString(),
-			message: errorResponse.error.message || `Ошибка запроса (${res.status})`,
+			message:
+				errorResponse.error.message ||
+				scopedT('requestFailed', 'common', 'errors', { status: res.status }),
 		}
 	} catch {
 		errorData = {
 			statusCode: res.status,
 			timestamp: new Date().toISOString(),
-			message: `Ошибка запроса (LOCAL APP ERROR) (${res.status})`,
+			message: scopedT('localAppError', 'common', 'errors', {
+				status: res.status,
+			}),
 		}
 	}
 

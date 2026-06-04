@@ -1,7 +1,9 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import type { TMasterScheduleExceptionKind } from '@/actions/master-schedule-exception/models/master-schedule-exception.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { EXCEPTION_KIND_LABELS } from '@/constants/master-schedule.constants'
+import { scopedT } from '@/configs/i18n/scoped-t'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterScheduleExceptionCreate } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-create'
 import { useMasterScheduleExceptionGetOne } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-get-one'
 import { useMasterScheduleExceptionUpdate } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-update'
@@ -40,6 +42,11 @@ export function MasterScheduleExceptionEditPage({
 }: IMasterScheduleExceptionEditPageProps): ReactElement {
 	const router = useRouter()
 	const { toast } = useToast()
+	const { t } = useScopedTranslation('pages', 'masterSettings')
+	const { t: tCommon } = useScopedTranslation('common')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tField } = useScopedTranslation('ui', 'field')
+	const exceptionKindLabel = useEnumLabel('enums.exceptionKind')
 	const isEdit = Boolean(exceptionId)
 
 	const { data: existing, isLoading } = useMasterScheduleExceptionGetOne(
@@ -90,14 +97,17 @@ export function MasterScheduleExceptionEditPage({
 			})
 		}
 
-		toast.show({ variant: 'success', label: 'Сохранено' })
+		toast.show({
+			variant: 'success',
+			label: scopedT('saved', 'common', 'toasts'),
+		})
 		router.back()
 	}
 
 	if (isEdit && isLoading) {
 		return (
 			<BasePage>
-				<Text className='text-muted'>Загрузка...</Text>
+				<Text className='text-muted'>{tCommon('loading')}</Text>
 			</BasePage>
 		)
 	}
@@ -105,13 +115,15 @@ export function MasterScheduleExceptionEditPage({
 	return (
 		<BasePage>
 			<ScheduleScreenHeader
-				title={isEdit ? 'Редактировать исключение' : 'Новое исключение'}
+				title={isEdit ? t('exceptionEdit') : t('exceptionNew')}
 			/>
 
 			<View style={{ rowGap: 16 }}>
 				<Card>
 					<Card.Header>
-						<Text className='font-semibold text-foreground'>Тип</Text>
+						<Text className='font-semibold text-foreground'>
+							{tField('type')}
+						</Text>
 					</Card.Header>
 					<Card.Body className='gap-2 p-0'>
 						{EXCEPTION_KINDS.map((k) => (
@@ -121,19 +133,19 @@ export function MasterScheduleExceptionEditPage({
 								variant={kind === k ? 'primary' : 'outline'}
 								onPress={() => setKind(k)}
 							>
-								<Button.Label>{EXCEPTION_KIND_LABELS[k]}</Button.Label>
+								<Button.Label>{exceptionKindLabel(k)}</Button.Label>
 							</Button>
 						))}
 					</Card.Body>
 				</Card>
 
 				<ScheduleSimpleField
-					label='Начало периода (YYYY-MM-DD HH:mm)'
+					label={tField('periodStart')}
 					value={startsAt}
 					onChangeText={setStartsAt}
 				/>
 				<ScheduleSimpleField
-					label='Конец периода (YYYY-MM-DD HH:mm)'
+					label={tField('periodEnd')}
 					value={endsAt}
 					onChangeText={setEndsAt}
 				/>
@@ -141,12 +153,12 @@ export function MasterScheduleExceptionEditPage({
 				{kind === 'CUSTOM_HOURS' ? (
 					<>
 						<ScheduleSimpleField
-							label='Начало работы (HH:mm)'
+							label={tField('workStart')}
 							value={customStartTime}
 							onChangeText={setCustomStartTime}
 						/>
 						<ScheduleSimpleField
-							label='Конец работы (HH:mm)'
+							label={tField('workEnd')}
 							value={customEndTime}
 							onChangeText={setCustomEndTime}
 						/>
@@ -154,12 +166,12 @@ export function MasterScheduleExceptionEditPage({
 				) : null}
 
 				<ScheduleSimpleField
-					label='Заголовок (опционально)'
+					label={tField('titleOptional')}
 					value={title}
 					onChangeText={setTitle}
 				/>
 				<ScheduleSimpleField
-					label='Заметка (опционально)'
+					label={tField('noteOptional')}
 					value={note}
 					onChangeText={setNote}
 				/>
@@ -169,7 +181,7 @@ export function MasterScheduleExceptionEditPage({
 					onPress={() => void handleSave()}
 					isDisabled={createMutation.isPending || updateMutation.isPending}
 				>
-					<Button.Label>Сохранить</Button.Label>
+					<Button.Label>{tBtn('save')}</Button.Label>
 				</Button>
 			</View>
 		</BasePage>

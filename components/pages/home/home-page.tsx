@@ -4,6 +4,7 @@ import { HOME_RECORDS_PREVIEW_LIMIT } from '@/components/pages/home/data/home-re
 import { RecordCard } from '@/components/shared/record-card/record-card'
 import { BasePage } from '@/components/shared/ui/base-page'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { Button, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -19,6 +20,8 @@ export default function HomePage({
 	mode,
 	appointments,
 }: IHomePageProps): ReactElement {
+	const { t } = useScopedTranslation('pages', 'home')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const [isRecordsModalVisible, setIsRecordsModalVisible] = useState(false)
 	const foregroundColor = useThemeColor('foreground')
 
@@ -26,7 +29,7 @@ export default function HomePage({
 	const previewRecords = appointments.slice(0, HOME_RECORDS_PREVIEW_LIMIT)
 	const shouldShowAllRecordsButton =
 		appointments.length > HOME_RECORDS_PREVIEW_LIMIT
-	const title = mode === 'master' ? 'Записи моих клиентов' : 'Мои записи'
+	const title = mode === 'master' ? t('titleMaster') : t('titleClient')
 
 	return (
 		<BasePage>
@@ -54,12 +57,12 @@ export default function HomePage({
 									size={20}
 									color={foregroundColor}
 								/>
-								<Button.Label>Посмотреть все</Button.Label>
+								<Button.Label>{tBtn('viewAll')}</Button.Label>
 							</Button>
 						)}
 					</View>
 				) : (
-					<Text className='text-base text-muted'>Записей пока нет</Text>
+					<Text className='text-base text-muted'>{t('empty')}</Text>
 				)}
 			</View>
 

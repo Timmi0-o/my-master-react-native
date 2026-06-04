@@ -1,5 +1,9 @@
 import { MasterWeeklyScheduleEditPage } from '@/components/pages/master-settings/master-weekly-schedule-edit-page'
 import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import {
+	routeErrorText,
+	routeLoadingText,
+} from '@/configs/i18n/use-route-feedback'
 import { useLocalSearchParams } from 'expo-router'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
@@ -18,7 +22,7 @@ export default function MasterWeeklyScheduleEditScreen(): ReactElement {
 				style={{ paddingTop: insets.top }}
 			>
 				<Text className='text-muted'>
-					{error?.message ?? 'Загрузка...'}
+					{error?.message ? routeErrorText(error.message) : routeLoadingText()}
 				</Text>
 			</View>
 		)

@@ -1,0 +1,112 @@
+{
+	"chat": {
+		"clientFallback": "客户",
+		"masterFallback": "技师",
+		"noMessages": "暂无消息",
+		"firstMessage": "发送第一条消息"
+	},
+	"fallback": {
+		"client": "客户",
+		"master": "技师",
+		"invalidDate": "日期"
+	},
+	"loading": "加载中...",
+	"errorPrefix": "错误：{{message}}",
+	"enums": {
+		"dayOfWeek": {
+			"MONDAY": "星期一",
+			"TUESDAY": "星期二",
+			"WEDNESDAY": "星期三",
+			"THURSDAY": "星期四",
+			"FRIDAY": "星期五",
+			"SATURDAY": "星期六",
+			"SUNDAY": "星期日"
+		},
+		"bookingStatus": {
+			"ACCEPTING": "接受预约",
+			"PAUSED": "暂时不接受",
+			"CLOSED": "已停止预约"
+		},
+		"exceptionKind": {
+			"CLOSED": "休息日 / 不可用",
+			"CUSTOM_HOURS": "自定义营业时间"
+		},
+		"cancelledBy": {
+			"CLIENT": "客户",
+			"MASTER": "技师",
+			"STAFF": "工作人员"
+		},
+		"profileMode": {
+			"client": "客户资料",
+			"master": "技师资料"
+		}
+	},
+	"toasts": {
+		"saved": "已保存",
+		"appointment": {
+			"createFailed": "无法创建预约",
+			"created": "预约已创建",
+			"createdDescription": "技师将收到您的请求",
+			"loadOneFailed": "无法加载预约",
+			"loadManyFailed": "无法加载预约列表"
+		},
+		"appointmentChat": {
+			"loadFailed": "无法加载聊天",
+			"sendFailed": "无法发送消息"
+		},
+		"masterService": {
+			"loadOneFailed": "无法加载服务",
+			"loadManyFailed": "无法加载服务列表",
+			"slotsLoadFailed": "无法加载可预约时段"
+		},
+		"masterProfile": {
+			"loadOneFailed": "无法加载技师资料",
+			"loadManyFailed": "无法加载技师列表",
+			"loadMineFailed": "无法加载技师资料",
+			"saveFailed": "无法保存"
+		},
+		"userProfile": {
+			"loadMineFailed": "无法加载客户资料"
+		},
+		"user": {
+			"loadFailed": "无法加载用户"
+		},
+		"weeklySchedule": {
+			"createFailed": "无法创建时段",
+			"updateFailed": "无法更新时段",
+			"deleteFailed": "无法删除时段",
+			"loadOneFailed": "无法加载时段",
+			"loadManyFailed": "无法加载日程"
+		},
+		"scheduleException": {
+			"createFailed": "无法创建例外",
+			"updateFailed": "无法更新例外",
+			"deleteFailed": "无法删除例外",
+			"loadOneFailed": "无法加载例外",
+			"loadManyFailed": "无法加载例外列表"
+		},
+		"auth": {
+			"loginFailed": "登录失败",
+			"loginFailedDescription": "无法登录",
+			"loginSuccess": "登录成功"
+		}
+	},
+	"validation": {
+		"auth": {
+			"emailRequired": "请输入邮箱",
+			"emailInvalid": "邮箱格式无效",
+			"passwordMin": "密码至少需要 8 个字符",
+			"emailRegex": "邮箱无效",
+			"confirmPasswordRequired": "请确认密码",
+			"passwordsMismatch": "两次输入的密码不一致"
+		},
+		"time": {
+			"hhMmFormat": "时间格式：HH:mm"
+		}
+	},
+	"errors": {
+		"requestFailed": "请求错误（{{status}}）",
+		"localAppError": "请求错误（本地应用错误）（{{status}}）",
+		"authTokenParse": "无法解析身份验证令牌"
+	}
+}

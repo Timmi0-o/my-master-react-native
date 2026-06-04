@@ -3,6 +3,7 @@ import {
 	type ICreateAppointmentChatMessagePayload,
 } from '@/actions/appointment-chat/actions'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentChatMessageCreate = (chatId: string) => {
@@ -16,7 +17,7 @@ export const useAppointmentChatMessageCreate = (chatId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось отправить',
+					label: scopedT('sendFailed', 'common', 'toasts.appointmentChat'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

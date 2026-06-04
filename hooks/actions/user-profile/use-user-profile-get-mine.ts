@@ -2,6 +2,7 @@ import { userProfilesGetMe } from '@/actions/user-profile/actions'
 import type { IUserProfile } from '@/actions/user-profile/models/user-profile.schema'
 import { useAuth } from '@/configs/auth/auth-context'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useUserProfileGetMine = () => {
@@ -18,7 +19,7 @@ export const useUserProfileGetMine = () => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки профиля клиента',
+					label: scopedT('loadMineFailed', 'common', 'toasts.userProfile'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

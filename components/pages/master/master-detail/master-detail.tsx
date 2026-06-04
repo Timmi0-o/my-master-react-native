@@ -3,6 +3,7 @@ import type {
 	IMasterProfileService,
 } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
@@ -15,6 +16,8 @@ interface IMasterDetailProps {
 
 export function MasterDetail({ master }: IMasterDetailProps): ReactElement {
 	const router = useRouter()
+	const { t } = useScopedTranslation('pages', 'master')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const mutedColor = useThemeColor('muted')
 	const services = master.services ?? []
 
@@ -28,7 +31,7 @@ export function MasterDetail({ master }: IMasterDetailProps): ReactElement {
 					variant='ghost'
 				>
 					<Ionicons name='arrow-back' size={20} color={mutedColor} />
-					<Button.Label>Назад</Button.Label>
+					<Button.Label>{tBtn('back')}</Button.Label>
 				</Button>
 
 				<Card className='rounded-none shadow-none bg-background-secondary'>
@@ -64,13 +67,13 @@ export function MasterDetail({ master }: IMasterDetailProps): ReactElement {
 
 				<Card>
 					<Card.Header>
-						<Text className='text-lg font-bold text-foreground'>Услуги</Text>
+						<Text className='text-lg font-bold text-foreground'>
+							{t('servicesTitle')}
+						</Text>
 					</Card.Header>
 					<Card.Body className='mt-2 gap-3 p-0'>
 						{services.length === 0 ? (
-							<Text className='text-base text-muted'>
-								У мастера пока нет услуг
-							</Text>
+							<Text className='text-base text-muted'>{t('noServices')}</Text>
 						) : (
 							services.map((service) => (
 								<MasterServiceItem
@@ -96,6 +99,7 @@ function MasterServiceItem({
 	service,
 	onPress,
 }: IMasterServiceItemProps): ReactElement {
+	const { t: tUi } = useScopedTranslation('ui')
 	const mutedColor = useThemeColor('muted')
 
 	return (
@@ -112,7 +116,7 @@ function MasterServiceItem({
 
 					{service.price != null ? (
 						<Chip color='accent' variant='soft'>
-							{service.price} ₽
+							{tUi('priceRub', { price: service.price })}
 						</Chip>
 					) : null}
 				</View>
@@ -127,7 +131,7 @@ function MasterServiceItem({
 					<View className='flex-row items-center gap-1.5'>
 						<Ionicons name='time-outline' size={16} color={mutedColor} />
 						<Text className='text-sm text-muted'>
-							{service.durationMinutes} мин
+							{tUi('durationMinutes', { count: service.durationMinutes })}
 						</Text>
 					</View>
 				) : null}

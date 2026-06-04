@@ -1,6 +1,7 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { RecordCard } from '@/components/shared/record-card/record-card'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { BottomSheet } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -19,6 +20,8 @@ export function ClientRecordsModal({
 	mode,
 	onClose,
 }: IClientRecordsModalProps): ReactElement {
+	const { t } = useScopedTranslation('pages', 'home')
+
 	const handleOpenChange = (value: boolean) => {
 		if (!value) {
 			onClose()
@@ -35,9 +38,9 @@ export function ClientRecordsModal({
 					enableOverDrag={false}
 					snapPoints={['60%', '85%']}
 				>
-					<BottomSheet.Title>Все записи</BottomSheet.Title>
+					<BottomSheet.Title>{t('allRecordsTitle')}</BottomSheet.Title>
 					<BottomSheet.Description>
-						Всего записей: {appointments.length}
+						{t('allRecordsCount', { count: appointments.length })}
 					</BottomSheet.Description>
 
 					<BottomSheetScrollView
@@ -45,7 +48,7 @@ export function ClientRecordsModal({
 						showsVerticalScrollIndicator={false}
 					>
 						{appointments.length === 0 ? (
-							<Text className='text-base text-muted'>Записей пока нет</Text>
+							<Text className='text-base text-muted'>{t('empty')}</Text>
 						) : (
 							appointments.map((appointment) => (
 								<RecordCard

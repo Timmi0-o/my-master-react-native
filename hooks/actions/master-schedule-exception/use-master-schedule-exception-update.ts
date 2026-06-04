@@ -1,6 +1,7 @@
 import { masterScheduleExceptionsUpdate } from '@/actions/master-schedule-exception/actions'
 import type { IMasterScheduleExceptionUpdatePayload } from '@/actions/master-schedule-exception/models/master-schedule-exception-update-payload.schema'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterScheduleExceptionUpdate = (masterProfileId: string) => {
@@ -20,7 +21,7 @@ export const useMasterScheduleExceptionUpdate = (masterProfileId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось обновить исключение',
+					label: scopedT('updateFailed', 'common', 'toasts.scheduleException'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

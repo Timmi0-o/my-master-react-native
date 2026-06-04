@@ -2,6 +2,11 @@ import type { IAppointmentChatMessage } from '@/actions/appointment-chat/models/
 import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useAuth } from '@/configs/auth/auth-context'
+import {
+	resolveLocale,
+	toDateTimeLocale,
+} from '@/configs/i18n/supported-locales'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { parseJwt } from '@/helpers/jwt.helper'
@@ -39,8 +44,11 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 	const { state } = useAuth()
 	const { resolvedColorScheme } = useThemeApp()
 	const backgroundColor = THEME_BACKGROUND_COLORS[resolvedColorScheme]
+	const { t: tChat, i18n } = useScopedTranslation('common', 'chat')
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
 	const [accentColor, accentForegroundColor, mutedColor, borderColor] =
 		useThemeColor(['accent', 'accent-foreground', 'muted', 'border'])
+	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 
 	const [draft, setDraft] = useState('')
 	const listRef = useRef<FlatList<IAppointmentChatMessage>>(null)
@@ -62,9 +70,9 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					]
 						.filter(Boolean)
 						.join(' ')
-						.trim() || 'Клиент'
-				: 'Клиент'
-			: (appointment?.masterProfile?.displayName ?? 'Мастер')
+						.trim() || tChat('clientFallback')
+				: tChat('clientFallback')
+			: (appointment?.masterProfile?.displayName ?? tChat('masterFallback'))
 
 	const headerSubtitle = [appointment?.serviceName, appointment?.status]
 		.filter(Boolean)
@@ -150,7 +158,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 				}}
 				ListEmptyComponent={
 					<Text className='text-center text-sm text-muted'>
-						Напишите первое сообщение
+						{tChat('firstMessage')}
 					</Text>
 				}
 				renderItem={({ item }) => {
@@ -158,7 +166,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					const timeDate = new Date(item.createdAt)
 					const timeLabel = Number.isNaN(timeDate.getTime())
 						? ''
-						: timeDate.toLocaleTimeString('ru-RU', {
+						: timeDate.toLocaleTimeString(dateTimeLocale, {
 								hour: '2-digit',
 								minute: '2-digit',
 							})
@@ -202,7 +210,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			>
 				<InputGroup.Input
 					multiline
-					placeholder='Сообщение'
+					placeholder={tPlaceholder('chatMessage')}
 					value={draft}
 					onChangeText={setDraft}
 					style={{ flex: 1, minHeight: 40 }}

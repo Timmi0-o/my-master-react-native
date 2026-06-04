@@ -1,5 +1,6 @@
 import { login, logout } from '@/actions/auth/actions'
 import { ILogin } from '@/actions/auth/models/login.schema'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { getAuthPayloadFromResponse } from '@/helpers/auth-response.helper'
 import { IActionResponse } from '@/types/i-action.types'
 import { makeAutoObservable, runInAction } from 'mobx'
@@ -48,7 +49,7 @@ class AuthContextStore implements IAuthContextValue {
 					statusCode: 500,
 					timestamp: new Date().toISOString(),
 					error: 'Invalid Token',
-					message: 'Не удалось разобрать токен авторизации',
+					message: scopedT('authTokenParse', 'common', 'errors'),
 				},
 				result: { data: null },
 			}

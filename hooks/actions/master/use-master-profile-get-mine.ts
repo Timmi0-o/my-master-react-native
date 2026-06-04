@@ -2,6 +2,7 @@ import { masterProfilesGetMe } from '@/actions/master/actions'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { useAuth } from '@/configs/auth/auth-context'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterProfileGetMine = () => {
@@ -20,7 +21,7 @@ export const useMasterProfileGetMine = () => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки профиля мастера',
+					label: scopedT('loadMineFailed', 'common', 'toasts.masterProfile'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

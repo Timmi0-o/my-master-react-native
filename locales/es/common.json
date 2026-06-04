@@ -1,0 +1,112 @@
+{
+	"chat": {
+		"clientFallback": "Cliente",
+		"masterFallback": "Profesional",
+		"noMessages": "Sin mensajes",
+		"firstMessage": "Escribe el primer mensaje"
+	},
+	"fallback": {
+		"client": "Cliente",
+		"master": "Profesional",
+		"invalidDate": "fecha"
+	},
+	"loading": "Cargando...",
+	"errorPrefix": "Error: {{message}}",
+	"enums": {
+		"dayOfWeek": {
+			"MONDAY": "Lunes",
+			"TUESDAY": "Martes",
+			"WEDNESDAY": "Miércoles",
+			"THURSDAY": "Jueves",
+			"FRIDAY": "Viernes",
+			"SATURDAY": "Sábado",
+			"SUNDAY": "Domingo"
+		},
+		"bookingStatus": {
+			"ACCEPTING": "Aceptando reservas",
+			"PAUSED": "Temporalmente no acepta",
+			"CLOSED": "Cerrado para reservas"
+		},
+		"exceptionKind": {
+			"CLOSED": "Día libre / no disponible",
+			"CUSTOM_HOURS": "Horario personalizado"
+		},
+		"cancelledBy": {
+			"CLIENT": "Cliente",
+			"MASTER": "Profesional",
+			"STAFF": "Personal"
+		},
+		"profileMode": {
+			"client": "Perfil de cliente",
+			"master": "Perfil de profesional"
+		}
+	},
+	"toasts": {
+		"saved": "Guardado",
+		"appointment": {
+			"createFailed": "No se pudo crear la reserva",
+			"created": "Reserva creada",
+			"createdDescription": "El profesional recibirá tu solicitud",
+			"loadOneFailed": "No se pudo cargar la reserva",
+			"loadManyFailed": "No se pudieron cargar las reservas"
+		},
+		"appointmentChat": {
+			"loadFailed": "No se pudo cargar el chat",
+			"sendFailed": "No se pudo enviar el mensaje"
+		},
+		"masterService": {
+			"loadOneFailed": "No se pudo cargar el servicio",
+			"loadManyFailed": "No se pudieron cargar los servicios",
+			"slotsLoadFailed": "No se pudieron cargar los horarios"
+		},
+		"masterProfile": {
+			"loadOneFailed": "No se pudo cargar el perfil del profesional",
+			"loadManyFailed": "No se pudieron cargar los profesionales",
+			"loadMineFailed": "No se pudo cargar el perfil del profesional",
+			"saveFailed": "No se pudo guardar"
+		},
+		"userProfile": {
+			"loadMineFailed": "No se pudo cargar el perfil del cliente"
+		},
+		"user": {
+			"loadFailed": "No se pudo cargar el usuario"
+		},
+		"weeklySchedule": {
+			"createFailed": "No se pudo crear el intervalo",
+			"updateFailed": "No se pudo actualizar el intervalo",
+			"deleteFailed": "No se pudo eliminar el intervalo",
+			"loadOneFailed": "No se pudo cargar el intervalo",
+			"loadManyFailed": "No se pudo cargar el horario"
+		},
+		"scheduleException": {
+			"createFailed": "No se pudo crear la excepción",
+			"updateFailed": "No se pudo actualizar la excepción",
+			"deleteFailed": "No se pudo eliminar la excepción",
+			"loadOneFailed": "No se pudo cargar la excepción",
+			"loadManyFailed": "No se pudieron cargar las excepciones"
+		},
+		"auth": {
+			"loginFailed": "Error al iniciar sesión",
+			"loginFailedDescription": "No se pudo iniciar sesión",
+			"loginSuccess": "Sesión iniciada correctamente"
+		}
+	},
+	"validation": {
+		"auth": {
+			"emailRequired": "Introduce el correo electrónico",
+			"emailInvalid": "Formato de correo no válido",
+			"passwordMin": "La contraseña debe tener al menos 8 caracteres",
+			"emailRegex": "Correo electrónico no válido",
+			"confirmPasswordRequired": "Confirma la contraseña",
+			"passwordsMismatch": "Las contraseñas no coinciden"
+		},
+		"time": {
+			"hhMmFormat": "Formato de hora: HH:mm"
+		}
+	},
+	"errors": {
+		"requestFailed": "Error de solicitud ({{status}})",
+		"localAppError": "Error de solicitud (ERROR LOCAL DE LA APP) ({{status}})",
+		"authTokenParse": "No se pudo analizar el token de autenticación"
+	}
+}

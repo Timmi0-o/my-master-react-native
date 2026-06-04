@@ -2,6 +2,7 @@ import type { IMasterService } from '@/actions/master-service/models/master-serv
 import { BookAppointmentModal } from '@/components/pages/master-service/components/modals/book-appointment-modal/book-appointment-modal'
 import { BasePage } from '@/components/shared/ui/base-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
+import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
@@ -18,6 +19,10 @@ export function MasterServiceDetail({
 }: IMasterServiceDetailProps): ReactElement {
 	const router = useRouter()
 	const { mode } = useActiveProfileMode()
+	const { t } = useScopedTranslation('pages', 'masterService')
+	const { t: tBtn } = useScopedTranslation('ui', 'button')
+	const { t: tField } = useScopedTranslation('ui', 'field')
+	const { t: tUi } = useScopedTranslation('ui')
 	const mutedColor = useThemeColor('muted')
 	const masterProfile = service.masterProfile
 	const [isBookingModalVisible, setIsBookingModalVisible] = useState(false)
@@ -33,7 +38,7 @@ export function MasterServiceDetail({
 					variant='ghost'
 				>
 					<Ionicons name='arrow-back' size={20} color={mutedColor} />
-					<Button.Label>Назад</Button.Label>
+					<Button.Label>{tBtn('back')}</Button.Label>
 				</Button>
 
 				<Card className='rounded-none shadow-none bg-background-secondary'>
@@ -42,7 +47,7 @@ export function MasterServiceDetail({
 							{service.name}
 						</Text>
 						<Chip color='accent' variant='soft'>
-							{service.price} ₽
+							{tUi('priceRub', { price: service.price })}
 						</Chip>
 					</Card.Header>
 
@@ -50,21 +55,23 @@ export function MasterServiceDetail({
 						{service.description ? (
 							<DetailInfoRow
 								icon='document-text-outline'
-								label='Описание'
+								label={tField('description')}
 								value={service.description}
 							/>
 						) : null}
 						{service.durationMinutes != null ? (
 							<DetailInfoRow
 								icon='time-outline'
-								label='Длительность'
-								value={`${service.durationMinutes} мин`}
+								label={tField('duration')}
+								value={tUi('durationMinutes', {
+									count: service.durationMinutes,
+								})}
 							/>
 						) : null}
 						<DetailInfoRow
 							icon='wallet-outline'
-							label='Стоимость'
-							value={`${service.price} ₽`}
+							label={tField('cost')}
+							value={tUi('priceRub', { price: service.price })}
 						/>
 					</Card.Body>
 				</Card>
@@ -72,7 +79,9 @@ export function MasterServiceDetail({
 				{masterProfile ? (
 					<Card>
 						<Card.Header>
-							<Text className='text-lg font-bold text-foreground'>Мастер</Text>
+							<Text className='text-lg font-bold text-foreground'>
+								{t('masterSection')}
+							</Text>
 						</Card.Header>
 						<Card.Body className='mt-2 gap-3 p-0'>
 							<Pressable
@@ -121,7 +130,7 @@ export function MasterServiceDetail({
 						variant='primary'
 					>
 						<Ionicons name='calendar-outline' size={20} color='white' />
-						<Button.Label>Записаться</Button.Label>
+						<Button.Label>{tBtn('book')}</Button.Label>
 					</Button>
 				) : null}
 			</View>

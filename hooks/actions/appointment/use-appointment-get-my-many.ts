@@ -1,6 +1,7 @@
 import { appointmentsGetMyMany } from '@/actions/appointment/actions'
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { useQuery } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
@@ -22,7 +23,7 @@ export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки записей',
+					label: scopedT('loadManyFailed', 'common', 'toasts.appointment'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

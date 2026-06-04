@@ -1,5 +1,6 @@
 import { masterWeeklySchedulesDelete } from '@/actions/master-weekly-schedule/actions'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterWeeklyScheduleDelete = (masterProfileId: string) => {
@@ -13,7 +14,7 @@ export const useMasterWeeklyScheduleDelete = (masterProfileId: string) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Не удалось удалить интервал',
+					label: scopedT('deleteFailed', 'common', 'toasts.weeklySchedule'),
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)
