@@ -18,6 +18,14 @@ export const API_ROUTES = {
 		many: `${API_URL}/master-services`,
 		one: (id: string) => `${API_URL}/master-services/${id}`,
 	},
+	masterWeeklySchedules: {
+		many: `${API_URL}/master-weekly-schedules`,
+		one: (id: string) => `${API_URL}/master-weekly-schedules/${id}`,
+	},
+	masterScheduleExceptions: {
+		many: `${API_URL}/master-schedule-exceptions`,
+		one: (id: string) => `${API_URL}/master-schedule-exceptions/${id}`,
+	},
 	userProfiles: {
 		many: `${API_URL}/user-profiles`,
 		me: `${API_URL}/user-profiles/me`,

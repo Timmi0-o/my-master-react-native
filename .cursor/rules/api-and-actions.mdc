@@ -25,8 +25,9 @@ alwaysApply: false
 - URL из `@/constants/api-routes`.
 - List: `filters` — `defaultQueryFormatter` в `abstractGetAction` (объект `filter` → JSON в query).
 - Дефолты list query (`preset`, `page`, `limit`, …) — в hook сценария, не в action.
-- Типы ответа — Zod/infer в `actions/<feature>/models/*.schema.ts` по полям API (`displayName`, не `name`).
-- Фильтры GET — **отдельный** `models/<entity>-filter.schema.ts` на базе `filter-fields/*`, `z.infer`; не `type X = IGetActionPresets & { page? }`. Skill: `../../.cursor/skills/react-native-zod-schemas/SKILL.md`, эталон `actions/master/models/master-profile-filter.schema.ts`.
+- Типы ответа — Zod/infer в `models/<entity>.schema.ts` (только entity, без create/update payload).
+- Фильтры GET — **отдельный** `models/<entity>-filter.schema.ts` на базе `filter-fields/*`, `z.infer`; не `type X = IGetActionPresets & { page? }`.
+- **POST/PATCH body** — обязательно отдельные `models/<entity>-create-payload.schema.ts` и `models/<entity>-update-payload.schema.ts`; типы только `z.infer`. Запрещены ручные `export type ICreate...` / `IUpdate...` в entity-файле или `actions.ts`. Skill: `../../.cursor/skills/react-native-zod-schemas/SKILL.md`; эталоны: `master-profile-update-payload.schema.ts`, `master-weekly-schedule-create-payload.schema.ts`.
 - Без `map*`, без `Promise.all` двух list’ов для одной view-model.
 
 Пример формы:

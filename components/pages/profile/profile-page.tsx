@@ -6,6 +6,7 @@ import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-pro
 import { ACTIVE_PROFILE_MODES } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useAuth } from '@/configs/auth/auth-context'
 import { Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip } from 'heroui-native'
 import { ScrollView, Text, View } from 'react-native'
 
@@ -28,6 +29,7 @@ export default function ProfilePage({
 	isMasterLoading,
 }: IProfilePageProps) {
 	const { signOut } = useAuth()
+	const router = useRouter()
 
 	const { mode, setMode } = useActiveProfileMode()
 
@@ -67,7 +69,7 @@ export default function ProfilePage({
 						</Card.Body>
 					</Card>
 
-					<View className='justify-between h-full'>
+					<View className='justify-between min-h-full gap-2'>
 						<Card className='rounded-none shadow-none bg-background-secondary'>
 							<Card.Header className='flex items-center gap-3'>
 								<Avatar
@@ -107,6 +109,22 @@ export default function ProfilePage({
 								)}
 							</Card.Header>
 						</Card>
+
+						{mode === 'master' && masterProfile ? (
+							<Card>
+								<Card.Header>
+									<Text className='text-lg font-bold text-foreground'>
+										Расписание и записи
+									</Text>
+								</Card.Header>
+								<Card.Body className='mt-2 p-0'>
+									<Button onPress={() => router.push('/master-settings')}>
+										<Ionicons name='calendar-outline' size={20} color='white' />
+										<Button.Label>Настроить расписание</Button.Label>
+									</Button>
+								</Card.Body>
+							</Card>
+						) : null}
 
 						<Card>
 							<Card.Header>

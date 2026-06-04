@@ -61,6 +61,10 @@ const RootStack = observer(() => {
 					name='master-service/[id]'
 					options={{ animation: 'slide_from_right' }}
 				/>
+				<Stack.Screen
+					name='master-settings'
+					options={{ animation: 'slide_from_right' }}
+				/>
 			</Stack.Protected>
 			<Stack.Protected guard={!isAuthenticated}>
 				<Stack.Screen name='(auth)' />
