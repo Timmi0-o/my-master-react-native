@@ -1,3 +1,7 @@
+import { IQueryField } from '@/actions/base-models/filters/base-query-field.schema'
+
+export type { IGetActionPresets } from '@/actions/base-models/filters/filter-fields/base-preset-filter.schema'
+
 export interface IActionErrorField {
 	field: string
 	message: string
@@ -27,19 +31,24 @@ export interface IHttpParams<T = unknown> {
 	body?: T
 }
 
-export interface IMutateActionOptions<T> {
+interface IBaseActionOptions {
 	url: string
-	params?: IHttpParams<T>
+	params?: IHttpParams
+}
+
+export interface IMutateActionOptions extends IBaseActionOptions {
 	json?: boolean
 	isPublic?: boolean
 	onOk?: () => void
 }
 
-export interface IGetActionOptions {
-	url: string
-	params?: IHttpParams
-	filters?: Record<string, unknown>
+export type IActionFilters<T> = Partial<T>
+
+export interface IGetActionOptions<
+	TFilters = Record<string, IQueryField>,
+> extends Partial<IBaseActionOptions> {
+	filters?: IActionFilters<TFilters>
 	customFormatter?: (
-		filters: Record<string, unknown>,
+		filters: IActionFilters<TFilters>,
 	) => Record<string, string> | undefined
 }

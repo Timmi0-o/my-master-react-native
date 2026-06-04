@@ -10,24 +10,34 @@ alwaysApply: false
 
 Один экран / один список → **один** list-endpoint. Вложения (`services`, `masterProfile`) приходят с бэка в `preset=BASE`, не собираются на клиенте.
 
+## Query / URL-фильтры
+
+Сквозной workflow (чтение URL → `formatQueryGet*` → action; запись URL → `useManageSearchParams`): `.cursor/skills/react-native-query-filters/SKILL.md`.
+
+- Новый list с фильтрами в URL: `helpers/format-query-object/format-query-get-<resource>.ts` + `FILTER_ITEMS_CONFIG` + `formatQueryFields`.
+- `helpers/format-query-fields-helper` не трогать без явного запроса.
+- Action: `filters` как есть в `abstractGetAction`, без дефолтов и логики в action.
+- Hook: собирает `IMaster*GetManyParams` (`preset`, пагинация, `filter: formatQueryGet*(searchParams)`).
+
 ## Actions (`actions/<feature>/actions.ts`)
 
 - Только `abstractGetAction` / `abstractMutateAction` из `@/helpers/action.helper`.
 - URL из `@/constants/api-routes`.
-- List: `filters` + `customFormatter: listQueryFormatter`.
-- Дефолты query (`preset`, `page`, `limit`, `orderField`, `orderDir`) — в action, не размазаны по экранам.
+- List: `filters` — `defaultQueryFormatter` в `abstractGetAction` (объект `filter` → JSON в query).
+- Дефолты list query (`preset`, `page`, `limit`, …) — в hook сценария, не в action.
 - Типы ответа — Zod/infer в `actions/<feature>/models/*.schema.ts` по полям API (`displayName`, не `name`).
 - Без `map*`, без `Promise.all` двух list’ов для одной view-model.
 
 Пример формы:
 
 ```typescript
-export const masterProfilesGetMany = async (filters?: IMasterProfileGetManyParams) =>
-  abstractGetAction<IMasterProfile[]>({
+export const masterProfilesGetMany = async (
+  options: IGetActionOptions<IMasterProfilesGetManyFilters> = {},
+) =>
+  abstractGetAction<IMasterProfile[], IMasterProfilesGetManyFilters>({
     url: API_ROUTES.masterProfiles.many,
     params: { method: 'GET' },
-    filters: { preset: 'BASE', page: 1, limit: 50, orderField: 'rating', orderDir: 'desc', ...filters },
-    customFormatter: listQueryFormatter,
+    ...options,
   })
 ```
 

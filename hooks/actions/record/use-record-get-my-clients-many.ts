@@ -3,11 +3,12 @@ import { IRecord } from '@/actions/record/models/record.schema'
 import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
-export const useRecordGetMyClientsMany = () => {
+export const useRecordGetMyClientsMany = (options?: { enabled?: boolean }) => {
 	const { toast } = useToast()
 
 	const { data, isLoading, error } = useQuery<IRecord[]>({
 		queryKey: ['records', 'my-clients'],
+		enabled: options?.enabled ?? true,
 		queryFn: async () => {
 			const res = await recordGetMyClientsMany()
 

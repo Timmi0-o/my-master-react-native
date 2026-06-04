@@ -9,7 +9,15 @@ export const useServiceGetRecommendedForYou = () => {
 	const { data, isLoading, error } = useQuery<IRecommendedService[]>({
 		queryKey: ['master-services', 'recommended'],
 		queryFn: async () => {
-			const res = await masterServicesGetRecommended()
+			const res = await masterServicesGetRecommended({
+				filters: {
+					preset: 'BASE',
+					page: 1,
+					limit: 50,
+					orderField: 'price',
+					orderDir: 'desc',
+				},
+			})
 
 			if (res.error?.message) {
 				toast.show({

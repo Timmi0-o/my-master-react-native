@@ -1,4 +1,5 @@
 import '@/app/global.css'
+import { ActiveProfileModeProvider } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { AuthProvider, useAuth } from '@/configs/auth/auth-context'
 import { ThemeProviderApp, useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
@@ -62,8 +63,12 @@ const AppNavigation = () => {
 			value={resolvedColorScheme === 'dark' ? DarkTheme : DefaultTheme}
 		>
 			<AuthProvider>
-				<RootStack />
-				<StatusBar style={resolvedColorScheme === 'dark' ? 'light' : 'dark'} />
+				<ActiveProfileModeProvider>
+					<RootStack />
+					<StatusBar
+						style={resolvedColorScheme === 'dark' ? 'light' : 'dark'}
+					/>
+				</ActiveProfileModeProvider>
 			</AuthProvider>
 		</ThemeProvider>
 	)

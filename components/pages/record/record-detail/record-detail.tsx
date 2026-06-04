@@ -1,6 +1,6 @@
 import { IRecord } from '@/actions/record/models/record.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { formatRecordDate } from '@/helpers/record/format-record-date'
+import { formatDate } from '@/utils/format-date.util'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
@@ -16,7 +16,7 @@ export default function RecordDetail({
 }: IRecordDetailProps): ReactElement {
 	const router = useRouter()
 	const mutedColor = useThemeColor('muted')
-	const formattedDate = formatRecordDate(record.date)
+	const formattedDate = formatDate(record.date)
 
 	return (
 		<BasePage>

@@ -1,21 +1,33 @@
 import ProfilePage from '@/components/pages/profile/profile-page'
-import { useUserGetOne } from '@/hooks/actions/user/use-user-get-one'
+import { useMasterProfileGetMine } from '@/hooks/actions/master/use-master-profile-get-mine'
+import { useUserProfileGetMine } from '@/hooks/actions/user-profile/use-user-profile-get-mine'
+import type { ReactElement } from 'react'
 import { Text } from 'react-native'
 
-export default function Profile() {
-	const { data, isLoading, error } = useUserGetOne('1')
+export default function Profile(): ReactElement {
+	const {
+		data: clientProfile,
+		isLoading: isClientLoading,
+		error: clientError,
+	} = useUserProfileGetMine()
+	const {
+		data: masterProfile,
+		isLoading: isMasterLoading,
+		error: masterError,
+	} = useMasterProfileGetMine()
+
+	const error = clientError ?? masterError
 
 	if (error?.message) {
-		return <Text>Error: {error.message}</Text>
+		return <Text>Ошибка: {error.message}</Text>
 	}
 
-	if (isLoading) {
-		return <Text>Loading...</Text>
-	}
-
-	if (!data) {
-		return <Text>No data</Text>
-	}
-
-	return <ProfilePage data={data} />
+	return (
+		<ProfilePage
+			clientProfile={clientProfile ?? null}
+			masterProfile={masterProfile ?? null}
+			isClientLoading={isClientLoading}
+			isMasterLoading={isMasterLoading}
+		/>
+	)
 }

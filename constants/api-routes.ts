@@ -11,8 +11,15 @@ export const API_ROUTES = {
 	},
 	masterProfiles: {
 		many: `${API_URL}/master-profiles`,
+		me: `${API_URL}/master-profiles/me`,
+		one: (id: string) => `${API_URL}/master-profiles/${id}`,
 	},
 	masterServices: {
 		many: `${API_URL}/master-services`,
+	},
+	userProfiles: {
+		many: `${API_URL}/user-profiles`,
+		me: `${API_URL}/user-profiles/me`,
+		one: (id: string) => `${API_URL}/user-profiles/${id}`,
 	},
 } as const

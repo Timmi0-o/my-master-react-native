@@ -1,0 +1,10 @@
+export enum FieldTypes {
+	DATE = 'DATE',
+	NUMBER = 'NUMBER',
+	STRING = 'STRING',
+	BOOLEAN = 'BOOLEAN',
+	LIMIT = 'LIMIT',
+	PAGE = 'PAGE',
+	SEARCH = 'SEARCH',
+	REQUIRED_IDS = 'REQUIRED_IDS',
+}

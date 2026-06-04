@@ -1,61 +1,61 @@
 {
-  "expo": {
-    "name": "my-master-react-native",
-    "slug": "my-master-react-native",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
-    "scheme": "mymasterreactnative",
-    "userInterfaceStyle": "automatic",
-    "ios": {
-      "bundleIdentifier": "com.yourname.myapp",
-      "buildNumber": "1.0.0",
-      "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
-      }
-    },
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/images/android-icon-foreground.png",
-        "backgroundImage": "./assets/images/android-icon-background.png",
-        "monochromeImage": "./assets/images/android-icon-monochrome.png"
-      },
-      "predictiveBackGestureEnabled": false
-    },
-    "web": {
-      "output": "static",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-splash-screen",
-        {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff",
-          "dark": {
-            "backgroundColor": "#000000"
-          }
-        }
-      ],
-      "expo-secure-store",
-      "expo-font",
-      "expo-image",
-      "expo-status-bar",
-      "expo-web-browser"
-    ],
-    "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
-    },
-    "extra": {
-      "router": {},
-      "eas": {
-        "projectId": "b0d6b360-32bf-4bd8-ae96-bdf2145931e5"
-      }
-    }
-  }
+	"expo": {
+		"name": "my-master-react-native",
+		"slug": "my-master-react-native",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/images/icon.png",
+		"scheme": "mymasterreactnative",
+		"userInterfaceStyle": "automatic",
+		"ios": {
+			"bundleIdentifier": "com.timofey.mymaster",
+			"buildNumber": "1.0.0",
+			"infoPlist": {
+				"ITSAppUsesNonExemptEncryption": false
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#E6F4FE",
+				"foregroundImage": "./assets/images/android-icon-foreground.png",
+				"backgroundImage": "./assets/images/android-icon-background.png",
+				"monochromeImage": "./assets/images/android-icon-monochrome.png"
+			},
+			"predictiveBackGestureEnabled": false
+		},
+		"web": {
+			"output": "static",
+			"favicon": "./assets/images/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			[
+				"expo-splash-screen",
+				{
+					"image": "./assets/images/splash-icon.png",
+					"imageWidth": 200,
+					"resizeMode": "contain",
+					"backgroundColor": "#ffffff",
+					"dark": {
+						"backgroundColor": "#000000"
+					}
+				}
+			],
+			"expo-secure-store",
+			"expo-font",
+			"expo-image",
+			"expo-status-bar",
+			"expo-web-browser"
+		],
+		"experiments": {
+			"typedRoutes": true,
+			"reactCompiler": true
+		},
+		"extra": {
+			"router": {},
+			"eas": {
+				"projectId": "b0d6b360-32bf-4bd8-ae96-bdf2145931e5"
+			}
+		}
+	}
 }

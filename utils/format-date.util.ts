@@ -13,13 +13,13 @@ const MONTHS_SHORT = [
 	'дек',
 ] as const
 
-export interface IFormattedRecordDate {
+export interface IFormattedDate {
 	day: string
 	month: string
 	full: string
 }
 
-export function formatRecordDate(date: string): IFormattedRecordDate {
+export function formatDate(date: string): IFormattedDate {
 	const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date)
 
 	if (!match) {

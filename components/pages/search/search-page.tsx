@@ -1,77 +1,73 @@
-import { IRecommendedService } from '@/actions/service/models/service.schema'
+import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
 import { RecommendedServicesModal } from '@/components/pages/search/components/modals/recommended-services-modal/recommended-services-modal'
 import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/search/data/search-recommended-services.constants'
 import { MasterCard } from '@/components/shared/master-card/master-card'
 import { ServiceCard } from '@/components/shared/service-card/service-card'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { formatServiceMasterName } from '@/helpers/service/format-service-master-name'
 import { useMasterGetMany } from '@/hooks/actions/master/use-master-get-many'
 import { useServiceGetRecommendedForYou } from '@/hooks/actions/service/use-service-get-recommended-for-you'
+import { useDebounce } from '@/hooks/use-debounce'
+import { useManageSearchParams } from '@/hooks/use-manage-search-params'
+import { useQuerySynchronization } from '@/hooks/use-query-synchronization'
 import { Ionicons } from '@expo/vector-icons'
 import { Button, Card, SearchField, useThemeColor } from 'heroui-native'
-import { useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Image, ScrollView, Text, type ViewStyle } from 'react-native'
 
 const RECOMMENDED_SERVICE_CARD_STYLE: ViewStyle = { width: 220 }
 const VIEW_MORE_BUTTON_STYLE: ViewStyle = { minHeight: 88, width: 120 }
 
-const matchesSearchQuery = (
-	query: string,
-	service: IRecommendedService,
-): boolean => {
-	const masterName = service.masterProfile
-		? formatServiceMasterName(service.masterProfile).toLowerCase()
-		: ''
-
-	return (
-		service.name.toLowerCase().includes(query) ||
-		masterName.includes(query) ||
-		service.description.toLowerCase().includes(query)
-	)
-}
+const SEARCH_QUERY_DEBOUNCE_MS = 500
 
 export const SearchPage = () => {
-	const [value, setValue] = useState('')
+	const { searchParams, handlePushKeyInSearchParams } = useManageSearchParams()
+
+	const search = searchParams.search ?? ''
+
+	const [draftSearch, setDraftSearch] = useState(
+		() => search.trim() || undefined,
+	)
+
+	const debouncedDraftSearch = useDebounce(
+		draftSearch,
+		SEARCH_QUERY_DEBOUNCE_MS,
+	)
+
+	useQuerySynchronization({
+		key: 'search',
+		keyType: FieldTypes.SEARCH,
+		setValue: (value) => {
+			const next = (value as string).trim() || undefined
+			setDraftSearch(next)
+		},
+	})
+
+	useEffect(() => {
+		const nextValue = debouncedDraftSearch?.trim() || undefined
+		const currentValue = search.trim() || undefined
+
+		if (nextValue === currentValue) return
+
+		handlePushKeyInSearchParams({
+			key: 'search',
+			value: nextValue,
+		})
+	}, [debouncedDraftSearch, search, handlePushKeyInSearchParams])
+
 	const [
 		isRecommendedServicesModalVisible,
 		setIsRecommendedServicesModalVisible,
 	] = useState(false)
 
 	const foregroundColor = useThemeColor('foreground')
+
 	const { data: masters, isLoading: isMastersLoading } = useMasterGetMany()
+
 	const { data: recommendedServices, isLoading: isServicesLoading } =
 		useServiceGetRecommendedForYou()
 
-	const query = value.trim().toLowerCase()
-
-	const filteredRecommendedServices = useMemo(() => {
-		if (!query || !recommendedServices) return recommendedServices
-
-		return recommendedServices.filter((service) =>
-			matchesSearchQuery(query, service),
-		)
-	}, [recommendedServices, query])
-
-	const filteredMasters = useMemo(() => {
-		if (!query || !masters) return masters
-
-		return masters.filter(
-			(master) =>
-				master.displayName.toLowerCase().includes(query) ||
-				master.description.toLowerCase().includes(query) ||
-				(master.services ?? []).some((service) =>
-					service.name.toLowerCase().includes(query),
-				),
-		)
-	}, [masters, query])
-
-	const hasRecommendedServices = (filteredRecommendedServices?.length ?? 0) > 0
-	const previewRecommendedServices = filteredRecommendedServices?.slice(
-		0,
-		SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT,
-	)
 	const shouldShowMoreRecommendedServicesButton =
-		(filteredRecommendedServices?.length ?? 0) >
+		(recommendedServices?.length ?? 0) >
 		SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT
 
 	return (
@@ -82,7 +78,10 @@ export const SearchPage = () => {
 					style={{ width: '100%', height: 250 }}
 				/>
 
-				<SearchField value={value} onChange={(value) => setValue(value)}>
+				<SearchField
+					value={draftSearch}
+					onChange={(nextValue) => setDraftSearch(nextValue)}
+				>
 					<SearchField.Group>
 						<SearchField.SearchIcon />
 						<SearchField.Input
@@ -100,13 +99,13 @@ export const SearchPage = () => {
 						</Text>
 					</Card.Header>
 					<Card.Body className='mt-1 p-0'>
-						{hasRecommendedServices ? (
+						{recommendedServices?.length ? (
 							<ScrollView
 								horizontal
 								contentContainerClassName='gap-3 pr-2'
 								showsHorizontalScrollIndicator={false}
 							>
-								{previewRecommendedServices?.map((service) => (
+								{recommendedServices?.map((service) => (
 									<ServiceCard
 										key={service.id}
 										service={service}
@@ -145,15 +144,15 @@ export const SearchPage = () => {
 						</Text>
 					</Card.Header>
 					<Card.Body className='gap-3'>
-						{isMastersLoading && !filteredMasters?.length ? (
+						{isMastersLoading && !masters?.length ? (
 							<Text className='text-base text-muted ml-2'>
 								Загрузка мастеров...
 							</Text>
 						) : null}
-						{filteredMasters?.map((master) => (
+						{masters?.map((master) => (
 							<MasterCard key={master.id} master={master} />
 						))}
-						{!isMastersLoading && filteredMasters?.length === 0 ? (
+						{!isMastersLoading && masters?.length === 0 ? (
 							<Text className='text-base text-muted ml-2'>
 								Мастера не найдены
 							</Text>
@@ -162,14 +161,13 @@ export const SearchPage = () => {
 				</Card>
 			</ScrollView>
 
-			{shouldShowMoreRecommendedServicesButton &&
-				filteredRecommendedServices && (
-					<RecommendedServicesModal
-						isVisible={isRecommendedServicesModalVisible}
-						onClose={() => setIsRecommendedServicesModalVisible(false)}
-						services={filteredRecommendedServices}
-					/>
-				)}
+			{shouldShowMoreRecommendedServicesButton && recommendedServices && (
+				<RecommendedServicesModal
+					isVisible={isRecommendedServicesModalVisible}
+					onClose={() => setIsRecommendedServicesModalVisible(false)}
+					services={recommendedServices}
+				/>
+			)}
 		</BasePage>
 	)
 }

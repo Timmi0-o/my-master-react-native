@@ -46,6 +46,7 @@ alwaysApply: true
 - API errors must be normalized and surfaced as user-readable states (empty/error/retry), not silent fails.
 - Auth-related logic must go through project auth context/store/helpers only.
 - Детальные правила actions/hooks/контракт API: `.cursor/rules/api-and-actions.mdc`.
+- Query в URL и фильтры list: `../../.cursor/skills/react-native-query-filters/SKILL.md` (`useManageSearchParams` + `formatQueryGet*`).
 - Сквозной поток данных (бэк + клиент): `../../.cursor/rules/project-data-flow.mdc`.
 
 ## Quality bar

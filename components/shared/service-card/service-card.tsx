@@ -1,5 +1,4 @@
 import type { IRecommendedService } from '@/actions/service/models/service.schema'
-import { formatServiceMasterName } from '@/helpers/service/format-service-master-name'
 import { Ionicons } from '@expo/vector-icons'
 import { useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -36,9 +35,7 @@ export function ServiceCard({
 
 				<View className='flex-row items-center justify-between gap-3'>
 					<Text className='flex-1 text-sm text-muted' numberOfLines={2}>
-						{masterProfile
-							? formatServiceMasterName(masterProfile)
-							: 'Мастер'}
+						{masterProfile?.displayName ?? 'Мастер'}
 					</Text>
 
 					{masterProfile ? (

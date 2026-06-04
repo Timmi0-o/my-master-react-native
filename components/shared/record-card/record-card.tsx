@@ -1,5 +1,5 @@
 import { IRecord } from '@/actions/record/models/record.schema'
-import { formatRecordDate } from '@/helpers/record/format-record-date'
+import { formatDate } from '@/utils/format-date.util'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Chip, useThemeColor } from 'heroui-native'
@@ -30,7 +30,7 @@ export function RecordCard({
 		'muted',
 	])
 
-	const formattedDate = formatRecordDate(record.date)
+	const formattedDate = formatDate(record.date)
 
 	const handlePress = (): void => {
 		onBeforeNavigate?.()
@@ -89,7 +89,9 @@ export function RecordCard({
 
 					<View className='flex-row items-center gap-2 rounded-xl bg-surface px-3 py-2'>
 						<Ionicons name='calendar-outline' size={16} color={mutedColor} />
-						<Text className='text-sm text-foreground'>{formattedDate.full}</Text>
+						<Text className='text-sm text-foreground'>
+							{formattedDate.full}
+						</Text>
 					</View>
 				</View>
 			</View>

@@ -22,26 +22,5 @@ export const MasterProfileSchema = z.object({
 	services: z.array(MasterProfileServiceSchema).optional(),
 })
 
-export const MasterProfileGetManyParamsSchema = z.object({
-	preset: z.enum(['MINIMAL', 'SHORT', 'BASE']).optional(),
-	page: z.number().optional(),
-	limit: z.number().optional(),
-	orderField: z
-		.enum([
-			'id',
-			'userId',
-			'displayName',
-			'rating',
-			'createdAt',
-			'updatedAt',
-		])
-		.optional(),
-	orderDir: z.enum(['asc', 'desc']).optional(),
-	filter: z.record(z.string(), z.unknown()).optional(),
-})
-
 export type IMasterProfileService = z.infer<typeof MasterProfileServiceSchema>
 export type IMasterProfile = z.infer<typeof MasterProfileSchema>
-export type IMasterProfileGetManyParams = z.infer<
-	typeof MasterProfileGetManyParamsSchema
->

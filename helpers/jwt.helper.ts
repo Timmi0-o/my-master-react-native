@@ -1,6 +1,6 @@
 export interface IJwtPayload {
 	exp: number
-	sub: number
+	sub: string
 	role?: number
 	systemRole?: string
 	status?: string

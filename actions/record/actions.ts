@@ -78,6 +78,18 @@ export const recordGetMyClientsMany = async (): Promise<
 	})
 }
 
+export const recordGetMyMany = async (): Promise<IActionResponse<IRecord[]>> => {
+	return Promise.resolve({
+		result: {
+			data: MOCK_RECORDS.map((record) => ({
+				...record,
+				id: `client-${record.id}`,
+				name: `Моя ${record.name.toLowerCase()}`,
+			})),
+		},
+	})
+}
+
 export const recordGetOne = async (
 	recordId: string,
 ): Promise<IActionResponse<IRecord>> => {
