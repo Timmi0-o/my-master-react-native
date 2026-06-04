@@ -39,6 +39,13 @@
 		"profileMode": {
 			"client": "Client profile",
 			"master": "Master profile"
+		},
+		"appointmentStatus": {
+			"PENDING": "Pending",
+			"CONFIRMED": "Confirmed",
+			"CANCELLED": "Cancelled",
+			"COMPLETED": "Completed",
+			"NO_SHOW": "No-show"
 		}
 	},
 	"toasts": {

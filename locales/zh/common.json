@@ -39,6 +39,13 @@
 		"profileMode": {
 			"client": "客户资料",
 			"master": "技师资料"
+		},
+		"appointmentStatus": {
+			"PENDING": "待确认",
+			"CONFIRMED": "已确认",
+			"CANCELLED": "已取消",
+			"COMPLETED": "已完成",
+			"NO_SHOW": "未到"
 		}
 	},
 	"toasts": {

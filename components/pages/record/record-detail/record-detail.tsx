@@ -30,6 +30,7 @@ export default function RecordDetail({
 	const { t: tUi } = useScopedTranslation('ui')
 	const { t: tFallback } = useScopedTranslation('common', 'fallback')
 	const cancelledByLabel = useEnumLabel('enums.cancelledBy')
+	const { t: tStatus } = useScopedTranslation('common', 'enums.appointmentStatus')
 	const mutedColor = useThemeColor('muted')
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 
@@ -108,7 +109,7 @@ export default function RecordDetail({
 									{appointment.serviceName}
 								</Text>
 								<Chip color='accent' variant='soft'>
-									{appointment.status}
+									{tStatus(appointment.status)}
 								</Chip>
 							</View>
 

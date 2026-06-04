@@ -39,6 +39,13 @@
 		"profileMode": {
 			"client": "Perfil de cliente",
 			"master": "Perfil de profesional"
+		},
+		"appointmentStatus": {
+			"PENDING": "Pendiente",
+			"CONFIRMED": "Confirmada",
+			"CANCELLED": "Cancelada",
+			"COMPLETED": "Completada",
+			"NO_SHOW": "No presentado"
 		}
 	},
 	"toasts": {

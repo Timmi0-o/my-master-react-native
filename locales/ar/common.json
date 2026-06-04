@@ -39,6 +39,13 @@
 		"profileMode": {
 			"client": "ملف العميل",
 			"master": "ملف المختص"
+		},
+		"appointmentStatus": {
+			"PENDING": "قيد الانتظار",
+			"CONFIRMED": "مؤكد",
+			"CANCELLED": "ملغى",
+			"COMPLETED": "مكتمل",
+			"NO_SHOW": "لم يحضر"
 		}
 	},
 	"toasts": {

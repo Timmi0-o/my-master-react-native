@@ -33,6 +33,7 @@ export function RecordCard({
 }: IRecordCardProps): ReactElement {
 	const router = useRouter()
 	const { t: tFallback, i18n } = useScopedTranslation('common', 'fallback')
+	const { t } = useScopedTranslation('common', 'enums.appointmentStatus')
 	const [accentColor, accentForegroundColor, mutedColor] = useThemeColor([
 		'accent',
 		'accent-foreground',
@@ -108,7 +109,7 @@ export function RecordCard({
 						</View>
 
 						<Chip variant='soft' color='accent'>
-							{appointment.status}
+							{t(appointment.status)}
 						</Chip>
 					</View>
 

@@ -13,14 +13,7 @@ import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import {
-	Avatar,
-	Button,
-	InputGroup,
-	Separator,
-	Spinner,
-	useThemeColor,
-} from 'heroui-native'
+import { Avatar, Button, Input, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import {
@@ -40,18 +33,26 @@ interface IChatRoomPageProps {
 export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 	const router = useRouter()
 	const insets = useSafeAreaInsets()
+
 	const { mode } = useActiveProfileMode()
+
 	const { state } = useAuth()
+
 	const { resolvedColorScheme } = useThemeApp()
 	const backgroundColor = THEME_BACKGROUND_COLORS[resolvedColorScheme]
+
 	const { t: tChat, i18n } = useScopedTranslation('common', 'chat')
 	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
+	const { t: tStatus } = useScopedTranslation('common', 'enums.appointmentStatus')
+
 	const [accentColor, accentForegroundColor, mutedColor, borderColor] =
 		useThemeColor(['accent', 'accent-foreground', 'muted', 'border'])
+
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 
 	const [draft, setDraft] = useState('')
 	const listRef = useRef<FlatList<IAppointmentChatMessage>>(null)
+
 	const sendMessage = useAppointmentChatMessageCreate(chat.id)
 
 	const currentUserId =
@@ -74,7 +75,10 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 				: tChat('clientFallback')
 			: (appointment?.masterProfile?.displayName ?? tChat('masterFallback'))
 
-	const headerSubtitle = [appointment?.serviceName, appointment?.status]
+	const headerSubtitle = [
+		appointment?.serviceName,
+		appointment?.status ? tStatus(appointment.status) : null,
+	]
 		.filter(Boolean)
 		.join(' · ')
 
@@ -106,7 +110,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			style={{ backgroundColor, flex: 1 }}
 		>
 			<View
-				className='flex-row items-center gap-3 bg-background px-2'
+				className='flex-row items-center gap-3 bg-background px-2 py-1'
 				style={{ paddingTop: insets.top + 4, borderColor }}
 			>
 				<Button
@@ -136,8 +140,6 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					) : null}
 				</View>
 			</View>
-
-			<Separator className='my-2' />
 
 			<FlatList
 				ref={listRef}
@@ -202,13 +204,13 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			/>
 
 			<View
-				className='flex-row items-end gap-2 border-t border-border bg-background px-3 pt-2'
+				className='flex-row items-end gap-2 border-t border-border px-3 pt-2'
 				style={{
 					borderColor,
 					paddingBottom: insets.bottom + 8,
 				}}
 			>
-				<InputGroup.Input
+				<Input
 					multiline
 					placeholder={tPlaceholder('chatMessage')}
 					value={draft}

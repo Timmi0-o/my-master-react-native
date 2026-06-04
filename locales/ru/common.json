@@ -39,6 +39,13 @@
 		"profileMode": {
 			"client": "Клиент профиль",
 			"master": "Мастер профиль"
+		},
+		"appointmentStatus": {
+			"PENDING": "На рассмотрении",
+			"CONFIRMED": "Подтверждена",
+			"CANCELLED": "Отменена",
+			"COMPLETED": "Завершена",
+			"NO_SHOW": "Неявка"
 		}
 	},
 	"toasts": {

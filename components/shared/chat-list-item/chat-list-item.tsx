@@ -21,6 +21,7 @@ export function ChatListItem({
 }: IChatListItemProps): ReactElement | null {
 	const router = useRouter()
 	const { t, i18n } = useScopedTranslation('common', 'chat')
+	const { t: tStatus } = useScopedTranslation('common', 'enums.appointmentStatus')
 	const chat = appointment.chat
 	if (!chat) {
 		return null
@@ -90,7 +91,7 @@ export function ChatListItem({
 			</View>
 
 			<Chip variant='soft' color='default'>
-				{appointment.status}
+				{tStatus(appointment.status)}
 			</Chip>
 		</Pressable>
 	)
