@@ -1,14 +1,15 @@
-import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import type {
 	IMasterWeeklySchedule,
 	TDayOfWeek,
 } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
+import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { DAY_OF_WEEK_ORDER } from '@/constants/master-schedule.constants'
 import { useMasterWeeklyScheduleDelete } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-delete'
 import { useMasterWeeklyScheduleGetMany } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-get-many'
+import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Button, Card, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -49,17 +50,19 @@ export function MasterWeeklyScheduleListPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title={t('weeklyListTitle')} />
-
-			<Button
-				className='mb-4'
-				variant='primary'
-				onPress={() =>
-					router.push('/master-settings/weekly-schedule/edit')
+			<ScheduleScreenHeader
+				extraContent={
+					<Button
+						isIconOnly
+						size='sm'
+						variant='primary'
+						onPress={() => router.push('/master-settings/weekly-schedule/edit')}
+					>
+						<Ionicons name='add' size={24} color='white' />
+					</Button>
 				}
-			>
-				<Button.Label>{tBtn('addInterval')}</Button.Label>
-			</Button>
+				title={t('weeklyListTitle')}
+			/>
 
 			{isLoading ? (
 				<Text className='text-muted'>{tCommon('loading')}</Text>
@@ -76,7 +79,7 @@ export function MasterWeeklyScheduleListPage({
 										{dayOfWeekLabel(day)}
 									</Text>
 								</Card.Header>
-								<Card.Body className='gap-2 p-0'>
+								<Card.Body className='gap-2 mt-2'>
 									{intervals.map((interval) => (
 										<View
 											key={interval.id}
@@ -91,8 +94,7 @@ export function MasterWeeklyScheduleListPage({
 													variant='outline'
 													onPress={() =>
 														router.push({
-															pathname:
-																'/master-settings/weekly-schedule/edit',
+															pathname: '/master-settings/weekly-schedule/edit',
 															params: { id: interval.id },
 														})
 													}

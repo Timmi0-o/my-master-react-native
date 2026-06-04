@@ -27,9 +27,11 @@ export default function ProfilePage({
 }: IProfilePageProps) {
 	const { signOut } = useAuth()
 	const router = useRouter()
+
 	const { t } = useScopedTranslation('pages', 'profile')
 	const { t: tMasterSettings } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
+
 	const profileModeLabel = useEnumLabel('enums.profileMode')
 
 	const { mode, setMode } = useActiveProfileMode()
@@ -100,9 +102,7 @@ export default function ProfilePage({
 											{displayName}
 										</Text>
 										<View className='mt-3 flex-row gap-3'>
-											<Chip color='default'>
-												{t('ratingChip', { rating })}
-											</Chip>
+											<Chip color='default'>{t('ratingChip', { rating })}</Chip>
 										</View>
 									</>
 								) : (

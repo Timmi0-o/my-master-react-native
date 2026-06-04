@@ -1,19 +1,81 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import {
 	resolveLocale,
 	toDateTimeLocale,
 } from '@/configs/i18n/supported-locales'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import { Ionicons } from '@expo/vector-icons'
+import type { Href } from 'expo-router'
 import { useRouter } from 'expo-router'
-import { Button, Card, Chip } from 'heroui-native'
+import { Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { ScheduleScreenHeader } from './schedule-screen-header'
 
 interface IMasterSettingsHubProps {
 	masterProfile: IMasterProfile
+}
+
+interface ISettingsTile {
+	key: string
+	label: string
+	href: Href
+	icon: keyof typeof Ionicons.glyphMap
+}
+
+interface ISettingsTileBlockProps {
+	tile: ISettingsTile
+	variant: 'compact' | 'wide'
+	mutedColor: string
+	onPress: () => void
+}
+
+function SettingsTileBlock({
+	tile,
+	variant,
+	mutedColor,
+	onPress,
+}: ISettingsTileBlockProps): ReactElement {
+	const isWide = variant === 'wide'
+
+	return (
+		<Pressable
+			accessibilityRole='button'
+			onPress={onPress}
+			style={{ width: isWide ? '100%' : '48%' }}
+			className={`rounded-2xl border border-border bg-background-secondary active:opacity-80 ${
+				isWide
+					? 'min-h-[92px] flex-row items-center gap-3 px-4 py-3.5'
+					: 'min-h-[132px] flex-col justify-between p-4'
+			}`}
+		>
+			{isWide ? (
+				<>
+					<View className='rounded-2xl bg-surface p-2.5'>
+						<Ionicons name={tile.icon} size={22} color={mutedColor} />
+					</View>
+					<Text className='flex-1 text-base font-semibold leading-5 text-foreground'>
+						{tile.label}
+					</Text>
+					<Ionicons name='chevron-forward' size={20} color={mutedColor} />
+				</>
+			) : (
+				<>
+					<View className='flex-row items-start justify-between'>
+						<View className='rounded-2xl bg-surface p-3 mb-2'>
+							<Ionicons name={tile.icon} size={26} color={mutedColor} />
+						</View>
+						<Ionicons name='chevron-forward' size={18} color={mutedColor} />
+					</View>
+					<Text className='text-[14px] font-semibold leading-5 text-foreground'>
+						{tile.label}
+					</Text>
+				</>
+			)}
+		</Pressable>
+	)
 }
 
 export function MasterSettingsHub({
@@ -22,9 +84,31 @@ export function MasterSettingsHub({
 	const router = useRouter()
 	const { t, i18n } = useScopedTranslation('pages', 'masterSettings')
 	const bookingStatusLabel = useEnumLabel('enums.bookingStatus')
+	const mutedColor = useThemeColor('muted')
 	const bookingStatus = masterProfile.bookingStatus ?? 'ACCEPTING'
 	const statusLabel = bookingStatusLabel(bookingStatus)
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
+
+	const tiles: ISettingsTile[] = [
+		{
+			key: 'booking',
+			label: t('bookingRules'),
+			href: '/master-settings/booking',
+			icon: 'reader-outline',
+		},
+		{
+			key: 'weekly',
+			label: t('weeklySchedule'),
+			href: '/master-settings/weekly-schedule',
+			icon: 'calendar-outline',
+		},
+		{
+			key: 'exceptions',
+			label: t('exceptions'),
+			href: '/master-settings/schedule-exceptions',
+			icon: 'today-outline',
+		},
+	]
 
 	return (
 		<BasePage>
@@ -47,30 +131,17 @@ export function MasterSettingsHub({
 					</Card.Body>
 				</Card>
 
-				<Card>
-					<Card.Body className='gap-3 p-0'>
-						<Button
-							variant='secondary'
-							onPress={() => router.push('/master-settings/booking')}
-						>
-							<Button.Label>{t('bookingRules')}</Button.Label>
-						</Button>
-						<Button
-							variant='secondary'
-							onPress={() => router.push('/master-settings/weekly-schedule')}
-						>
-							<Button.Label>{t('weeklySchedule')}</Button.Label>
-						</Button>
-						<Button
-							variant='secondary'
-							onPress={() =>
-								router.push('/master-settings/schedule-exceptions')
-							}
-						>
-							<Button.Label>{t('exceptions')}</Button.Label>
-						</Button>
-					</Card.Body>
-				</Card>
+				<View className='flex-row flex-wrap justify-between gap-3'>
+					{tiles.map((tile, index) => (
+						<SettingsTileBlock
+							key={tile.key}
+							tile={tile}
+							variant={index === 2 ? 'wide' : 'compact'}
+							mutedColor={mutedColor}
+							onPress={() => router.push(tile.href)}
+						/>
+					))}
+				</View>
 			</View>
 		</BasePage>
 	)

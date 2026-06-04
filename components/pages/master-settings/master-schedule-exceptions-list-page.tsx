@@ -1,13 +1,14 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import {
 	resolveLocale,
 	toDateTimeLocale,
 } from '@/configs/i18n/supported-locales'
+import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterScheduleExceptionDelete } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-delete'
 import { useMasterScheduleExceptionGetMany } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-get-many'
+import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Button, Card, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -22,11 +23,14 @@ export function MasterScheduleExceptionsListPage({
 	masterProfile,
 }: IMasterScheduleExceptionsListPageProps): ReactElement {
 	const router = useRouter()
+
 	const { t, i18n } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tCommon } = useScopedTranslation('common')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
+
 	const exceptionKindLabel = useEnumLabel('enums.exceptionKind')
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
+
 	const { data = [], isLoading } = useMasterScheduleExceptionGetMany(
 		masterProfile.id,
 	)
@@ -37,17 +41,21 @@ export function MasterScheduleExceptionsListPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title={t('exceptionsListTitle')} />
-
-			<Button
-				className='mb-4'
-				variant='primary'
-				onPress={() =>
-					router.push('/master-settings/schedule-exceptions/edit')
+			<ScheduleScreenHeader
+				extraContent={
+					<Button
+						isIconOnly
+						size='sm'
+						variant='primary'
+						onPress={() =>
+							router.push('/master-settings/schedule-exceptions/edit')
+						}
+					>
+						<Ionicons name='add' size={24} color='white' />
+					</Button>
 				}
-			>
-				<Button.Label>{tBtn('addException')}</Button.Label>
-			</Button>
+				title={t('exceptionsListTitle')}
+			/>
 
 			{isLoading ? (
 				<Text className='text-muted'>{tCommon('loading')}</Text>
@@ -59,9 +67,7 @@ export function MasterScheduleExceptionsListPage({
 								<Text className='font-semibold text-foreground'>
 									{item.title ?? exceptionKindLabel(item.kind)}
 								</Text>
-								<Chip color='default'>
-									{exceptionKindLabel(item.kind)}
-								</Chip>
+								<Chip color='default'>{exceptionKindLabel(item.kind)}</Chip>
 								<Text className='text-sm text-muted'>
 									{formatDateTime(item.startsAt)} —{' '}
 									{formatDateTime(item.endsAt)}
@@ -82,8 +88,7 @@ export function MasterScheduleExceptionsListPage({
 										variant='outline'
 										onPress={() =>
 											router.push({
-												pathname:
-													'/master-settings/schedule-exceptions/edit',
+												pathname: '/master-settings/schedule-exceptions/edit',
 												params: { id: item.id },
 											})
 										}
