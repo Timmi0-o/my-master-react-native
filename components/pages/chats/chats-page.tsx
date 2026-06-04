@@ -1,11 +1,30 @@
+import { ChatListItem } from '@/components/shared/chat-list-item/chat-list-item'
 import { BasePage } from '@/components/shared/ui/base-page'
+import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
+import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { Skeleton } from 'heroui-native'
+import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 
-const CHAT_SKELETON_COUNT = 16
+const CHAT_SKELETON_COUNT = 8
 
-export const ChatsPage = () => {
+interface IChatsPageProps {
+	mode: ActiveProfileMode
+	chats: IAppointment[]
+	isLoading: boolean
+}
+
+export const ChatsPage = ({
+	mode,
+	chats,
+	isLoading,
+}: IChatsPageProps): ReactElement => {
+	const emptyLabel =
+		mode === 'master'
+			? 'Пока нет чатов с клиентами'
+			: 'Пока нет чатов с мастерами'
+
 	return (
 		<BasePage>
 			<ScrollView
@@ -14,12 +33,24 @@ export const ChatsPage = () => {
 				showsVerticalScrollIndicator={false}
 			>
 				<View className='mb-2'>
-					<Text className='text-2xl ml-2 font-bold text-foreground'>Чаты</Text>
+					<Text className='ml-2 text-2xl font-bold text-foreground'>Чаты</Text>
 				</View>
 
-				{Array.from({ length: CHAT_SKELETON_COUNT }).map((_, index) => (
-					<ChatSkeletonItem key={index} />
-				))}
+				{isLoading ? (
+					Array.from({ length: CHAT_SKELETON_COUNT }).map((_, index) => (
+						<ChatSkeletonItem key={index} />
+					))
+				) : chats.length > 0 ? (
+					chats.map((appointment) => (
+						<ChatListItem
+							key={appointment.chat?.id ?? appointment.id}
+							appointment={appointment}
+							mode={mode}
+						/>
+					))
+				) : (
+					<Text className='ml-2 text-base text-muted'>{emptyLabel}</Text>
+				)}
 			</ScrollView>
 		</BasePage>
 	)
@@ -27,7 +58,7 @@ export const ChatsPage = () => {
 
 function ChatSkeletonItem() {
 	return (
-		<View className='flex-row items-center gap-3 rounded-2xl bg-surface py-3 px-2'>
+		<View className='flex-row items-center gap-3 rounded-2xl bg-surface px-3 py-3'>
 			<Skeleton className='h-12 w-12 rounded-full' />
 
 			<View className='flex-1 gap-2'>
@@ -36,8 +67,8 @@ function ChatSkeletonItem() {
 					<Skeleton className='h-3 w-10 rounded-full' />
 				</View>
 
+				<Skeleton className='h-3 w-24 rounded-full' />
 				<Skeleton className='h-4 w-full rounded-full' />
-				<Skeleton className='h-4 w-2/3 rounded-full' />
 			</View>
 		</View>
 	)

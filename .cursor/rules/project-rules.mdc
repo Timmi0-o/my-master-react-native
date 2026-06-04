@@ -25,7 +25,7 @@ alwaysApply: true
 - Arrays for rendering (menu/stats/actions/options) store in nearby `data/` files, not inline in large screen components.
 - Avoid long inline object types in component files; define reusable interfaces/types.
 - Keep screens focused on composition; move business logic to hooks/helpers/actions.
-- DRY first: duplicated logic must be extracted.
+- DRY first: duplicated logic must be extracted — но **не** через однострочные `utils/*`, `map*`, `resolve*`, `format*` и прочие микро-хелперы. Простую сборку строки, сортировку, фильтр, `toLocaleTimeString` и т.п. пиши **на месте** в компоненте или hook. Выносить только нетривиальную повторяющуюся логику (3+ осмысленных использования или сложный алгоритм).
 
 ## React Native UI/UX rules
 
@@ -46,6 +46,7 @@ alwaysApply: true
 - API errors must be normalized and surfaced as user-readable states (empty/error/retry), not silent fails.
 - Auth-related logic must go through project auth context/store/helpers only.
 - Детальные правила actions/hooks/контракт API: `.cursor/rules/api-and-actions.mdc`.
+- Хуки в `hooks/actions/`: строго `use{Entity}{Operation}` как у action (`useAppointmentChatGetOne`, не `useChatsList`). См. `api-and-actions.mdc`.
 - Query в URL и фильтры list: `../../.cursor/skills/react-native-query-filters/SKILL.md` (`useManageSearchParams` + `formatQueryGet*`).
 - Сквозной поток данных (бэк + клиент): `../../.cursor/rules/project-data-flow.mdc`.
 

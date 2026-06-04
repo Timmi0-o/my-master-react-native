@@ -45,6 +45,10 @@ const RootStack = observer(() => {
 		>
 			<Stack.Protected guard={isAuthenticated}>
 				<Stack.Screen name='(tabs)' />
+				<Stack.Screen
+					name='chat/[chatId]'
+					options={{ animation: 'slide_from_right' }}
+				/>
 			</Stack.Protected>
 			<Stack.Protected guard={!isAuthenticated}>
 				<Stack.Screen name='(auth)' />

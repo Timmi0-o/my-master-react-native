@@ -26,6 +26,7 @@ alwaysApply: false
 - List: `filters` — `defaultQueryFormatter` в `abstractGetAction` (объект `filter` → JSON в query).
 - Дефолты list query (`preset`, `page`, `limit`, …) — в hook сценария, не в action.
 - Типы ответа — Zod/infer в `actions/<feature>/models/*.schema.ts` по полям API (`displayName`, не `name`).
+- Фильтры GET — **отдельный** `models/<entity>-filter.schema.ts` на базе `filter-fields/*`, `z.infer`; не `type X = IGetActionPresets & { page? }`. Skill: `../../.cursor/skills/react-native-zod-schemas/SKILL.md`, эталон `actions/master/models/master-profile-filter.schema.ts`.
 - Без `map*`, без `Promise.all` двух list’ов для одной view-model.
 
 Пример формы:
@@ -45,15 +46,42 @@ export const masterProfilesGetMany = async (
 
 ## Hooks (`hooks/actions/**`)
 
-- `useQuery` → action → `res.result.data ?? []`
+### Именование (обязательно)
+
+Хук **1:1 от action** — без «удобных» имён экрана (`useChatsList`, `useSearchData` и т.п.).
+
+**Шаблон:** `use` + `{Entity}` + `{Operation}` в PascalCase.
+
+| Action | Hook |
+|--------|------|
+| `masterProfilesGetMany` | `useMasterProfileGetMany` |
+| `masterProfilesGetMe` | `useMasterProfileGetMine` |
+| `appointmentsGetMyMany` | `useAppointmentGetMyMany` |
+| `appointmentsGetMyClientsMany` | `useAppointmentGetMyClientsMany` |
+| `appointmentChatsGetOne` | `useAppointmentChatGetOne` |
+| `appointmentChatMessagesCreate` | `useAppointmentChatMessageCreate` |
+
+**Операции:** `GetMany`, `GetOne`, `GetMine`, `GetMyMany`, `GetMyClientsMany`, `Create`, `Update`, `Delete` — как у use-case / HTTP-сценария, не синонимы.
+
+**Файл:** `hooks/actions/<feature>/use-<entity-kebab>-<operation-kebab>.ts`  
+Пример: `use-appointment-chat-message-create.ts`.
+
+**Запрещено в `hooks/actions/`:** обобщённые хуки (`useChatsList`), композиция нескольких actions (`useActiveProfileGetMine`) — такое в `hooks/` вне `actions/` или прямо в экране.
+
+**Экран со сменой режима** (клиент/мастер): два хука `useAppointmentGetMyMany` / `useAppointmentGetMyClientsMany` + `enabled`, без третьего «обёрточного» хука.
+
+### Поведение
+
+- `useQuery` / `useMutation` → один action → `res.result.data ?? []` (для list)
 - Ошибки: toast + `throw` для react-query
-- `queryKey` включает сущность и сценарий (`['master-profiles', 'many']`)
+- `queryKey`: сущность + операция (`['appointment-chats', 'one', chatId]`)
 
 ## UI
 
 - Компоненты принимают типы из `actions/*/models`, не локальные «удобные» DTO.
 - Фильтрация поиска — по полям API (`displayName`, `description`, `service.name`).
 - `fetch` только через `api.helper` / actions.
+- Не плодить однострочные утилиты/мапперы/резолверы (`formatX`, `getYTitle`, `mapZ`) — форматирование и мелкая трансформация для экрана делаются inline в компоненте или hook. См. `project-rules.mdc`.
 
 ## Контракт ответа
 

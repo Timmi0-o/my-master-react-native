@@ -22,4 +22,14 @@ export const API_ROUTES = {
 		me: `${API_URL}/user-profiles/me`,
 		one: (id: string) => `${API_URL}/user-profiles/${id}`,
 	},
+	appointments: {
+		me: `${API_URL}/appointments/me`,
+		myClients: `${API_URL}/appointments/my-clients`,
+	},
+	appointmentChats: {
+		one: (id: string) => `${API_URL}/appointment-chats/${id}`,
+	},
+	appointmentChatMessages: {
+		many: `${API_URL}/appointment-chat-messages`,
+	},
 } as const

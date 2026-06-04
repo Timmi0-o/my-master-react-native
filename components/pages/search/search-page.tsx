@@ -4,8 +4,8 @@ import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/se
 import { MasterCard } from '@/components/shared/master-card/master-card'
 import { ServiceCard } from '@/components/shared/service-card/service-card'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { useMasterGetMany } from '@/hooks/actions/master/use-master-get-many'
-import { useServiceGetRecommendedForYou } from '@/hooks/actions/service/use-service-get-recommended-for-you'
+import { useMasterProfileGetMany } from '@/hooks/actions/master/use-master-profile-get-many'
+import { useMasterServiceGetMany } from '@/hooks/actions/master-service/use-master-service-get-many'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useManageSearchParams } from '@/hooks/use-manage-search-params'
 import { useQuerySynchronization } from '@/hooks/use-query-synchronization'
@@ -61,10 +61,11 @@ export const SearchPage = () => {
 
 	const foregroundColor = useThemeColor('foreground')
 
-	const { data: masters, isLoading: isMastersLoading } = useMasterGetMany()
+	const { data: masters, isLoading: isMastersLoading } =
+		useMasterProfileGetMany()
 
 	const { data: recommendedServices, isLoading: isServicesLoading } =
-		useServiceGetRecommendedForYou()
+		useMasterServiceGetMany()
 
 	const shouldShowMoreRecommendedServicesButton =
 		(recommendedServices?.length ?? 0) >

@@ -1,15 +1,15 @@
-import { masterServicesGetRecommended } from '@/actions/service/actions'
-import type { IRecommendedService } from '@/actions/service/models/service.schema'
+import { masterServicesGetMany } from '@/actions/master-service/actions'
+import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
-export const useServiceGetRecommendedForYou = () => {
+export const useMasterServiceGetMany = () => {
 	const { toast } = useToast()
 
-	const { data, isLoading, error } = useQuery<IRecommendedService[]>({
-		queryKey: ['master-services', 'recommended'],
+	const { data, isLoading, error } = useQuery<IMasterService[]>({
+		queryKey: ['master-services', 'many', 'recommended'],
 		queryFn: async () => {
-			const res = await masterServicesGetRecommended({
+			const res = await masterServicesGetMany({
 				filters: {
 					preset: 'BASE',
 					limit: 15,

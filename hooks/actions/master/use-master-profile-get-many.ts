@@ -5,7 +5,7 @@ import { useManageSearchParams } from '@/hooks/use-manage-search-params'
 import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
-export const useMasterGetMany = () => {
+export const useMasterProfileGetMany = () => {
 	const { toast } = useToast()
 
 	const { searchParams, searchParamsQuery } = useManageSearchParams()
