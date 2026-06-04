@@ -17,6 +17,14 @@ export const API_ROUTES = {
 	masterServices: {
 		many: `${API_URL}/master-services`,
 		one: (id: string) => `${API_URL}/master-services/${id}`,
+		availableSlots: (id: string) =>
+			`${API_URL}/master-services/${id}/available-slots`,
+	},
+	appointments: {
+		me: `${API_URL}/appointments/me`,
+		myClients: `${API_URL}/appointments/my-clients`,
+		many: `${API_URL}/appointments`,
+		one: (id: string) => `${API_URL}/appointments/${id}`,
 	},
 	masterWeeklySchedules: {
 		many: `${API_URL}/master-weekly-schedules`,
@@ -30,11 +38,6 @@ export const API_ROUTES = {
 		many: `${API_URL}/user-profiles`,
 		me: `${API_URL}/user-profiles/me`,
 		one: (id: string) => `${API_URL}/user-profiles/${id}`,
-	},
-	appointments: {
-		me: `${API_URL}/appointments/me`,
-		myClients: `${API_URL}/appointments/my-clients`,
-		one: (id: string) => `${API_URL}/appointments/${id}`,
 	},
 	appointmentChats: {
 		one: (id: string) => `${API_URL}/appointment-chats/${id}`,

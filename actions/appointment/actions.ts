@@ -1,6 +1,7 @@
 import { API_ROUTES } from '@/constants/api-routes'
-import { abstractGetAction } from '@/helpers/action.helper'
+import { abstractGetAction, abstractMutateAction } from '@/helpers/action.helper'
 import type { IActionResponse, IGetActionOptions } from '@/types/i-action.types'
+import type { IAppointmentCreatePayload } from './models/appointment-create-payload.schema'
 import type { IAppointment } from './models/appointment.schema'
 import type {
 	IAppointmentGetOneFilters,
@@ -35,5 +36,14 @@ export const appointmentsGetOne = async (
 		url: API_ROUTES.appointments.one(id),
 		params: { method: 'GET' },
 		...options,
+	})
+}
+
+export const appointmentsCreate = async (
+	payload: IAppointmentCreatePayload,
+): Promise<IActionResponse<IAppointment | null>> => {
+	return abstractMutateAction<IAppointment>({
+		url: API_ROUTES.appointments.many,
+		params: { method: 'POST', body: payload },
 	})
 }

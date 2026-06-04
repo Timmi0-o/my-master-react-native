@@ -4,6 +4,7 @@ import {
 	IActionResponse,
 	IGetActionOptions,
 } from '@/types/i-action.types'
+import type { IMasterServiceAvailableSlots } from './models/master-service-available-slots.schema'
 import type { IMasterService } from './models/master-service.schema'
 import type {
 	IMasterServiceGetOneFilters,
@@ -28,5 +29,24 @@ export const masterServicesGetOne = async (
 		url: API_ROUTES.masterServices.one(id),
 		params: { method: 'GET' },
 		...options,
+	})
+}
+
+export const masterServicesGetAvailableSlots = async (
+	id: string,
+	options: { date?: string } = {},
+): Promise<IActionResponse<IMasterServiceAvailableSlots>> => {
+	const params = new URLSearchParams()
+	if (options.date) {
+		params.set('date', options.date)
+	}
+	const query = params.toString()
+	const url = query
+		? `${API_ROUTES.masterServices.availableSlots(id)}?${query}`
+		: API_ROUTES.masterServices.availableSlots(id)
+
+	return abstractGetAction<IMasterServiceAvailableSlots>({
+		url,
+		params: { method: 'GET' },
 	})
 }

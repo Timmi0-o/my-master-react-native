@@ -1,9 +1,12 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
+import { BookAppointmentModal } from '@/components/pages/master-service/components/modals/book-appointment-modal/book-appointment-modal'
 import { BasePage } from '@/components/shared/ui/base-page'
+import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
+import { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 
 interface IMasterServiceDetailProps {
@@ -14,8 +17,11 @@ export function MasterServiceDetail({
 	service,
 }: IMasterServiceDetailProps): ReactElement {
 	const router = useRouter()
+	const { mode } = useActiveProfileMode()
 	const mutedColor = useThemeColor('muted')
 	const masterProfile = service.masterProfile
+	const [isBookingModalVisible, setIsBookingModalVisible] = useState(false)
+	const isClientMode = mode === 'client'
 
 	return (
 		<BasePage>
@@ -107,7 +113,26 @@ export function MasterServiceDetail({
 						</Card.Body>
 					</Card>
 				) : null}
+
+				{isClientMode ? (
+					<Button
+						className='rounded-2xl'
+						onPress={() => setIsBookingModalVisible(true)}
+						variant='primary'
+					>
+						<Ionicons name='calendar-outline' size={20} color='white' />
+						<Button.Label>Записаться</Button.Label>
+					</Button>
+				) : null}
 			</View>
+
+			{isClientMode ? (
+				<BookAppointmentModal
+					isVisible={isBookingModalVisible}
+					onClose={() => setIsBookingModalVisible(false)}
+					service={service}
+				/>
+			) : null}
 		</BasePage>
 	)
 }
