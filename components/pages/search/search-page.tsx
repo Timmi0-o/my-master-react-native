@@ -12,7 +12,7 @@ import { useQuerySynchronization } from '@/hooks/use-query-synchronization'
 import { Ionicons } from '@expo/vector-icons'
 import { Button, Card, SearchField, useThemeColor } from 'heroui-native'
 import { useEffect, useState } from 'react'
-import { Image, ScrollView, Text, type ViewStyle } from 'react-native'
+import { ScrollView, Text, type ViewStyle } from 'react-native'
 
 const RECOMMENDED_SERVICE_CARD_STYLE: ViewStyle = { width: 220 }
 const VIEW_MORE_BUTTON_STYLE: ViewStyle = { minHeight: 88, width: 120 }
@@ -24,8 +24,8 @@ export const SearchPage = () => {
 
 	const search = searchParams.search ?? ''
 
-	const [draftSearch, setDraftSearch] = useState(
-		() => search.trim() || undefined,
+	const [draftSearch, setDraftSearch] = useState<string | null>(() =>
+		search.trim(),
 	)
 
 	const debouncedDraftSearch = useDebounce(
@@ -37,14 +37,14 @@ export const SearchPage = () => {
 		key: 'search',
 		keyType: FieldTypes.SEARCH,
 		setValue: (value) => {
-			const next = (value as string).trim() || undefined
+			const next = (value as string).trim() || null
 			setDraftSearch(next)
 		},
 	})
 
 	useEffect(() => {
-		const nextValue = debouncedDraftSearch?.trim() || undefined
-		const currentValue = search.trim() || undefined
+		const nextValue = debouncedDraftSearch?.trim() || null
+		const currentValue = search.trim() || null
 
 		if (nextValue === currentValue) return
 
@@ -71,15 +71,15 @@ export const SearchPage = () => {
 		SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT
 
 	return (
-		<BasePage disableTopSafeArea>
+		<BasePage>
 			<ScrollView contentContainerClassName='gap-3'>
-				<Image
+				{/* <Image
 					source={require('@/assets/images/ad-mock.jpeg')}
 					style={{ width: '100%', height: 250 }}
-				/>
+				/> */}
 
 				<SearchField
-					value={draftSearch}
+					value={draftSearch ?? ''}
 					onChange={(nextValue) => setDraftSearch(nextValue)}
 				>
 					<SearchField.Group>

@@ -17,7 +17,7 @@ export const useMasterGetMany = () => {
 				filters: {
 					preset: 'BASE',
 					...formatQueryGetMasterProfiles(searchParams),
-					limit: 15,
+					limit: 10,
 					orderField: 'rating',
 					orderDir: 'desc',
 				},

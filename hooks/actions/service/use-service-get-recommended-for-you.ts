@@ -12,8 +12,7 @@ export const useServiceGetRecommendedForYou = () => {
 			const res = await masterServicesGetRecommended({
 				filters: {
 					preset: 'BASE',
-					page: 1,
-					limit: 50,
+					limit: 15,
 					orderField: 'price',
 					orderDir: 'desc',
 				},
