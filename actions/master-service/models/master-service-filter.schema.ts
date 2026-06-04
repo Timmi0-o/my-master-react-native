@@ -6,6 +6,10 @@ import { RequiredIdsFilterSchema } from '@/actions/base-models/filters/filter-fi
 import { SearchFilterSchema } from '@/actions/base-models/filters/filter-fields/base-search-filter.schema'
 import { z } from 'zod'
 
+export const MasterServiceGetOneFiltersSchema = z.object({
+	preset: GetActionPresetSchema.optional(),
+})
+
 export const MasterServicesGetManyFiltersSchema = z.object({
 	preset: GetActionPresetSchema.optional(),
 	page: PageFilterSchema,
@@ -17,6 +21,10 @@ export const MasterServicesGetManyFiltersSchema = z.object({
 	search: SearchFilterSchema.optional(),
 	requiredIds: RequiredIdsFilterSchema.optional(),
 })
+
+export type IMasterServiceGetOneFilters = z.infer<
+	typeof MasterServiceGetOneFiltersSchema
+>
 
 export type IMasterServicesGetManyFilters = z.infer<
 	typeof MasterServicesGetManyFiltersSchema

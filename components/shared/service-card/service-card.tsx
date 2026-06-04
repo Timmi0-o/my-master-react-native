@@ -1,5 +1,6 @@
 import type { IRecommendedService } from '@/actions/service/models/service.schema'
 import { Ionicons } from '@expo/vector-icons'
+import { useRouter } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import {
@@ -13,19 +14,28 @@ import {
 interface IServiceCardProps {
 	service: IRecommendedService
 	style?: StyleProp<ViewStyle>
+	onBeforeNavigate?: () => void
 }
 
 export function ServiceCard({
 	service,
 	style,
+	onBeforeNavigate,
 }: IServiceCardProps): ReactElement {
+	const router = useRouter()
 	const mutedColor = useThemeColor('muted')
 	const masterProfile = service.masterProfile
+
+	const handlePress = (): void => {
+		onBeforeNavigate?.()
+		router.push(`/master-service/${service.id}`)
+	}
 
 	return (
 		<Pressable
 			accessibilityRole='button'
 			className='rounded-2xl border border-border bg-background-secondary p-4 active:opacity-80'
+			onPress={handlePress}
 			style={style}
 		>
 			<View className='gap-3'>

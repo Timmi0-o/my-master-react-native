@@ -45,7 +45,11 @@ export function RecommendedServicesModal({
 							<Text className='text-base text-muted'>Услуги не найдены</Text>
 						) : (
 							services.map((service) => (
-								<ServiceCard key={service.id} service={service} />
+								<ServiceCard
+									key={service.id}
+									onBeforeNavigate={onClose}
+									service={service}
+								/>
 							))
 						)}
 					</BottomSheetScrollView>
