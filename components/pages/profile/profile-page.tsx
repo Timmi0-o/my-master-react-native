@@ -3,14 +3,15 @@ import type { IUserProfile } from '@/actions/user-profile/models/user-profile.sc
 import { BasePage } from '@/components/shared/ui/base-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
-import { ACTIVE_PROFILE_MODES } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useAuth } from '@/configs/auth/auth-context'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import { Avatar, Button, Card, Chip } from 'heroui-native'
-import { ScrollView, Text, View } from 'react-native'
+import { Avatar, Spinner, useThemeColor } from 'heroui-native'
+import type { ReactElement } from 'react'
+import { Pressable, Text, View } from 'react-native'
+import { ProfileModeSwitcher } from './components/mode-switcher'
 
 interface IProfilePageProps {
 	clientProfile: IUserProfile | null
@@ -19,12 +20,74 @@ interface IProfilePageProps {
 	isMasterLoading: boolean
 }
 
+interface IProfileMenuRowProps {
+	icon: keyof typeof Ionicons.glyphMap
+	label: string
+	subtitle?: string
+	onPress?: () => void
+	isDisabled?: boolean
+	isDanger?: boolean
+	isLast?: boolean
+}
+
+function ProfileMenuRow({
+	icon,
+	label,
+	subtitle,
+	onPress,
+	isDisabled = false,
+	isDanger = false,
+	isLast = false,
+}: IProfileMenuRowProps): ReactElement {
+	const [mutedColor, dangerColor, foregroundColor] = useThemeColor([
+		'muted',
+		'danger',
+		'foreground',
+	])
+	const iconColor = isDanger ? dangerColor : mutedColor
+	const labelColor = isDanger ? dangerColor : foregroundColor
+
+	return (
+		<Pressable
+			accessibilityRole='button'
+			accessibilityState={{ disabled: isDisabled }}
+			className={`flex-row items-center gap-3 px-4 py-3.5 active:opacity-80 ${
+				isDisabled ? 'opacity-50' : ''
+			} ${isLast ? '' : 'border-b border-border'}`}
+			disabled={isDisabled}
+			onPress={onPress}
+		>
+			<View className='items-center justify-center rounded-2xl bg-surface p-2.5'>
+				<Ionicons name={icon} size={22} color={iconColor} />
+			</View>
+
+			<View className='min-w-0 flex-1 gap-0.5'>
+				<Text
+					className='text-base font-semibold leading-5'
+					style={{ color: labelColor }}
+				>
+					{label}
+				</Text>
+				{subtitle ? (
+					<Text className='text-sm text-muted' numberOfLines={2}>
+						{subtitle}
+					</Text>
+				) : null}
+			</View>
+
+			{!isDisabled && onPress ? (
+				<Ionicons name='chevron-forward' size={20} color={mutedColor} />
+			) : null}
+		</Pressable>
+	)
+}
+
 export default function ProfilePage({
 	clientProfile,
 	masterProfile,
 	isClientLoading,
 	isMasterLoading,
-}: IProfilePageProps) {
+}: IProfilePageProps): ReactElement {
 	const { signOut } = useAuth()
 	const router = useRouter()
 
@@ -33,6 +96,7 @@ export default function ProfilePage({
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 
 	const profileModeLabel = useEnumLabel('enums.profileMode')
+	const [accentColor] = useThemeColor(['accent'])
 
 	const { mode, setMode } = useActiveProfileMode()
 
@@ -41,6 +105,10 @@ export default function ProfilePage({
 	const displayName = activeProfile?.displayName ?? ''
 	const rating = activeProfile?.rating
 	const avatarLetter = displayName.trim()[0]?.toUpperCase() ?? '?'
+	const masterDescription =
+		mode === 'master' && masterProfile?.description
+			? masterProfile.description
+			: null
 
 	const handleModeChange = (nextMode: ActiveProfileMode) => {
 		void setMode(nextMode)
@@ -48,116 +116,123 @@ export default function ProfilePage({
 
 	return (
 		<BasePage>
-			<ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
-				<View style={{ rowGap: 20 }}>
-					<Card>
-						<Card.Body className='p-0 gap-2'>
-							<View className='flex-row gap-2'>
-								{ACTIVE_PROFILE_MODES.map((profileMode) => {
-									const isSelected = mode === profileMode
+			<View className='gap-5 px-1 pb-4'>
+				<View className='p-2'>
+					<ProfileModeSwitcher
+						mode={mode}
+						onModeChange={handleModeChange}
+						getModeLabel={profileModeLabel}
+					/>
+				</View>
 
-									return (
-										<Button
-											key={profileMode}
-											className='flex-1'
-											size='sm'
-											onPress={() => handleModeChange(profileMode)}
-											variant={isSelected ? 'primary' : 'outline'}
-										>
-											<Button.Label>
-												{profileModeLabel(profileMode)}
-											</Button.Label>
-										</Button>
-									)
-								})}
-							</View>
-						</Card.Body>
-					</Card>
-
-					<View className='justify-between min-h-full gap-2'>
-						<Card className='rounded-none shadow-none bg-background-secondary'>
-							<Card.Header className='flex items-center gap-3'>
-								<Avatar
-									alt={displayName || profileModeLabel(mode)}
-									color='accent'
-									style={{ width: 100, height: 100 }}
+				<View className='overflow-hidden rounded-3xl border border-border bg-background-secondary'>
+					<View className='items-center px-5 pb-6 pt-8'>
+						<View
+							className='mb-5 items-center justify-center rounded-full border-4 bg-surface'
+							style={{
+								borderColor: accentColor,
+								width: 112,
+								height: 112,
+							}}
+						>
+							<Avatar
+								alt={displayName || profileModeLabel(mode)}
+								color='accent'
+								style={{ width: 96, height: 96 }}
+							>
+								<Avatar.Fallback
+									textProps={{
+										className: 'text-3xl font-bold',
+									}}
 								>
-									<Avatar.Fallback
-										textProps={{
-											className: 'text-xl font-bold',
-										}}
-									>
-										{avatarLetter}
-									</Avatar.Fallback>
-								</Avatar>
+									{avatarLetter}
+								</Avatar.Fallback>
+							</Avatar>
+						</View>
 
-								{isLoading ? (
-									<Text className='text-base text-muted'>{t('loading')}</Text>
-								) : activeProfile ? (
-									<>
-										<Text
-											className='text-foreground'
-											style={{ fontSize: 28, fontWeight: 'bold' }}
-										>
-											{displayName}
-										</Text>
-										<View className='mt-3 flex-row gap-3'>
-											<Chip color='default'>{t('ratingChip', { rating })}</Chip>
-										</View>
-									</>
-								) : (
-									<Text className='text-base text-muted text-center px-4'>
-										{mode === 'master'
-											? t('masterNotFound')
-											: t('clientNotFound')}
-									</Text>
-								)}
-							</Card.Header>
-						</Card>
-
-						{mode === 'master' && masterProfile ? (
-							<Card>
-								<Card.Header>
-									<Text className='text-lg font-bold text-foreground'>
-										{tMasterSettings('hubTitle')}
-									</Text>
-								</Card.Header>
-								<Card.Body className='mt-2 p-0'>
-									<Button onPress={() => router.push('/master-settings')}>
-										<Ionicons name='calendar-outline' size={20} color='white' />
-										<Button.Label>{tBtn('configureSchedule')}</Button.Label>
-									</Button>
-								</Card.Body>
-							</Card>
-						) : null}
-
-						<Card>
-							<Card.Header>
-								<Text className='text-lg font-bold text-foreground'>
-									{t('accountManagement')}
+						{isLoading ? (
+							<View className='flex-row items-center gap-2'>
+								<Spinner size='sm' />
+								<Text className='text-base text-muted'>{t('loading')}</Text>
+							</View>
+						) : activeProfile ? (
+							<View className='w-full items-center gap-3'>
+								<Text className='text-center text-2xl font-bold text-foreground'>
+									{displayName}
 								</Text>
-							</Card.Header>
 
-							<Card.Body className='mt-4 p-0'>
-								<View className='mt-3 gap-2'>
-									<Button variant='tertiary' isDisabled>
-										<Ionicons
-											name='lock-closed-outline'
-											size={20}
-											color='white'
-										/>
-										<Button.Label>{tBtn('changePassword')}</Button.Label>
-									</Button>
-									<Button variant='danger' onPress={() => signOut()}>
-										<Ionicons name='log-out-outline' size={20} color='white' />
-										<Button.Label>{tBtn('signOut')}</Button.Label>
-									</Button>
+								<View className='rounded-full bg-surface px-3 py-1'>
+									<Text className='text-xs font-medium uppercase tracking-wide text-muted'>
+										{profileModeLabel(mode)}
+									</Text>
 								</View>
-							</Card.Body>
-						</Card>
+
+								<View className='mt-1 flex-row items-center gap-2 rounded-2xl bg-surface px-4 py-3'>
+									<Ionicons name='star' size={18} color={accentColor} />
+									<Text className='text-base font-semibold text-foreground'>
+										{t('ratingChip', { rating })}
+									</Text>
+								</View>
+
+								{masterDescription ? (
+									<Text
+										className='mt-1 px-2 text-center text-sm leading-5 text-muted py-2'
+										numberOfLines={3}
+									>
+										{masterDescription}
+									</Text>
+								) : null}
+							</View>
+						) : (
+							<Text className='px-4 text-center text-base text-muted'>
+								{mode === 'master' ? t('masterNotFound') : t('clientNotFound')}
+							</Text>
+						)}
 					</View>
 				</View>
-			</ScrollView>
+
+				{mode === 'master' && masterProfile ? (
+					<View className='gap-2 p-2'>
+						<Text className='px-1 text-sm font-semibold uppercase tracking-wide text-muted'>
+							{tMasterSettings('hubTitle')}
+						</Text>
+						<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
+							<ProfileMenuRow
+								icon='calendar-outline'
+								label={tBtn('configureSchedule')}
+								subtitle={tMasterSettings('weeklySchedule')}
+								onPress={() => router.push('/master-settings')}
+							/>
+							<ProfileMenuRow
+								icon='settings-outline'
+								isLast
+								label={tMasterSettings('bookingRules')}
+								onPress={() => router.push('/master-settings/booking')}
+							/>
+						</View>
+					</View>
+				) : null}
+
+				<View className='gap-2 p-2'>
+					<Text className='px-1 text-sm font-semibold uppercase tracking-wide text-muted'>
+						{t('accountManagement')}
+					</Text>
+					<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
+						<ProfileMenuRow
+							icon='lock-closed-outline'
+							isDisabled
+							label={tBtn('changePassword')}
+						/>
+						<ProfileMenuRow
+							icon='log-out-outline'
+							isDanger
+							isLast
+							label={tBtn('signOut')}
+							onPress={() => signOut()}
+						/>
+					</View>
+				</View>
+			</View>
 		</BasePage>
 	)
 }
