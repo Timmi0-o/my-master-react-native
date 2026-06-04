@@ -1,21 +1,23 @@
 import HomePage from '@/components/pages/home/home-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
-import { useRecordGetMyClientsMany } from '@/hooks/actions/record/use-record-get-my-clients-many'
-import { useRecordGetMyMany } from '@/hooks/actions/record/use-record-get-my-many'
+import { useAppointmentGetMyClientsMany } from '@/hooks/actions/appointment/use-appointment-get-my-clients-many'
+import { useAppointmentGetMyMany } from '@/hooks/actions/appointment/use-appointment-get-my-many'
 import type { ReactElement } from 'react'
 import { Text } from 'react-native'
 
 export default function GeneralScreen(): ReactElement {
 	const { mode } = useActiveProfileMode()
 	const isMasterMode = mode === 'master'
-	const masterRecordsQuery = useRecordGetMyClientsMany({
+	const masterAppointmentsQuery = useAppointmentGetMyClientsMany({
 		enabled: isMasterMode,
 	})
-	const clientRecordsQuery = useRecordGetMyMany({
+	const clientAppointmentsQuery = useAppointmentGetMyMany({
 		enabled: !isMasterMode,
 	})
 
-	const activeQuery = isMasterMode ? masterRecordsQuery : clientRecordsQuery
+	const activeQuery = isMasterMode
+		? masterAppointmentsQuery
+		: clientAppointmentsQuery
 	const { data, isLoading, error } = activeQuery
 
 	if (isLoading) {
@@ -26,5 +28,5 @@ export default function GeneralScreen(): ReactElement {
 		return <Text>Ошибка: {error.message}</Text>
 	}
 
-	return <HomePage mode={mode} records={data ?? []} />
+	return <HomePage mode={mode} appointments={data ?? []} />
 }

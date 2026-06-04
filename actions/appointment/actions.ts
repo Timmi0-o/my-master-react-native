@@ -2,7 +2,10 @@ import { API_ROUTES } from '@/constants/api-routes'
 import { abstractGetAction } from '@/helpers/action.helper'
 import type { IActionResponse, IGetActionOptions } from '@/types/i-action.types'
 import type { IAppointment } from './models/appointment.schema'
-import type { IAppointmentsGetManyFilters } from './models/appointment-filter.schema'
+import type {
+	IAppointmentGetOneFilters,
+	IAppointmentsGetManyFilters,
+} from './models/appointment-filter.schema'
 
 export const appointmentsGetMyMany = async (
 	options: IGetActionOptions<IAppointmentsGetManyFilters> = {},
@@ -19,6 +22,17 @@ export const appointmentsGetMyClientsMany = async (
 ): Promise<IActionResponse<IAppointment[]>> => {
 	return abstractGetAction<IAppointment[], IAppointmentsGetManyFilters>({
 		url: API_ROUTES.appointments.myClients,
+		params: { method: 'GET' },
+		...options,
+	})
+}
+
+export const appointmentsGetOne = async (
+	id: string,
+	options: IGetActionOptions<IAppointmentGetOneFilters> = {},
+): Promise<IActionResponse<IAppointment>> => {
+	return abstractGetAction<IAppointment, IAppointmentGetOneFilters>({
+		url: API_ROUTES.appointments.one(id),
 		params: { method: 'GET' },
 		...options,
 	})

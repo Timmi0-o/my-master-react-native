@@ -1,4 +1,4 @@
-import { IRecord } from '@/actions/record/models/record.schema'
+import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { ClientRecordsModal } from '@/components/pages/home/components/modals/client-records-modal/client-records-modal'
 import { HOME_RECORDS_PREVIEW_LIMIT } from '@/components/pages/home/data/home-records.constants'
 import { RecordCard } from '@/components/shared/record-card/record-card'
@@ -12,19 +12,20 @@ import { Text, View } from 'react-native'
 
 interface IHomePageProps {
 	mode: ActiveProfileMode
-	records: IRecord[]
+	appointments: IAppointment[]
 }
 
 export default function HomePage({
 	mode,
-	records,
+	appointments,
 }: IHomePageProps): ReactElement {
 	const [isRecordsModalVisible, setIsRecordsModalVisible] = useState(false)
 	const foregroundColor = useThemeColor('foreground')
 
-	const hasRecords = records.length > 0
-	const previewRecords = records.slice(0, HOME_RECORDS_PREVIEW_LIMIT)
-	const shouldShowAllRecordsButton = records.length > HOME_RECORDS_PREVIEW_LIMIT
+	const hasRecords = appointments.length > 0
+	const previewRecords = appointments.slice(0, HOME_RECORDS_PREVIEW_LIMIT)
+	const shouldShowAllRecordsButton =
+		appointments.length > HOME_RECORDS_PREVIEW_LIMIT
 	const title = mode === 'master' ? 'Записи моих клиентов' : 'Мои записи'
 
 	return (
@@ -34,8 +35,12 @@ export default function HomePage({
 
 				{hasRecords ? (
 					<View className='gap-3'>
-						{previewRecords.map((record) => (
-							<RecordCard key={record.id} record={record} />
+						{previewRecords.map((appointment) => (
+							<RecordCard
+								key={appointment.id}
+								appointment={appointment}
+								mode={mode}
+							/>
 						))}
 
 						{shouldShowAllRecordsButton && (
@@ -62,7 +67,8 @@ export default function HomePage({
 				<ClientRecordsModal
 					isVisible={isRecordsModalVisible}
 					onClose={() => setIsRecordsModalVisible(false)}
-					records={records}
+					appointments={appointments}
+					mode={mode}
 				/>
 			)}
 		</BasePage>

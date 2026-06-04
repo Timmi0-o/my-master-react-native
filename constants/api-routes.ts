@@ -25,6 +25,7 @@ export const API_ROUTES = {
 	appointments: {
 		me: `${API_URL}/appointments/me`,
 		myClients: `${API_URL}/appointments/my-clients`,
+		one: (id: string) => `${API_URL}/appointments/${id}`,
 	},
 	appointmentChats: {
 		one: (id: string) => `${API_URL}/appointment-chats/${id}`,

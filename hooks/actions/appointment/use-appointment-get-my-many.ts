@@ -22,7 +22,7 @@ export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
 			if (res.error?.message) {
 				toast.show({
 					variant: 'danger',
-					label: 'Ошибка загрузки чатов',
+					label: 'Ошибка загрузки записей',
 					description: res.error.message,
 				})
 				throw new Error(res.error.message)

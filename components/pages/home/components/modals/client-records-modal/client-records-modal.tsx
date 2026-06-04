@@ -1,5 +1,6 @@
-import { IRecord } from '@/actions/record/models/record.schema'
+import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { RecordCard } from '@/components/shared/record-card/record-card'
+import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { BottomSheet } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -7,13 +8,15 @@ import { Text } from 'react-native'
 
 interface IClientRecordsModalProps {
 	isVisible: boolean
-	records: IRecord[]
+	appointments: IAppointment[]
+	mode: ActiveProfileMode
 	onClose: () => void
 }
 
 export function ClientRecordsModal({
 	isVisible,
-	records,
+	appointments,
+	mode,
 	onClose,
 }: IClientRecordsModalProps): ReactElement {
 	const handleOpenChange = (value: boolean) => {
@@ -34,21 +37,22 @@ export function ClientRecordsModal({
 				>
 					<BottomSheet.Title>Все записи</BottomSheet.Title>
 					<BottomSheet.Description>
-						Всего записей: {records.length}
+						Всего записей: {appointments.length}
 					</BottomSheet.Description>
 
 					<BottomSheetScrollView
 						contentContainerClassName='gap-3 pb-4'
 						showsVerticalScrollIndicator={false}
 					>
-						{records.length === 0 ? (
+						{appointments.length === 0 ? (
 							<Text className='text-base text-muted'>Записей пока нет</Text>
 						) : (
-							records.map((record) => (
+							appointments.map((appointment) => (
 								<RecordCard
-									key={record.id}
+									key={appointment.id}
 									onBeforeNavigate={onClose}
-									record={record}
+									appointment={appointment}
+									mode={mode}
 								/>
 							))
 						)}

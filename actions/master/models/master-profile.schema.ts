@@ -5,6 +5,7 @@ export const MasterProfileServiceSchema = z.object({
 	name: z.string(),
 	description: z.string().optional(),
 	price: z.number().optional(),
+	durationMinutes: z.number().optional(),
 	masterProfileId: z.string().optional(),
 	createdAt: z.string().optional(),
 	updatedAt: z.string().optional(),
