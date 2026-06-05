@@ -167,7 +167,7 @@ export default function ProfilePage({
 									</Text>
 								</View>
 
-								<View className='mt-1 flex-row items-center gap-2 rounded-2xl bg-surface px-4 py-3'>
+								<View className='mt-1 flex-row items-center gap-2 rounded-2xl bg-surface p-2 mb-2'>
 									<Ionicons name='star' size={18} color={accentColor} />
 									<Text className='text-base font-semibold text-foreground'>
 										{t('ratingChip', { rating })}

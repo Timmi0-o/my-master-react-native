@@ -8,7 +8,7 @@ import {
 import { formatDate } from '@/utils/format-date.util'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import { Chip, useThemeColor } from 'heroui-native'
+import { Avatar, Chip, useThemeColor, type ChipColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import {
 	Pressable,
@@ -25,6 +25,51 @@ interface IRecordCardProps {
 	onBeforeNavigate?: () => void
 }
 
+function getStatusChipColor(status: IAppointment['status']): ChipColor {
+	switch (status) {
+		case 'PENDING':
+			return 'warning'
+		case 'CONFIRMED':
+			return 'accent'
+		case 'CANCELLED':
+		case 'NO_SHOW':
+			return 'danger'
+		case 'COMPLETED':
+			return 'success'
+	}
+}
+
+interface IRecordPeerSectionProps {
+	peerTitle: string
+	peerRoleLabel: string
+	avatarLetter: string
+}
+
+function RecordPeerSection({
+	peerTitle,
+	peerRoleLabel,
+	avatarLetter,
+}: IRecordPeerSectionProps): ReactElement {
+	return (
+		<View className='flex-row items-center gap-3 border-t border-border px-4 py-3'>
+			<Avatar alt={peerTitle} color='accent' size='md'>
+				<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
+			</Avatar>
+
+			<View className='flex-1 gap-1'>
+				<Text className='text-xs uppercase text-muted'>{peerRoleLabel}</Text>
+				<Text
+					className='text-base font-semibold text-foreground'
+					ellipsizeMode='tail'
+					numberOfLines={1}
+				>
+					{peerTitle}
+				</Text>
+			</View>
+		</View>
+	)
+}
+
 export function RecordCard({
 	appointment,
 	mode,
@@ -33,12 +78,9 @@ export function RecordCard({
 }: IRecordCardProps): ReactElement {
 	const router = useRouter()
 	const { t: tFallback, i18n } = useScopedTranslation('common', 'fallback')
-	const { t } = useScopedTranslation('common', 'enums.appointmentStatus')
-	const [accentColor, accentForegroundColor, mutedColor] = useThemeColor([
-		'accent',
-		'accent-foreground',
-		'muted',
-	])
+	const { t: tStatus } = useScopedTranslation('common', 'enums.appointmentStatus')
+	const { t: tUi } = useScopedTranslation('ui')
+	const [accentColor, mutedColor] = useThemeColor(['accent', 'muted'])
 
 	const dateKey = appointment.startsAt.slice(0, 10)
 	const formattedDate = formatDate(dateKey)
@@ -50,20 +92,29 @@ export function RecordCard({
 				hour: '2-digit',
 				minute: '2-digit',
 			})
+	const durationLabel = tUi('durationMinutes', {
+		count: appointment.durationMinutes,
+	})
+	const priceLabel = tUi('priceRub', { price: appointment.totalPrice })
 
-	const peerTitle =
-		mode === 'master'
-			? appointment.clientUser
-				? [
-						appointment.clientUser.name,
-						appointment.clientUser.surname,
-						appointment.clientUser.patronymic,
-					]
-						.filter(Boolean)
-						.join(' ')
-						.trim() || tFallback('client')
-				: tFallback('client')
-			: (appointment.masterProfile?.displayName ?? tFallback('master'))
+	const isMasterMode = mode === 'master'
+	const peerTitle = isMasterMode
+		? appointment.clientUser
+			? [
+					appointment.clientUser.name,
+					appointment.clientUser.surname,
+					appointment.clientUser.patronymic,
+				]
+					.filter(Boolean)
+					.join(' ')
+					.trim() || tFallback('client')
+			: tFallback('client')
+		: (appointment.masterProfile?.displayName ?? tFallback('master'))
+
+	const peerRoleLabel = isMasterMode
+		? tFallback('client')
+		: tFallback('master')
+	const avatarLetter = peerTitle.trim()[0]?.toUpperCase() ?? '?'
 
 	const handlePress = (): void => {
 		onBeforeNavigate?.()
@@ -73,61 +124,66 @@ export function RecordCard({
 	return (
 		<Pressable
 			accessibilityRole='button'
-			className='rounded-2xl border border-border bg-background-secondary p-4 active:opacity-80'
+			className='overflow-hidden rounded-2xl border border-border bg-background-secondary active:opacity-80'
 			onPress={handlePress}
 			style={style}
 		>
-			<View className='flex-row items-start gap-3'>
-				<View
-					className='items-center justify-center rounded-2xl px-3 py-2'
-					style={{ backgroundColor: accentColor }}
-				>
-					<Text
-						className='text-lg font-bold'
-						style={{ color: accentForegroundColor }}
-					>
-						{formattedDate.day}
-					</Text>
-					<Text
-						className='text-xs font-semibold'
-						style={{ color: accentForegroundColor }}
-					>
-						{formattedDate.month}
-					</Text>
+			<View className='gap-3 p-4'>
+				<View className='flex-row items-start justify-between gap-3'>
+					<View className='flex-1 gap-2'>
+						<Chip
+							color={getStatusChipColor(appointment.status)}
+							size='sm'
+							variant='soft'
+						>
+							{tStatus(appointment.status)}
+						</Chip>
+						<Text
+							className='text-base font-bold text-foreground'
+							numberOfLines={2}
+						>
+							{appointment.serviceName}
+						</Text>
+					</View>
+
+					<Ionicons name='chevron-forward' size={18} color={mutedColor} />
 				</View>
 
-				<View className='flex-1 gap-2'>
-					<View className='flex-row items-start justify-between gap-3'>
-						<View className='flex-1'>
-							<Text className='text-base font-semibold text-foreground'>
-								{appointment.serviceName}
-							</Text>
-							<View className='mt-1 flex-row items-center gap-1.5'>
-								<Ionicons name='time-outline' size={16} color={mutedColor} />
-								<Text className='text-sm text-muted'>{timeLabel}</Text>
-							</View>
-						</View>
-
-						<Chip variant='soft' color='accent'>
-							{t(appointment.status)}
-						</Chip>
-					</View>
-
-					<View className='flex-row items-center gap-2 rounded-xl bg-surface px-3 py-2'>
-						<Ionicons name='person-outline' size={16} color={mutedColor} />
-						<Text className='flex-1 text-sm text-foreground'>
-							{peerTitle}
+				<View className='flex-row items-center gap-3 rounded-2xl border border-border bg-surface p-3'>
+					<View className='items-center px-1'>
+						<Text
+							className='text-2xl font-bold'
+							style={{ color: accentColor }}
+						>
+							{formattedDate.day}
+						</Text>
+						<Text
+							className='text-xs font-bold uppercase'
+							style={{ color: accentColor }}
+						>
+							{formattedDate.month}
 						</Text>
 					</View>
 
-					<View className='flex-row items-center gap-2 rounded-xl bg-surface px-3 py-2'>
-						<Ionicons name='calendar-outline' size={16} color={mutedColor} />
-						<Text className='text-sm text-foreground'>
-							{formattedDate.full}
+					<View className='flex-1 gap-1 border-l border-border pl-3'>
+						<Text className='text-base font-semibold text-foreground'>
+							{timeLabel}
 						</Text>
+						<Text className='text-sm text-muted'>{formattedDate.full}</Text>
+						<Text className='text-sm text-muted'>{durationLabel}</Text>
 					</View>
+
+					<Text className='text-base font-bold text-foreground'>
+						{priceLabel}
+					</Text>
 				</View>
 			</View>
+
+			<RecordPeerSection
+				avatarLetter={avatarLetter}
+				peerRoleLabel={peerRoleLabel}
+				peerTitle={peerTitle}
+			/>
 		</Pressable>
 	)
 }

@@ -29,6 +29,7 @@ alwaysApply: true
 
 ## React Native UI/UX rules
 
+- Uniwind/Tailwind в RN: только проверенные классы и паттерны из `.cursor/rules/uniwind-styling.mdc` (без arbitrary `text-[17px]`, `w-px`, `border-border/70`, shadow-only карточек).
 - Every screen must handle safe areas (`SafeAreaView`) and use consistent page background including safe zones.
 - Use `ScrollView`/`FlatList` deliberately: `FlatList` for long dynamic lists, `ScrollView` for short static layouts.
 - No hardcoded magic spacing patterns repeated across the screen; keep spacing systematic.

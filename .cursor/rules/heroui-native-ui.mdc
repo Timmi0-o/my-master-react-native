@@ -10,5 +10,6 @@ alwaysApply: false
 - Use project/local components only when they wrap or compose `heroui-native`, or when `heroui-native` does not provide the needed primitive.
 - Do not add a new UI library without explicit approval.
 - Keep screen-specific layout in React Native/Uniwind classes, but shared interactive UI such as buttons, inputs, labels, spinners, and form fields should come from `heroui-native`.
+- Uniwind-ограничения и эталон карточек списка: `.cursor/rules/uniwind-styling.mdc`.
 
 read the docs "my-master-react-native/.heroui-docs"

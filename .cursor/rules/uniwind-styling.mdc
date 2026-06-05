@@ -1,0 +1,61 @@
+---
+description: Uniwind/Tailwind styling rules for React Native (Expo)
+globs: **/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Uniwind styling (Expo + React Native)
+
+Стек: **Uniwind** (`className` на RN-компонентах), не веб-Tailwind. Стили компилируются на build; часть web-утилит в RN не даёт ожидаемого эффекта.
+
+## Эталон для карточек списка
+
+Как в `service-card`, `master-card`, `chat-list-item`:
+
+```tsx
+<Pressable className="rounded-2xl border border-border bg-background-secondary p-4 active:opacity-80">
+```
+
+- Для списковых карточек — **`Pressable` + border + bg-background-secondary`**, не голый `Card` без рамки.
+- `Card`/`Surface` с `shadow-surface` на iOS/Android часто **не даёт видимой тени** — не полагаться на shadow как на «дорогой» elevation.
+- Контраст внутренних блоков: `bg-surface` внутри `bg-background-secondary`.
+
+## Рабочие Uniwind-классы (проверено в проекте)
+
+| Категория | Примеры |
+|-----------|---------|
+| Layout | `flex-row`, `flex-1`, `flex-wrap`, `items-center`, `items-start`, `justify-between` |
+| Gap | `gap-1`, `gap-2`, `gap-3`, `gap-4` — **целые значения** |
+| Padding | `p-2`…`p-4`, `px-3`, `px-4`, `py-2`, `py-3`, `py-4` |
+| Radius | `rounded-xl`, `rounded-2xl`, `rounded-3xl`, `rounded-full` |
+| Border | `border`, `border-t`, `border-b`, `border-l`, `border-border` |
+| Background | `bg-background-secondary`, `bg-surface`, `bg-transparent` |
+| Text | `text-xs`…`text-2xl`, `text-foreground`, `text-muted`, `font-medium`, `font-semibold`, `font-bold` |
+| State | `active:opacity-80`, `opacity-50` |
+
+## Избегать в RN (часто не работает или выглядит плоско)
+
+- **Arbitrary values**: `rounded-[28px]`, `text-[17px]`, `h-[3px]`, `tracking-[1.5px]`, `gap-2.5`, `py-3.5`
+- **Opacity slash на токенах**: `border-border/70`, `bg-accent/10`
+- **Тонкие линии**: `w-px`, `h-px` → вместо них `border-l border-border` или `style` с `StyleSheet.hairlineWidth`
+- **Shadow-only elevation**: `shadow-sm`, `shadow-surface` без `border` — карточка сольётся с `#F7F7F7` фоном
+- **`min-w-0`** — ненадёжно; для обрезки текста: `flex-1` + `numberOfLines` + `ellipsizeMode="tail"`
+
+## Когда использовать `style` + `useThemeColor`
+
+- Динамические цвета темы: `accent`, `muted`, статусы (`warning`, `danger`, …)
+- Иконки `Ionicons`: `color={mutedColor}`
+- Точные размеры, если Uniwind-класса нет: `style={{ height: … }}` (без декоративных цветных полосок на карточках — статус через `Chip`)
+- Нативные цвета вне CSS-переменных: см. `constants/theme-colors.ts`
+
+## HeroUI Native
+
+- Интерактив и формы — `heroui-native` (`Button`, `Chip`, `Avatar`, `Tabs`, …)
+- Layout оболочки экрана/карточки — Uniwind на `View`/`Pressable`/`Text`
+- Не дублировать примитивы HeroUI кастомным `Pressable`, если есть готовый компонент (например `Tabs` вместо самописного segmented control)
+
+## Перед новым UI
+
+1. Найти похожий экран/карточку в репозитории и скопировать **набор классов**, не придумывать новые arbitrary.
+2. Если визуал «пропал» — проверить: есть ли `border` + `bg-background-secondary`, нет ли только shadow.
+3. Цвета из темы — через `useThemeColor`, не хардкод hex в `className`.
