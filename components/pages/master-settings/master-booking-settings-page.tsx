@@ -1,26 +1,22 @@
-import type {
-	IMasterProfile,
-	TMasterBookingStatus,
-} from '@/actions/master/models/master-profile.schema'
+import {
+	MasterProfileEditSchema,
+	type IMasterProfileEdit,
+} from '@/actions/master/models/master-profile-edit.schema'
+import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { scopedT } from '@/configs/i18n/scoped-t'
-import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
-import { useMasterProfileUpdate } from '@/hooks/actions/master/use-master-profile-update'
-import { useRouter } from 'expo-router'
-import { Button, Card } from 'heroui-native'
-import { useToast } from 'heroui-native'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { useState } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 import { Text, View } from 'react-native'
+import { BookingStatusField } from './components/booking-status-field'
+import { PausedUntilField } from './components/paused-until-field'
+import { ScheduleFormField } from './components/schedule-form-field'
+import { TimezoneSelectField } from './components/timezone-select-field'
+import { MASTER_PROFILE_EDIT_DEFAULT_VALUES } from './data/master-profile-edit-default-values'
+import { useOnSubmitMasterProfileEditForm } from './hooks/use-on-submit-master-profile-edit-form'
 import { ScheduleScreenHeader } from './schedule-screen-header'
-import { ScheduleSimpleField } from './schedule-simple-field'
-
-const BOOKING_STATUSES: TMasterBookingStatus[] = [
-	'ACCEPTING',
-	'PAUSED',
-	'CLOSED',
-]
 
 interface IMasterBookingSettingsPageProps {
 	masterProfile: IMasterProfile
@@ -29,133 +25,80 @@ interface IMasterBookingSettingsPageProps {
 export function MasterBookingSettingsPage({
 	masterProfile,
 }: IMasterBookingSettingsPageProps): ReactElement {
-	const router = useRouter()
-	const { toast } = useToast()
 	const { t } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const { t: tField } = useScopedTranslation('ui', 'field')
-	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
-	const bookingStatusLabel = useEnumLabel('enums.bookingStatus')
-	const updateMutation = useMasterProfileUpdate(masterProfile.id)
 
-	const [bookingStatus, setBookingStatus] = useState<TMasterBookingStatus>(
-		masterProfile.bookingStatus ?? 'ACCEPTING',
-	)
-	const [pausedUntil, setPausedUntil] = useState(
-		masterProfile.pausedUntil
-			? masterProfile.pausedUntil.slice(0, 16).replace('T', ' ')
-			: '',
-	)
-	const [timezone, setTimezone] = useState(
-		masterProfile.timezone ?? 'Europe/Moscow',
-	)
-	const [minNoticeMinutes, setMinNoticeMinutes] = useState(
-		String(masterProfile.minNoticeMinutes ?? 60),
-	)
-	const [maxBookingDaysAhead, setMaxBookingDaysAhead] = useState(
-		String(masterProfile.maxBookingDaysAhead ?? 60),
-	)
-	const [slotStepMinutes, setSlotStepMinutes] = useState(
-		String(masterProfile.slotStepMinutes ?? 30),
-	)
-	const [bufferBetweenAppointmentsMinutes, setBufferBetweenAppointmentsMinutes] =
-		useState(String(masterProfile.bufferBetweenAppointmentsMinutes ?? 0))
+	const { control, handleSubmit } = useForm<IMasterProfileEdit>({
+		resolver: zodResolver(MasterProfileEditSchema),
+		defaultValues: MASTER_PROFILE_EDIT_DEFAULT_VALUES(masterProfile),
+		mode: 'onTouched',
+	})
 
-	const handleSave = async (): Promise<void> => {
-		const pausedUntilIso =
-			bookingStatus === 'PAUSED' && pausedUntil.trim()
-				? new Date(pausedUntil.trim().replace(' ', 'T')).toISOString()
-				: null
-
-		await updateMutation.mutateAsync({
-			bookingStatus,
-			timezone: timezone.trim(),
-			pausedUntil: bookingStatus === 'PAUSED' ? pausedUntilIso : null,
-			minNoticeMinutes: Number(minNoticeMinutes) || 60,
-			maxBookingDaysAhead: Number(maxBookingDaysAhead) || 60,
-			slotStepMinutes: Number(slotStepMinutes) || 30,
-			bufferBetweenAppointmentsMinutes:
-				Number(bufferBetweenAppointmentsMinutes) || 0,
-		})
-
-		toast.show({
-			variant: 'success',
-			label: scopedT('saved', 'common', 'toasts'),
-		})
-		router.back()
-	}
+	const { onSubmit, isPending } = useOnSubmitMasterProfileEditForm(
+		masterProfile.id,
+	)
+	const bookingStatus = useWatch({ control, name: 'bookingStatus' })
 
 	return (
 		<BasePage>
 			<ScheduleScreenHeader title={t('bookingTitle')} />
 
-			<View style={{ rowGap: 16 }}>
-				<Card>
-					<Card.Header>
-						<Text className='font-semibold text-foreground'>
-							{tField('status')}
-						</Text>
-					</Card.Header>
-					<Card.Body className='gap-2 p-0'>
-						{BOOKING_STATUSES.map((status) => (
-							<Button
-								key={status}
-								variant={bookingStatus === status ? 'primary' : 'outline'}
-								size='sm'
-								onPress={() => setBookingStatus(status)}
-							>
-								<Button.Label>{bookingStatusLabel(status)}</Button.Label>
-							</Button>
-						))}
-					</Card.Body>
-				</Card>
+			<View className='gap-4'>
+				<View className='gap-2'>
+					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+						{tField('status')}
+					</Text>
+					<BookingStatusField control={control} name='bookingStatus' />
+				</View>
 
 				{bookingStatus === 'PAUSED' ? (
-					<ScheduleSimpleField
-						label={tField('pauseUntil')}
-						value={pausedUntil}
-						onChangeText={setPausedUntil}
-						inputProps={{ placeholder: tPlaceholder('pauseUntil') }}
-					/>
+					<PausedUntilField control={control} name='pausedUntil' />
 				) : null}
 
-				<ScheduleSimpleField
-					label={tField('timezone')}
-					value={timezone}
-					onChangeText={setTimezone}
-				/>
-				<ScheduleSimpleField
-					label={tField('minLeadMinutes')}
-					value={minNoticeMinutes}
-					onChangeText={setMinNoticeMinutes}
-					inputProps={{ keyboardType: 'number-pad' }}
-				/>
-				<ScheduleSimpleField
-					label={tField('maxDaysAhead')}
-					value={maxBookingDaysAhead}
-					onChangeText={setMaxBookingDaysAhead}
-					inputProps={{ keyboardType: 'number-pad' }}
-				/>
-				<ScheduleSimpleField
-					label={tField('slotStepMinutes')}
-					value={slotStepMinutes}
-					onChangeText={setSlotStepMinutes}
-					inputProps={{ keyboardType: 'number-pad' }}
-				/>
-				<ScheduleSimpleField
-					label={tField('gapMinutes')}
-					value={bufferBetweenAppointmentsMinutes}
-					onChangeText={setBufferBetweenAppointmentsMinutes}
-					inputProps={{ keyboardType: 'number-pad' }}
-				/>
+				<View className='gap-2'>
+					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+						{t('bookingRules')}
+					</Text>
+
+					<View className='gap-4 rounded-2xl border border-border bg-background-secondary p-4'>
+						<TimezoneSelectField control={control} name='timezone' />
+
+						<ScheduleFormField
+							control={control}
+							label={tField('minLeadMinutes')}
+							name='minNoticeMinutes'
+							inputProps={{ keyboardType: 'number-pad' }}
+						/>
+						<ScheduleFormField
+							control={control}
+							label={tField('maxDaysAhead')}
+							name='maxBookingDaysAhead'
+							inputProps={{ keyboardType: 'number-pad' }}
+						/>
+						<ScheduleFormField
+							control={control}
+							label={tField('slotStepMinutes')}
+							name='slotStepMinutes'
+							inputProps={{ keyboardType: 'number-pad' }}
+						/>
+						<ScheduleFormField
+							control={control}
+							label={tField('gapMinutes')}
+							name='bufferBetweenAppointmentsMinutes'
+							inputProps={{ keyboardType: 'number-pad' }}
+						/>
+					</View>
+				</View>
 
 				<Button
+					className='rounded-2xl'
+					isDisabled={isPending}
+					onPress={handleSubmit(onSubmit)}
 					variant='primary'
-					onPress={() => void handleSave()}
-					isDisabled={updateMutation.isPending}
 				>
 					<Button.Label>
-						{updateMutation.isPending ? tBtn('saving') : tBtn('save')}
+						{isPending ? tBtn('saving') : tBtn('save')}
 					</Button.Label>
 				</Button>
 			</View>

@@ -109,6 +109,23 @@
 		},
 		"time": {
 			"hhMmFormat": "صيغة الوقت: HH:mm"
+		},
+		"booking": {
+			"pausedUntilRequired": "أدخل وقت انتهاء الإيقاف المؤقت",
+			"minNoticeInvalid": "الحد الأدنى للإشعار: من 0 إلى 10080 دقيقة",
+			"maxDaysInvalid": "الحد الأقصى للأيام: من 1 إلى 365",
+			"slotStepInvalid": "خطوة المواعيد: من 5 إلى 120 دقيقة",
+			"gapInvalid": "الفاصل بين المواعيد: من 0 إلى 240 دقيقة"
+		},
+		"scheduleException": {
+			"periodRequired": "اختر التاريخ والوقت",
+			"invalidDateTime": "تاريخ أو وقت غير صالح",
+			"periodEndAfterStart": "يجب أن تكون نهاية الفترة بعد البداية",
+			"customStartRequired": "اختر وقت بداية العمل",
+			"customEndRequired": "اختر وقت نهاية العمل",
+			"workEndAfterStart": "يجب أن تكون نهاية العمل بعد البداية",
+			"titleTooLong": "يجب ألا يتجاوز العنوان 255 حرفًا",
+			"noteTooLong": "يجب ألا تتجاوز الملاحظة 5000 حرف"
 		}
 	},
 	"errors": {

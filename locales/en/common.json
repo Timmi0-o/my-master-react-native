@@ -109,6 +109,23 @@
 		},
 		"time": {
 			"hhMmFormat": "Time format: HH:mm"
+		},
+		"booking": {
+			"pausedUntilRequired": "Enter when the pause ends",
+			"minNoticeInvalid": "Min. lead time: 0 to 10080 minutes",
+			"maxDaysInvalid": "Max. days ahead: 1 to 365",
+			"slotStepInvalid": "Slot step: 5 to 120 minutes",
+			"gapInvalid": "Gap between appointments: 0 to 240 minutes"
+		},
+		"scheduleException": {
+			"periodRequired": "Select date and time",
+			"invalidDateTime": "Invalid date or time",
+			"periodEndAfterStart": "Period end must be after the start",
+			"customStartRequired": "Select work start time",
+			"customEndRequired": "Select work end time",
+			"workEndAfterStart": "Work end must be after work start",
+			"titleTooLong": "Title must be 255 characters or less",
+			"noteTooLong": "Note must be 5000 characters or less"
 		}
 	},
 	"errors": {

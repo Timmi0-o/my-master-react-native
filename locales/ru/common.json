@@ -109,6 +109,23 @@
 		},
 		"time": {
 			"hhMmFormat": "Формат времени: HH:mm"
+		},
+		"booking": {
+			"pausedUntilRequired": "Укажите дату и время окончания паузы",
+			"minNoticeInvalid": "Мин. время до записи: от 0 до 10080 минут",
+			"maxDaysInvalid": "Макс. дней вперёд: от 1 до 365",
+			"slotStepInvalid": "Шаг слотов: от 5 до 120 минут",
+			"gapInvalid": "Пауза между записями: от 0 до 240 минут"
+		},
+		"scheduleException": {
+			"periodRequired": "Укажите дату и время",
+			"invalidDateTime": "Некорректная дата или время",
+			"periodEndAfterStart": "Конец периода должен быть позже начала",
+			"customStartRequired": "Укажите время начала работы",
+			"customEndRequired": "Укажите время окончания работы",
+			"workEndAfterStart": "Конец работы должен быть позже начала",
+			"titleTooLong": "Заголовок не длиннее 255 символов",
+			"noteTooLong": "Заметка не длиннее 5000 символов"
 		}
 	},
 	"errors": {

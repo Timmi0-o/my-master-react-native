@@ -109,6 +109,23 @@
 		},
 		"time": {
 			"hhMmFormat": "时间格式：HH:mm"
+		},
+		"booking": {
+			"pausedUntilRequired": "请填写暂停结束时间",
+			"minNoticeInvalid": "最短提前时间：0 至 10080 分钟",
+			"maxDaysInvalid": "最长可预约天数：1 至 365",
+			"slotStepInvalid": "时段步长：5 至 120 分钟",
+			"gapInvalid": "预约间隔：0 至 240 分钟"
+		},
+		"scheduleException": {
+			"periodRequired": "请选择日期和时间",
+			"invalidDateTime": "日期或时间无效",
+			"periodEndAfterStart": "结束时间必须晚于开始时间",
+			"customStartRequired": "请选择工作开始时间",
+			"customEndRequired": "请选择工作结束时间",
+			"workEndAfterStart": "工作结束时间必须晚于开始时间",
+			"titleTooLong": "标题不能超过 255 个字符",
+			"noteTooLong": "备注不能超过 5000 个字符"
 		}
 	},
 	"errors": {

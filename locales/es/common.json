@@ -109,6 +109,23 @@
 		},
 		"time": {
 			"hhMmFormat": "Formato de hora: HH:mm"
+		},
+		"booking": {
+			"pausedUntilRequired": "Indique cuándo termina la pausa",
+			"minNoticeInvalid": "Tiempo mínimo: de 0 a 10080 minutos",
+			"maxDaysInvalid": "Días máximos: de 1 a 365",
+			"slotStepInvalid": "Paso de franjas: de 5 a 120 minutos",
+			"gapInvalid": "Pausa entre citas: de 0 a 240 minutos"
+		},
+		"scheduleException": {
+			"periodRequired": "Seleccione fecha y hora",
+			"invalidDateTime": "Fecha u hora no válida",
+			"periodEndAfterStart": "El fin del periodo debe ser posterior al inicio",
+			"customStartRequired": "Seleccione la hora de inicio",
+			"customEndRequired": "Seleccione la hora de fin",
+			"workEndAfterStart": "La hora de fin debe ser posterior al inicio",
+			"titleTooLong": "El título no puede superar 255 caracteres",
+			"noteTooLong": "La nota no puede superar 5000 caracteres"
 		}
 	},
 	"errors": {

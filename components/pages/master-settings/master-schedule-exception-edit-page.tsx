@@ -1,112 +1,71 @@
+import {
+	MasterScheduleExceptionEditSchema,
+	type IMasterScheduleExceptionEdit,
+} from '@/actions/master-schedule-exception/models/master-schedule-exception-edit.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import type { TMasterScheduleExceptionKind } from '@/actions/master-schedule-exception/models/master-schedule-exception.schema'
 import { BasePage } from '@/components/shared/ui/base-page'
-import { scopedT } from '@/configs/i18n/scoped-t'
-import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
-import { useMasterScheduleExceptionCreate } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-create'
 import { useMasterScheduleExceptionGetOne } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-get-one'
-import { useMasterScheduleExceptionUpdate } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-update'
-import { useRouter } from 'expo-router'
-import { Button, Card } from 'heroui-native'
-import { useToast } from 'heroui-native'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useForm, useWatch } from 'react-hook-form'
 import { Text, View } from 'react-native'
+import { DateTimeSelectField } from './components/datetime-select-field'
+import { ExceptionKindField } from './components/exception-kind-field'
+import { ScheduleFormField } from './components/schedule-form-field'
+import { TimeOfDaySelectField } from './components/time-of-day-select-field'
+import { MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES } from './data/master-schedule-exception-edit-default-values'
+import { useOnSubmitMasterScheduleExceptionEditForm } from './hooks/use-on-submit-master-schedule-exception-edit-form'
 import { ScheduleScreenHeader } from './schedule-screen-header'
-import { ScheduleSimpleField } from './schedule-simple-field'
-
-const EXCEPTION_KINDS: TMasterScheduleExceptionKind[] = [
-	'CLOSED',
-	'CUSTOM_HOURS',
-]
 
 interface IMasterScheduleExceptionEditPageProps {
 	masterProfile: IMasterProfile
 	exceptionId?: string
 }
 
-function toLocalInput(iso: string): string {
-	const date = new Date(iso)
-	if (Number.isNaN(date.getTime())) return ''
-	return date.toISOString().slice(0, 16).replace('T', ' ')
-}
-
-function toIso(local: string): string {
-	return new Date(local.trim().replace(' ', 'T')).toISOString()
-}
-
 export function MasterScheduleExceptionEditPage({
 	masterProfile,
 	exceptionId,
 }: IMasterScheduleExceptionEditPageProps): ReactElement {
-	const router = useRouter()
-	const { toast } = useToast()
 	const { t } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tCommon } = useScopedTranslation('common')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const { t: tField } = useScopedTranslation('ui', 'field')
-	const exceptionKindLabel = useEnumLabel('enums.exceptionKind')
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
 	const isEdit = Boolean(exceptionId)
 
 	const { data: existing, isLoading } = useMasterScheduleExceptionGetOne(
 		exceptionId ?? '',
 		isEdit,
 	)
-	const createMutation = useMasterScheduleExceptionCreate(masterProfile.id)
-	const updateMutation = useMasterScheduleExceptionUpdate(masterProfile.id)
 
-	const [kind, setKind] = useState<TMasterScheduleExceptionKind>('CLOSED')
-	const [startsAt, setStartsAt] = useState('')
-	const [endsAt, setEndsAt] = useState('')
-	const [customStartTime, setCustomStartTime] = useState('')
-	const [customEndTime, setCustomEndTime] = useState('')
-	const [title, setTitle] = useState('')
-	const [note, setNote] = useState('')
+	const { control, handleSubmit, reset } = useForm<IMasterScheduleExceptionEdit>(
+		{
+			resolver: zodResolver(MasterScheduleExceptionEditSchema),
+			defaultValues: MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES(),
+			mode: 'onTouched',
+		},
+	)
+
+	const { onSubmit, isPending } = useOnSubmitMasterScheduleExceptionEditForm({
+		masterProfileId: masterProfile.id,
+		exceptionId,
+	})
+
+	const kind = useWatch({ control, name: 'kind' })
 
 	useEffect(() => {
 		if (existing) {
-			setKind(existing.kind)
-			setStartsAt(toLocalInput(existing.startsAt))
-			setEndsAt(toLocalInput(existing.endsAt))
-			setCustomStartTime(existing.customStartTime ?? '')
-			setCustomEndTime(existing.customEndTime ?? '')
-			setTitle(existing.title ?? '')
-			setNote(existing.note ?? '')
+			reset(MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES(existing))
 		}
-	}, [existing])
-
-	const handleSave = async (): Promise<void> => {
-		const payload = {
-			startsAt: toIso(startsAt),
-			endsAt: toIso(endsAt),
-			kind,
-			customStartTime:
-				kind === 'CUSTOM_HOURS' ? customStartTime || null : null,
-			customEndTime: kind === 'CUSTOM_HOURS' ? customEndTime || null : null,
-			title: title.trim() || null,
-			note: note.trim() || null,
-		}
-
-		if (isEdit && exceptionId) {
-			await updateMutation.mutateAsync({ id: exceptionId, payload })
-		} else {
-			await createMutation.mutateAsync({
-				masterProfileId: masterProfile.id,
-				...payload,
-			})
-		}
-
-		toast.show({
-			variant: 'success',
-			label: scopedT('saved', 'common', 'toasts'),
-		})
-		router.back()
-	}
+	}, [existing, reset])
 
 	if (isEdit && isLoading) {
 		return (
 			<BasePage>
+				<ScheduleScreenHeader title={t('exceptionEdit')} />
 				<Text className='text-muted'>{tCommon('loading')}</Text>
 			</BasePage>
 		)
@@ -118,70 +77,88 @@ export function MasterScheduleExceptionEditPage({
 				title={isEdit ? t('exceptionEdit') : t('exceptionNew')}
 			/>
 
-			<View style={{ rowGap: 16 }}>
-				<Card>
-					<Card.Header>
-						<Text className='font-semibold text-foreground'>
-							{tField('type')}
-						</Text>
-					</Card.Header>
-					<Card.Body className='gap-2 p-0'>
-						{EXCEPTION_KINDS.map((k) => (
-							<Button
-								key={k}
-								size='sm'
-								variant={kind === k ? 'primary' : 'outline'}
-								onPress={() => setKind(k)}
-							>
-								<Button.Label>{exceptionKindLabel(k)}</Button.Label>
-							</Button>
-						))}
-					</Card.Body>
-				</Card>
+			<View className='gap-4'>
+				<View className='gap-2'>
+					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+						{tField('type')}
+					</Text>
+					<ExceptionKindField control={control} name='kind' />
+				</View>
 
-				<ScheduleSimpleField
-					label={tField('periodStart')}
-					value={startsAt}
-					onChangeText={setStartsAt}
-				/>
-				<ScheduleSimpleField
-					label={tField('periodEnd')}
-					value={endsAt}
-					onChangeText={setEndsAt}
-				/>
+				<View className='gap-2'>
+					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+						{t('exceptionPeriod')}
+					</Text>
+					<View className='gap-4 rounded-2xl border border-border bg-background-secondary p-4'>
+						<DateTimeSelectField
+							control={control}
+							dateOptionsParams={{ pastDays: 365, futureDays: 365 }}
+							label={tField('periodStart')}
+							name='startsAt'
+							placeholder={tPlaceholder('periodStart')}
+							timeOptionsParams={{ enforceFutureForToday: false }}
+						/>
+						<DateTimeSelectField
+							control={control}
+							dateOptionsParams={{ pastDays: 365, futureDays: 365 }}
+							label={tField('periodEnd')}
+							name='endsAt'
+							placeholder={tPlaceholder('periodEnd')}
+							timeOptionsParams={{ enforceFutureForToday: false }}
+						/>
+					</View>
+				</View>
 
 				{kind === 'CUSTOM_HOURS' ? (
-					<>
-						<ScheduleSimpleField
-							label={tField('workStart')}
-							value={customStartTime}
-							onChangeText={setCustomStartTime}
-						/>
-						<ScheduleSimpleField
-							label={tField('workEnd')}
-							value={customEndTime}
-							onChangeText={setCustomEndTime}
-						/>
-					</>
+					<View className='gap-2'>
+						<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+							{t('customWorkHours')}
+						</Text>
+						<View className='gap-4 rounded-2xl border border-border bg-background-secondary p-4'>
+							<TimeOfDaySelectField
+								control={control}
+								label={tField('workStart')}
+								name='customStartTime'
+								placeholder={tPlaceholder('workStart')}
+							/>
+							<TimeOfDaySelectField
+								control={control}
+								label={tField('workEnd')}
+								name='customEndTime'
+								placeholder={tPlaceholder('workEnd')}
+							/>
+						</View>
+					</View>
 				) : null}
 
-				<ScheduleSimpleField
-					label={tField('titleOptional')}
-					value={title}
-					onChangeText={setTitle}
-				/>
-				<ScheduleSimpleField
-					label={tField('noteOptional')}
-					value={note}
-					onChangeText={setNote}
-				/>
+				<View className='gap-2'>
+					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+						{t('exceptionDetails')}
+					</Text>
+					<View className='gap-4 rounded-2xl border border-border bg-background-secondary p-4'>
+						<ScheduleFormField
+							control={control}
+							label={tField('titleOptional')}
+							name='title'
+						/>
+						<ScheduleFormField
+							control={control}
+							inputProps={{ multiline: true, numberOfLines: 4 }}
+							label={tField('noteOptional')}
+							name='note'
+						/>
+					</View>
+				</View>
 
 				<Button
+					className='rounded-2xl'
+					isDisabled={isPending}
+					onPress={handleSubmit(onSubmit)}
 					variant='primary'
-					onPress={() => void handleSave()}
-					isDisabled={createMutation.isPending || updateMutation.isPending}
 				>
-					<Button.Label>{tBtn('save')}</Button.Label>
+					<Button.Label>
+						{isPending ? tBtn('saving') : tBtn('save')}
+					</Button.Label>
 				</Button>
 			</View>
 		</BasePage>
