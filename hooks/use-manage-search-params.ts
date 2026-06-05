@@ -5,6 +5,7 @@ import {
 	usePathname,
 	useRouter,
 } from 'expo-router'
+import { IRawSearchParams } from '@/types/i-query-object'
 import { useMemo } from 'react'
 
 enum ENavigationMode {
@@ -28,7 +29,7 @@ type IHandlePushKeyInSearchParamsProps =
 interface IUseManageSearchParamsReturn {
 	pathname: string
 	/** Query текущего маршрута как плоский объект (для formatQueryGet*). */
-	searchParams: Record<string, string>
+	searchParams: IRawSearchParams
 	/** Строка query для queryKey / сравнения URL (`search=foo&page=1`). */
 	searchParamsQuery: string
 	handlePushKeyInSearchParams: (
@@ -68,7 +69,7 @@ export const useManageSearchParams = (): IUseManageSearchParamsReturn => {
 		[routeInfo?.searchParams],
 	)
 
-	const searchParams = useMemo(
+	const searchParams = useMemo<IRawSearchParams>(
 		() => Object.fromEntries(urlSearchParams.entries()),
 		[urlSearchParams],
 	)

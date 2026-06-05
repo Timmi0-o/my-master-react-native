@@ -11,14 +11,13 @@ export const formatQueryStringsFieldInternal = (
 ): IFormattedStringField => {
 	const { value } = queryItem
 
-	const formattedValue: string[] = value
-		?.toString()
+	const rawValue = Array.isArray(value)
+		? value.join(QUERY_ARRAY_SEPARATOR)
+		: value
+
+	const normalizedValue = rawValue
 		.split(QUERY_ARRAY_SEPARATOR)
 		.filter(Boolean)
-
-	const normalizedValue = Array.isArray(formattedValue)
-		? formattedValue
-		: [formattedValue]
 
 	const resultItems: string[] = []
 

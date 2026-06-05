@@ -7,9 +7,11 @@ import type { IActionResponse, IGetActionOptions } from '@/types/i-action.types'
 import type { IMasterScheduleExceptionCreatePayload } from './models/master-schedule-exception-create-payload.schema'
 import type { IMasterScheduleExceptionUpdatePayload } from './models/master-schedule-exception-update-payload.schema'
 import type { IMasterScheduleException } from './models/master-schedule-exception.schema'
-import type {
-	IMasterScheduleExceptionGetOneFilters,
-	IMasterScheduleExceptionsGetManyFilters,
+import {
+	MasterScheduleExceptionGetOneFiltersSchema,
+	MasterScheduleExceptionsGetManyFiltersSchema,
+	type IMasterScheduleExceptionGetOneFilters,
+	type IMasterScheduleExceptionsGetManyFilters,
 } from './models/master-schedule-exception-filter.schema'
 
 export const masterScheduleExceptionsGetMany = async (
@@ -18,11 +20,14 @@ export const masterScheduleExceptionsGetMany = async (
 	return abstractGetAction<
 		IMasterScheduleException[],
 		IMasterScheduleExceptionsGetManyFilters
-	>({
-		url: API_ROUTES.masterScheduleExceptions.many,
-		params: { method: 'GET' },
-		...options,
-	})
+	>(
+		{
+			url: API_ROUTES.masterScheduleExceptions.many,
+			params: { method: 'GET' },
+			...options,
+		},
+		MasterScheduleExceptionsGetManyFiltersSchema,
+	)
 }
 
 export const masterScheduleExceptionsGetOne = async (
@@ -32,11 +37,14 @@ export const masterScheduleExceptionsGetOne = async (
 	return abstractGetAction<
 		IMasterScheduleException,
 		IMasterScheduleExceptionGetOneFilters
-	>({
-		url: API_ROUTES.masterScheduleExceptions.one(id),
-		params: { method: 'GET' },
-		...options,
-	})
+	>(
+		{
+			url: API_ROUTES.masterScheduleExceptions.one(id),
+			params: { method: 'GET' },
+			...options,
+		},
+		MasterScheduleExceptionGetOneFiltersSchema,
+	)
 }
 
 export const masterScheduleExceptionsCreate = async (

@@ -26,7 +26,7 @@ type QueryFilterConfig<TFilters extends Record<string, unknown>> =
 					>
 				>
 			}
-		: Record<string, never>
+		: {}
 
 export type IQueryFilterItemsConfig<
 	TFilters extends Record<string, unknown> = Record<string, unknown>,

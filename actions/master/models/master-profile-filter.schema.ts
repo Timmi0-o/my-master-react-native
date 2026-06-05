@@ -10,23 +10,21 @@ export const MasterProfileGetOneFiltersSchema = z.object({
 	preset: GetActionPresetSchema.optional(),
 })
 
-export const MasterProfilesGetManyFiltersSchema = z
-	.object({
-		preset: GetActionPresetSchema.optional(),
-		page: PageFilterSchema,
-		limit: LimitFilterSchema,
-		orderField: z
-			.enum(['id', 'userId', 'displayName', 'rating', 'createdAt', 'updatedAt'])
-			.optional(),
-		orderDir: ListOrderDirSchema.optional(),
-		requiredIds: RequiredIdsFilterSchema.optional(),
-		filter: z
-			.object({
-				search: SearchFilterSchema.optional(),
-			})
-			.optional(),
-	})
-	.optional()
+export const MasterProfilesGetManyFiltersSchema = z.object({
+	preset: GetActionPresetSchema.optional(),
+	page: PageFilterSchema,
+	limit: LimitFilterSchema,
+	orderField: z
+		.enum(['id', 'userId', 'displayName', 'rating', 'createdAt', 'updatedAt'])
+		.optional(),
+	orderDir: ListOrderDirSchema.optional(),
+	requiredIds: RequiredIdsFilterSchema.optional(),
+	filter: z
+		.object({
+			search: SearchFilterSchema.optional(),
+		})
+		.optional(),
+})
 
 export type IMasterProfileGetOneFilters = z.infer<
 	typeof MasterProfileGetOneFiltersSchema

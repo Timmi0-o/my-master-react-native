@@ -1,32 +1,34 @@
-import { IQueryField } from '@/actions/base-models/filters/base-query-field.schema'
 import {
-	IActionFilters,
 	IActionResponse,
 	IGetActionOptions,
 	IMutateActionOptions,
 } from '@/types/i-action.types'
+import { ZodSchema } from 'zod'
+import { setQueryFilters } from './actions/utils/set-query-filters.util'
 import { api } from './api.helper'
 import { ErrorObjectSetup } from './error-object-setup'
 
-export const abstractGetAction = async <
-	TData,
-	TFilters = Record<string, IQueryField>,
->(
+export const abstractGetAction = async <TData, TFilters = Record<string, unknown>>(
 	options: IGetActionOptions<TFilters> & { url: string },
+	queryFilterSchema?: ZodSchema<TFilters>,
 ): Promise<IActionResponse<TData>> => {
-	const { url, params = { method: 'GET' }, filters, customFormatter } = options
+	const {
+		url,
+		params = { method: 'GET' },
+		filters,
+		customFormatter,
+	} = options
 
-	let finalUrl = url
-
-	if (filters) {
-		const formattedParams = customFormatter
-			? customFormatter(filters)
-			: defaultQueryFormatter(filters)
-
-		if (formattedParams && Object.keys(formattedParams).length > 0) {
-			finalUrl += `?${new URLSearchParams(formattedParams)}`
-		}
+	if (!url) {
+		throw new Error('action URL is required')
 	}
+
+	const finalUrl = setQueryFilters<TFilters>(
+		url,
+		filters,
+		queryFilterSchema,
+		customFormatter,
+	)
 
 	const res = await api({ url: finalUrl, params })
 
@@ -63,30 +65,4 @@ export const abstractMutateAction = async <R>({
 	onOk?.()
 
 	return res.json()
-}
-
-const defaultQueryFormatter = <TFilters>(
-	filters: IActionFilters<TFilters>,
-): Record<string, string> | undefined => {
-	const params: Record<string, string> = {}
-
-	Object.entries(filters).forEach(([key, value]) => {
-		if (value === undefined || value === null) return
-
-		if (
-			key === 'limit' ||
-			key === 'page' ||
-			key === 'status' ||
-			key === 'preset' ||
-			key === 'orderField' ||
-			key === 'orderDir'
-		) {
-			params[key] = typeof value === 'string' ? value : String(value)
-			return
-		}
-
-		params[key] = typeof value === 'string' ? value : JSON.stringify(value)
-	})
-
-	return Object.keys(params).length > 0 ? params : undefined
 }

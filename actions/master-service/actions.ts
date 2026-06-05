@@ -10,26 +10,36 @@ import type {
 	IMasterServiceGetOneFilters,
 	IMasterServicesGetManyFilters,
 } from './models/master-service-filter.schema'
+import {
+	MasterServiceGetOneFiltersSchema,
+	MasterServicesGetManyFiltersSchema,
+} from './models/master-service-filter.schema'
 
 export const masterServicesGetMany = async (
 	options: IGetActionOptions<IMasterServicesGetManyFilters> = {},
 ): Promise<IActionResponse<IMasterService[]>> => {
-	return abstractGetAction<IMasterService[], IMasterServicesGetManyFilters>({
-		url: API_ROUTES.masterServices.many,
-		params: { method: 'GET' },
-		...options,
-	})
+	return abstractGetAction<IMasterService[], IMasterServicesGetManyFilters>(
+		{
+			url: API_ROUTES.masterServices.many,
+			params: { method: 'GET' },
+			...options,
+		},
+		MasterServicesGetManyFiltersSchema,
+	)
 }
 
 export const masterServicesGetOne = async (
 	id: string,
 	options: IGetActionOptions<IMasterServiceGetOneFilters> = {},
 ): Promise<IActionResponse<IMasterService>> => {
-	return abstractGetAction<IMasterService, IMasterServiceGetOneFilters>({
-		url: API_ROUTES.masterServices.one(id),
-		params: { method: 'GET' },
-		...options,
-	})
+	return abstractGetAction<IMasterService, IMasterServiceGetOneFilters>(
+		{
+			url: API_ROUTES.masterServices.one(id),
+			params: { method: 'GET' },
+			...options,
+		},
+		MasterServiceGetOneFiltersSchema,
+	)
 }
 
 export const masterServicesGetAvailableSlots = async (

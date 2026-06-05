@@ -1,11 +1,11 @@
 import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
 import { IMasterProfilesGetManyFilters } from '@/actions/master/models/master-profile-filter.schema'
-import { IQueryObject } from '@/types/i-query-object'
+import { IQueryObject, IRawSearchParams } from '@/types/i-query-object'
 import { IQueryFilterItemsConfig } from './types/i-query-filter-items-config'
 import { formatQueryFromFilterItemsConfig } from './utils/format-query-from-filter-items-config'
 
 export function formatQueryGetMasterProfiles(
-	searchParams: Record<string, string>,
+	searchParams: IRawSearchParams,
 ): IQueryObject {
 	return formatQueryFromFilterItemsConfig(FILTER_ITEMS_CONFIG, searchParams)
 }

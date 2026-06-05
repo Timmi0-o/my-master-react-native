@@ -8,7 +8,7 @@ const mapConfigEntriesToQueryItems = (
 	entries:
 		| Partial<Record<string, IQueryFilterItemsConfigEntry | undefined>>
 		| undefined,
-	searchParams: Record<string, string>,
+	searchParams: Record<string, string | string[] | undefined>,
 ): IRawQueryField[] => {
 	if (!entries) {
 		return []
@@ -19,14 +19,18 @@ const mapConfigEntriesToQueryItems = (
 			return []
 		}
 
-		const { renameKey, ...rest } = entry
+		const rawValue = searchParams[key]
 
-		if (!searchParams[key]) return []
+		if (rawValue === undefined || rawValue === null || rawValue === '') {
+			return []
+		}
+
+		const { renameKey, ...rest } = entry
 
 		return [
 			{
 				...rest,
-				value: searchParams[key] ?? '',
+				value: Array.isArray(rawValue) ? rawValue : String(rawValue),
 				key: renameKey ?? key,
 			},
 		]
@@ -37,7 +41,7 @@ export function mapQueryFilterItemsConfigToQueryItems<
 	TFilters extends Record<string, unknown>,
 >(
 	config: IQueryFilterItemsConfig<TFilters>,
-	searchParams: Record<string, string>,
+	searchParams: Record<string, string | string[] | undefined>,
 ): {
 	rootItems: IRawQueryField[]
 	filterItems: IRawQueryField[]
@@ -45,7 +49,17 @@ export function mapQueryFilterItemsConfigToQueryItems<
 	const { filter, ...rootConfig } = config
 
 	return {
-		rootItems: mapConfigEntriesToQueryItems(rootConfig, searchParams),
-		filterItems: mapConfigEntriesToQueryItems(filter, searchParams),
+		rootItems: mapConfigEntriesToQueryItems(
+			rootConfig as Partial<
+				Record<string, IQueryFilterItemsConfigEntry | undefined>
+			>,
+			searchParams,
+		),
+		filterItems: mapConfigEntriesToQueryItems(
+			filter as Partial<
+				Record<string, IQueryFilterItemsConfigEntry | undefined>
+			>,
+			searchParams,
+		),
 	}
 }

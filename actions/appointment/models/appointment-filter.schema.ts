@@ -31,19 +31,17 @@ export const AppointmentGetOneFiltersSchema = z.object({
 	preset: GetActionPresetSchema.optional(),
 })
 
-export const AppointmentsGetManyFiltersSchema = z
-	.object({
-		preset: GetActionPresetSchema.optional(),
-		page: PageFilterSchema,
-		limit: LimitFilterSchema,
-		orderField: z
-			.enum(['id', 'startsAt', 'createdAt', 'status'])
-			.optional(),
-		orderDir: ListOrderDirSchema.optional(),
-		requiredIds: RequiredIdsFilterSchema.optional(),
-		filter: AppointmentFiltersPresetSchema.optional(),
-	})
-	.optional()
+export const AppointmentsGetManyFiltersSchema = z.object({
+	preset: GetActionPresetSchema.optional(),
+	page: PageFilterSchema,
+	limit: LimitFilterSchema,
+	orderField: z
+		.enum(['id', 'startsAt', 'createdAt', 'status'])
+		.optional(),
+	orderDir: ListOrderDirSchema.optional(),
+	requiredIds: RequiredIdsFilterSchema.optional(),
+	filter: AppointmentFiltersPresetSchema.optional(),
+})
 
 export type IAppointmentFiltersPreset = z.infer<
 	typeof AppointmentFiltersPresetSchema

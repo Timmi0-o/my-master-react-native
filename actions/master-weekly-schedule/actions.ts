@@ -7,9 +7,11 @@ import type { IActionResponse, IGetActionOptions } from '@/types/i-action.types'
 import type { IMasterWeeklyScheduleCreatePayload } from './models/master-weekly-schedule-create-payload.schema'
 import type { IMasterWeeklyScheduleUpdatePayload } from './models/master-weekly-schedule-update-payload.schema'
 import type { IMasterWeeklySchedule } from './models/master-weekly-schedule.schema'
-import type {
-	IMasterWeeklyScheduleGetOneFilters,
-	IMasterWeeklySchedulesGetManyFilters,
+import {
+	MasterWeeklyScheduleGetOneFiltersSchema,
+	MasterWeeklySchedulesGetManyFiltersSchema,
+	type IMasterWeeklyScheduleGetOneFilters,
+	type IMasterWeeklySchedulesGetManyFilters,
 } from './models/master-weekly-schedule-filter.schema'
 
 export const masterWeeklySchedulesGetMany = async (
@@ -18,11 +20,14 @@ export const masterWeeklySchedulesGetMany = async (
 	return abstractGetAction<
 		IMasterWeeklySchedule[],
 		IMasterWeeklySchedulesGetManyFilters
-	>({
-		url: API_ROUTES.masterWeeklySchedules.many,
-		params: { method: 'GET' },
-		...options,
-	})
+	>(
+		{
+			url: API_ROUTES.masterWeeklySchedules.many,
+			params: { method: 'GET' },
+			...options,
+		},
+		MasterWeeklySchedulesGetManyFiltersSchema,
+	)
 }
 
 export const masterWeeklySchedulesGetOne = async (
@@ -32,11 +37,14 @@ export const masterWeeklySchedulesGetOne = async (
 	return abstractGetAction<
 		IMasterWeeklySchedule,
 		IMasterWeeklyScheduleGetOneFilters
-	>({
-		url: API_ROUTES.masterWeeklySchedules.one(id),
-		params: { method: 'GET' },
-		...options,
-	})
+	>(
+		{
+			url: API_ROUTES.masterWeeklySchedules.one(id),
+			params: { method: 'GET' },
+			...options,
+		},
+		MasterWeeklyScheduleGetOneFiltersSchema,
+	)
 }
 
 export const masterWeeklySchedulesCreate = async (

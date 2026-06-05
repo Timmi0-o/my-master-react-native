@@ -1,15 +1,16 @@
 import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
-import { IQueryObject } from '@/types/i-query-object'
+import { IMasterServicesGetManyFilters } from '@/actions/master-service/models/master-service-filter.schema'
+import { IQueryObject, IRawSearchParams } from '@/types/i-query-object'
 import { IQueryFilterItemsConfig } from './types/i-query-filter-items-config'
 import { formatQueryFromFilterItemsConfig } from './utils/format-query-from-filter-items-config'
 
 export function formatQueryGetMasterServices(
-	searchParams: Record<string, string>,
+	searchParams: IRawSearchParams,
 ): IQueryObject {
 	return formatQueryFromFilterItemsConfig(FILTER_ITEMS_CONFIG, searchParams)
 }
 
-const FILTER_ITEMS_CONFIG: IQueryFilterItemsConfig = {
+const FILTER_ITEMS_CONFIG: IQueryFilterItemsConfig<IMasterServicesGetManyFilters> = {
 	page: {
 		fieldType: FieldTypes.PAGE,
 	},

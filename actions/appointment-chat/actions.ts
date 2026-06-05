@@ -6,6 +6,7 @@ import {
 	abstractMutateAction,
 } from '@/helpers/action.helper'
 import type { IActionResponse, IGetActionOptions } from '@/types/i-action.types'
+import { AppointmentChatGetOneFiltersSchema } from './models/appointment-chat-filter.schema'
 import type { IAppointmentChatGetOneFilters } from './models/appointment-chat-filter.schema'
 
 export type ICreateAppointmentChatMessagePayload = {
@@ -17,11 +18,14 @@ export const appointmentChatsGetOne = async (
 	chatId: string,
 	options: IGetActionOptions<IAppointmentChatGetOneFilters> = {},
 ): Promise<IActionResponse<IAppointmentChat>> => {
-	return abstractGetAction<IAppointmentChat, IAppointmentChatGetOneFilters>({
-		url: API_ROUTES.appointmentChats.one(chatId),
-		params: { method: 'GET' },
-		...options,
-	})
+	return abstractGetAction<IAppointmentChat, IAppointmentChatGetOneFilters>(
+		{
+			url: API_ROUTES.appointmentChats.one(chatId),
+			params: { method: 'GET' },
+			...options,
+		},
+		AppointmentChatGetOneFiltersSchema,
+	)
 }
 
 export const appointmentChatMessagesCreate = async (

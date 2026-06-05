@@ -1,4 +1,4 @@
-import { IQueryObject } from '@/types/i-query-object'
+import { IQueryObject, IRawSearchParams } from '@/types/i-query-object'
 import { formatQueryFields } from '../../format-query-fields-helper/format-query-fields'
 import { IQueryFilterItemsConfig } from '../types/i-query-filter-items-config'
 import { mapQueryFilterItemsConfigToQueryItems } from './map-query-filter-items-config-to-query-items'
@@ -7,7 +7,7 @@ export function formatQueryFromFilterItemsConfig<
 	TFilters extends Record<string, unknown>,
 >(
 	config: IQueryFilterItemsConfig<TFilters>,
-	searchParams: Record<string, string>,
+	searchParams: IRawSearchParams,
 ): IQueryObject {
 	const { rootItems, filterItems } = mapQueryFilterItemsConfigToQueryItems(
 		config,
