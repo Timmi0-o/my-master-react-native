@@ -3,7 +3,7 @@ import type {
 	TDayOfWeek,
 } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { DAY_OF_WEEK_ORDER } from '@/constants/master-schedule.constants'

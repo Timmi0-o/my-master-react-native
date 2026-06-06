@@ -1,6 +1,6 @@
-import { ChatListItem } from '@/components/shared/chat-list-item/chat-list-item'
-import { BasePage } from '@/components/shared/ui/base-page'
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
+import { BasePage } from '@/components/shared/components/base-page'
+import { ChatListItem } from '@/components/shared/components/chat-list-item/chat-list-item'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Skeleton } from 'heroui-native'
@@ -22,8 +22,7 @@ export const ChatsPage = ({
 	isLoading,
 }: IChatsPageProps): ReactElement => {
 	const { t } = useScopedTranslation('pages', 'chats')
-	const emptyLabel =
-		mode === 'master' ? t('emptyMaster') : t('emptyClient')
+	const emptyLabel = mode === 'master' ? t('emptyMaster') : t('emptyClient')
 
 	return (
 		<BasePage>

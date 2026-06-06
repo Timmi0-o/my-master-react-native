@@ -1,5 +1,8 @@
-import { createLoginSchema, type ILogin } from '@/actions/auth/models/login.schema'
-import { BasePage } from '@/components/shared/ui/base-page'
+import {
+	createLoginSchema,
+	type ILogin,
+} from '@/actions/auth/models/login.schema'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useAppLocale } from '@/configs/i18n/locale-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'

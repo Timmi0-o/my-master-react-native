@@ -1,12 +1,16 @@
 import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
 import { RecommendedServicesModal } from '@/components/pages/search/components/modals/recommended-services-modal/recommended-services-modal'
 import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/search/data/search-recommended-services.constants'
-import { MasterCard } from '@/components/shared/master-card/master-card'
-import { ServiceCard } from '@/components/shared/service-card/service-card'
-import { BasePage } from '@/components/shared/ui/base-page'
-import { useMasterProfileGetMany } from '@/hooks/actions/master/use-master-profile-get-many'
-import { useMasterServiceGetMany } from '@/hooks/actions/master-service/use-master-service-get-many'
+import { BasePage } from '@/components/shared/components/base-page'
+import {
+	GlassInputShell,
+	glassInnerInputClassName,
+} from '@/components/shared/ui/glass-input/glass-input'
+import { MasterCard } from '@/components/shared/components/master-card/master-card'
+import { ServiceCard } from '@/components/shared/components/service-card/service-card'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import { useMasterServiceGetMany } from '@/hooks/actions/master-service/use-master-service-get-many'
+import { useMasterProfileGetMany } from '@/hooks/actions/master/use-master-profile-get-many'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useManageSearchParams } from '@/hooks/use-manage-search-params'
 import { useQuerySynchronization } from '@/hooks/use-query-synchronization'
@@ -87,14 +91,17 @@ export const SearchPage = () => {
 					value={draftSearch ?? ''}
 					onChange={(nextValue) => setDraftSearch(nextValue)}
 				>
-					<SearchField.Group>
-						<SearchField.SearchIcon />
-						<SearchField.Input
-							style={{ minHeight: 60 }}
-							placeholder={tPlaceholder('searchServices')}
-						/>
-						<SearchField.ClearButton />
-					</SearchField.Group>
+					<GlassInputShell>
+						<SearchField.Group>
+							<SearchField.SearchIcon />
+							<SearchField.Input
+								className={glassInnerInputClassName}
+								style={{ minHeight: 60 }}
+								placeholder={tPlaceholder('searchServices')}
+							/>
+							<SearchField.ClearButton />
+						</SearchField.Group>
+					</GlassInputShell>
 				</SearchField>
 
 				<Card className='gap-2'>

@@ -8,6 +8,7 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useAppointmentCreate } from '@/hooks/actions/appointment/use-appointment-create'
 import { useMasterServiceGetAvailableSlots } from '@/hooks/actions/master-service/use-master-service-get-available-slots'
 import { formatDate } from '@/utils/format-date.util'
+import { ECurrency, formatPriceByCurrency } from '@/utils/format-price-by-currency'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import { BottomSheet, Button, Spinner } from 'heroui-native'
@@ -125,7 +126,7 @@ export function BookAppointmentModal({
 
 	const descriptionParts = [
 		service.name,
-		tUi('priceRub', { price: service.price }),
+		formatPriceByCurrency(service.price, ECurrency.RUB),
 		...(service.durationMinutes != null
 			? [tUi('durationMinutes', { count: service.durationMinutes })]
 			: []),

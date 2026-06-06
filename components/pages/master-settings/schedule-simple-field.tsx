@@ -1,3 +1,7 @@
+import {
+	GlassInputShell,
+	glassInnerInputClassName,
+} from '@/components/shared/ui/glass-input/glass-input'
 import { InputGroup, Label, TextField } from 'heroui-native'
 import type { ReactElement } from 'react'
 import type { TextInputProps } from 'react-native'
@@ -18,13 +22,16 @@ export function ScheduleSimpleField({
 	return (
 		<TextField>
 			<Label>{label}</Label>
-			<InputGroup>
-				<InputGroup.Input
-					value={value}
-					onChangeText={onChangeText}
-					{...inputProps}
-				/>
-			</InputGroup>
+			<GlassInputShell>
+				<InputGroup>
+					<InputGroup.Input
+						className={glassInnerInputClassName}
+						value={value}
+						onChangeText={onChangeText}
+						{...inputProps}
+					/>
+				</InputGroup>
+			</GlassInputShell>
 		</TextField>
 	)
 }

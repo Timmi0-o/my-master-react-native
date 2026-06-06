@@ -1,3 +1,7 @@
+import {
+	GlassInputShell,
+	glassInnerInputClassName,
+} from '@/components/shared/ui/glass-input/glass-input'
 import { FieldError, InputGroup, Label, TextField } from 'heroui-native'
 import type { ReactElement } from 'react'
 import {
@@ -31,14 +35,17 @@ export function ScheduleFormField<T extends FieldValues>({
 			render={({ field, fieldState }) => (
 				<TextField isInvalid={!!fieldState.error}>
 					<Label>{label}</Label>
-					<InputGroup>
-						<InputGroup.Input
-							value={(field.value ?? '') as string}
-							onChangeText={field.onChange}
-							onBlur={field.onBlur}
-							{...inputProps}
-						/>
-					</InputGroup>
+					<GlassInputShell>
+						<InputGroup>
+							<InputGroup.Input
+								className={glassInnerInputClassName}
+								value={(field.value ?? '') as string}
+								onChangeText={field.onChange}
+								onBlur={field.onBlur}
+								{...inputProps}
+							/>
+						</InputGroup>
+					</GlassInputShell>
 					{fieldState.error?.message ? (
 						<FieldError>{fieldState.error.message}</FieldError>
 					) : null}

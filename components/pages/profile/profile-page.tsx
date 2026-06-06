@@ -1,6 +1,6 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import type { IUserProfile } from '@/actions/user-profile/models/user-profile.schema'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useAuth } from '@/configs/auth/auth-context'

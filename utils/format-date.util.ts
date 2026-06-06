@@ -1,9 +1,9 @@
 import { i18n } from '@/configs/i18n/i18n'
+import { scopedT } from '@/configs/i18n/scoped-t'
 import {
 	resolveLocale,
 	toDateTimeLocale,
 } from '@/configs/i18n/supported-locales'
-import { scopedT } from '@/configs/i18n/scoped-t'
 
 export interface IFormattedDate {
 	day: string
@@ -71,4 +71,35 @@ function isValidDateParts(
 	const daysInMonth = new Date(year, monthIndex + 1, 0).getDate()
 
 	return day <= daysInMonth
+}
+
+/** Дата и время для таймлайна: «ДД.ММ.ГГГГ – ЧЧ:ММ». */
+export const FormatDateTime = (dateObject: Date): string => {
+	const datePart = dateObject.toLocaleDateString('ru-RU', {
+		day: '2-digit',
+		month: '2-digit',
+		year: 'numeric',
+	})
+	const timePart = dateObject.toLocaleTimeString('ru-RU', {
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false,
+	})
+
+	return `${datePart} – ${timePart}`
+}
+
+/** ISO date-time (например `startsAt` с API) → «ЧЧ:ММ» в локали пользователя. */
+export function formatTimeByDate(dateTime: string): string {
+	const dateObject = new Date(dateTime)
+
+	if (Number.isNaN(dateObject.getTime())) {
+		return dateTime
+	}
+
+	return new Intl.DateTimeFormat(getIntlLocale(), {
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false,
+	}).format(dateObject)
 }

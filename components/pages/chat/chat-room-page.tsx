@@ -13,7 +13,8 @@ import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import { Avatar, Button, Input, Spinner, useThemeColor } from 'heroui-native'
+import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
+import { Avatar, Button, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import {
@@ -210,7 +211,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					paddingBottom: insets.bottom + 8,
 				}}
 			>
-				<Input
+				<GlassInput
 					multiline
 					placeholder={tPlaceholder('chatMessage')}
 					value={draft}

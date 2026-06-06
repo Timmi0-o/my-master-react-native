@@ -71,12 +71,12 @@
 		"chatMessage": "Message",
 		"searchServices": "Find services...",
 		"loginEmail": "you@example.com",
-		"loginPassword": "••••••••"
+		"loginPassword": "••••••••",
+		"searchRecords": "Find appointments..."
 	},
 	"accessibility": {
 		"hidePassword": "Hide password",
 		"showPassword": "Show password"
 	},
-	"durationMinutes": "{{count}} min",
-	"priceRub": "{{price}} ₽"
+	"durationMinutes": "{{count}} min"
 }

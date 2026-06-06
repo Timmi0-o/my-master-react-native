@@ -1,3 +1,7 @@
+import {
+	GlassInputShell,
+	glassInnerInputClassName,
+} from '@/components/shared/ui/glass-input/glass-input'
 import { Ionicons } from '@expo/vector-icons'
 import {
 	FieldError,
@@ -7,12 +11,7 @@ import {
 	useThemeColor,
 } from 'heroui-native'
 import type { ReactElement, ReactNode } from 'react'
-import {
-	Control,
-	Controller,
-	FieldPath,
-	FieldValues,
-} from 'react-hook-form'
+import { Control, Controller, FieldPath, FieldValues } from 'react-hook-form'
 import type { TextInputProps } from 'react-native'
 
 interface IAuthInputFieldProps<T extends FieldValues> {
@@ -53,20 +52,23 @@ export function AuthInputField<T extends FieldValues>({
 			render={({ field, fieldState }) => (
 				<TextField isRequired isInvalid={!!fieldState.error}>
 					<Label>{label}</Label>
-					<InputGroup isDisabled={isDisabled}>
-						<InputGroup.Prefix isDecorative>
-							<Ionicons name={leftIcon} size={18} color={mutedColor} />
-						</InputGroup.Prefix>
-						<InputGroup.Input
-							value={(field.value ?? '') as string}
-							onChangeText={field.onChange}
-							onBlur={field.onBlur}
-							{...inputProps}
-						/>
-						{rightSlot ? (
-							<InputGroup.Suffix>{rightSlot}</InputGroup.Suffix>
-						) : null}
-					</InputGroup>
+					<GlassInputShell>
+						<InputGroup isDisabled={isDisabled}>
+							<InputGroup.Prefix isDecorative>
+								<Ionicons name={leftIcon} size={18} color={mutedColor} />
+							</InputGroup.Prefix>
+							<InputGroup.Input
+								className={glassInnerInputClassName}
+								value={(field.value ?? '') as string}
+								onChangeText={field.onChange}
+								onBlur={field.onBlur}
+								{...inputProps}
+							/>
+							{rightSlot ? (
+								<InputGroup.Suffix>{rightSlot}</InputGroup.Suffix>
+							) : null}
+						</InputGroup>
+					</GlassInputShell>
 					{fieldState.error?.message ? (
 						<FieldError>{fieldState.error.message}</FieldError>
 					) : null}

@@ -71,12 +71,12 @@
 		"chatMessage": "消息",
 		"searchServices": "搜索服务...",
 		"loginEmail": "you@example.com",
-		"loginPassword": "••••••••"
+		"loginPassword": "••••••••",
+		"searchRecords": "搜索预约..."
 	},
 	"accessibility": {
 		"hidePassword": "隐藏密码",
 		"showPassword": "显示密码"
 	},
-	"durationMinutes": "{{count}} 分钟",
-	"priceRub": "{{price}} ₽"
+	"durationMinutes": "{{count}} 分钟"
 }

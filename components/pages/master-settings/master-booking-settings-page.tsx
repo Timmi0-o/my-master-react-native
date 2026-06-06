@@ -3,7 +3,7 @@ import {
 	type IMasterProfileEdit,
 } from '@/actions/master/models/master-profile-edit.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'heroui-native'

@@ -1,11 +1,12 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { ClientRecordsModal } from '@/components/pages/home/components/modals/client-records-modal/client-records-modal'
 import { HOME_RECORDS_PREVIEW_LIMIT } from '@/components/pages/home/data/home-records.constants'
-import { RecordCard } from '@/components/shared/record-card/record-card'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
+import { RecordCard } from '@/components/shared/components/record-card/record-card'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
+import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import { Button, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
@@ -21,12 +22,17 @@ export default function HomePage({
 	appointments,
 }: IHomePageProps): ReactElement {
 	const { t } = useScopedTranslation('pages', 'home')
+
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
+
+	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
+
 	const [isRecordsModalVisible, setIsRecordsModalVisible] = useState(false)
 	const foregroundColor = useThemeColor('foreground')
 
 	const hasRecords = appointments.length > 0
 	const previewRecords = appointments.slice(0, HOME_RECORDS_PREVIEW_LIMIT)
+
 	const shouldShowAllRecordsButton =
 		appointments.length > HOME_RECORDS_PREVIEW_LIMIT
 	const title = mode === 'master' ? t('titleMaster') : t('titleClient')
@@ -35,6 +41,11 @@ export default function HomePage({
 		<BasePage>
 			<View className='flex-1 gap-3'>
 				<Text className='text-2xl font-bold text-foreground ml-2'>{title}</Text>
+
+				<GlassInput
+					style={{ minHeight: 60 }}
+					placeholder={tPlaceholder('searchRecords')}
+				/>
 
 				{hasRecords ? (
 					<View className='gap-3'>

@@ -1,8 +1,12 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { BookAppointmentModal } from '@/components/pages/master-service/components/modals/book-appointment-modal/book-appointment-modal'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import {
+	ECurrency,
+	formatPriceByCurrency,
+} from '@/utils/format-price-by-currency'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
@@ -47,7 +51,7 @@ export function MasterServiceDetail({
 							{service.name}
 						</Text>
 						<Chip color='accent' variant='soft'>
-							{tUi('priceRub', { price: service.price })}
+							{formatPriceByCurrency(service.price, ECurrency.RUB)}
 						</Chip>
 					</Card.Header>
 
@@ -71,7 +75,7 @@ export function MasterServiceDetail({
 						<DetailInfoRow
 							icon='wallet-outline'
 							label={tField('cost')}
-							value={tUi('priceRub', { price: service.price })}
+							value={formatPriceByCurrency(service.price, ECurrency.RUB)}
 						/>
 					</Card.Body>
 				</Card>
@@ -91,8 +95,7 @@ export function MasterServiceDetail({
 							>
 								<Avatar alt={masterProfile.displayName} color='accent'>
 									<Avatar.Fallback>
-										{masterProfile.displayName.trim()[0]?.toUpperCase() ??
-											'?'}
+										{masterProfile.displayName.trim()[0]?.toUpperCase() ?? '?'}
 									</Avatar.Fallback>
 								</Avatar>
 
@@ -113,11 +116,7 @@ export function MasterServiceDetail({
 									) : null}
 								</View>
 
-								<Ionicons
-									name='chevron-forward'
-									size={20}
-									color={mutedColor}
-								/>
+								<Ionicons name='chevron-forward' size={20} color={mutedColor} />
 							</Pressable>
 						</Card.Body>
 					</Card>

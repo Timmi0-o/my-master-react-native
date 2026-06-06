@@ -71,12 +71,12 @@
 		"chatMessage": "رسالة",
 		"searchServices": "البحث عن خدمات...",
 		"loginEmail": "you@example.com",
-		"loginPassword": "••••••••"
+		"loginPassword": "••••••••",
+		"searchRecords": "البحث عن مواعيد..."
 	},
 	"accessibility": {
 		"hidePassword": "إخفاء كلمة المرور",
 		"showPassword": "إظهار كلمة المرور"
 	},
-	"durationMinutes": "{{count}} د",
-	"priceRub": "{{price}} ₽"
+	"durationMinutes": "{{count}} د"
 }

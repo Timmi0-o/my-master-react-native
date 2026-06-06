@@ -2,8 +2,12 @@ import type {
 	IMasterProfile,
 	IMasterProfileService,
 } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import {
+	ECurrency,
+	formatPriceByCurrency,
+} from '@/utils/format-price-by-currency'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
@@ -99,7 +103,6 @@ function MasterServiceItem({
 	service,
 	onPress,
 }: IMasterServiceItemProps): ReactElement {
-	const { t: tUi } = useScopedTranslation('ui')
 	const mutedColor = useThemeColor('muted')
 
 	return (
@@ -116,7 +119,7 @@ function MasterServiceItem({
 
 					{service.price != null ? (
 						<Chip color='accent' variant='soft'>
-							{tUi('priceRub', { price: service.price })}
+							{formatPriceByCurrency(service.price, ECurrency.RUB)}
 						</Chip>
 					) : null}
 				</View>

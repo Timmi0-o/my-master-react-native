@@ -1,7 +1,7 @@
 import { appointmentsGetMyMany } from '@/actions/appointment/actions'
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { useQuery } from '@tanstack/react-query'
 import { scopedT } from '@/configs/i18n/scoped-t'
+import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
@@ -15,7 +15,7 @@ export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
 				filters: {
 					preset: 'BASE',
 					limit: 50,
-					orderField: 'startsAt',
+					orderField: 'createdAt',
 					orderDir: 'desc',
 				},
 			})

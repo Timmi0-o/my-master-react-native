@@ -1,5 +1,5 @@
 import { IRecommendedService } from '@/actions/service/models/service.schema'
-import { ServiceCard } from '@/components/shared/service-card/service-card'
+import { ServiceCard } from '@/components/shared/components/service-card/service-card'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { BottomSheet } from 'heroui-native'

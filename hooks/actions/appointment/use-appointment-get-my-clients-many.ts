@@ -1,7 +1,7 @@
 import { appointmentsGetMyClientsMany } from '@/actions/appointment/actions'
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { useQuery } from '@tanstack/react-query'
 import { scopedT } from '@/configs/i18n/scoped-t'
+import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentGetMyClientsMany = (options?: {
@@ -17,7 +17,7 @@ export const useAppointmentGetMyClientsMany = (options?: {
 				filters: {
 					preset: 'BASE',
 					limit: 50,
-					orderField: 'startsAt',
+					orderField: 'createdAt',
 					orderDir: 'desc',
 				},
 			})

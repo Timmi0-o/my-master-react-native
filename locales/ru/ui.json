@@ -71,12 +71,12 @@
 		"chatMessage": "Сообщение",
 		"searchServices": "Найдите услуги...",
 		"loginEmail": "you@example.com",
-		"loginPassword": "••••••••"
+		"loginPassword": "••••••••",
+		"searchRecords": "Найдите запись..."
 	},
 	"accessibility": {
 		"hidePassword": "Скрыть пароль",
 		"showPassword": "Показать пароль"
 	},
-	"durationMinutes": "{{count}} мин",
-	"priceRub": "{{price}} ₽"
+	"durationMinutes": "{{count}} мин"
 }

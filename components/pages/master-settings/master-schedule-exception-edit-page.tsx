@@ -3,7 +3,7 @@ import {
 	type IMasterScheduleExceptionEdit,
 } from '@/actions/master-schedule-exception/models/master-schedule-exception-edit.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/ui/base-page'
+import { BasePage } from '@/components/shared/components/base-page'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterScheduleExceptionGetOne } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-get-one'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -41,13 +41,12 @@ export function MasterScheduleExceptionEditPage({
 		isEdit,
 	)
 
-	const { control, handleSubmit, reset } = useForm<IMasterScheduleExceptionEdit>(
-		{
+	const { control, handleSubmit, reset } =
+		useForm<IMasterScheduleExceptionEdit>({
 			resolver: zodResolver(MasterScheduleExceptionEditSchema),
 			defaultValues: MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES(),
 			mode: 'onTouched',
-		},
-	)
+		})
 
 	const { onSubmit, isPending } = useOnSubmitMasterScheduleExceptionEditForm({
 		masterProfileId: masterProfile.id,
