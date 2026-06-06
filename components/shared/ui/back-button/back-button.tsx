@@ -4,13 +4,26 @@ import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect'
 import { Stack, useRouter, type Href } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { Platform, Pressable, Text, View } from 'react-native'
+import {
+	Platform,
+	Pressable,
+	StyleProp,
+	Text,
+	View,
+	type ViewStyle,
+} from 'react-native'
 
 interface IBackButtonProps {
 	href?: Href
+	withoutLabel?: boolean
+	style?: StyleProp<ViewStyle>
 }
 
-export function BackButton({ href }: IBackButtonProps): ReactElement {
+export function BackButton({
+	href,
+	withoutLabel = false,
+	style,
+}: IBackButtonProps): ReactElement {
 	const router = useRouter()
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const accentColor = useThemeColor('accent')
@@ -30,13 +43,16 @@ export function BackButton({ href }: IBackButtonProps): ReactElement {
 		<>
 			<IconifyIcon
 				color={accentColor}
-				style={{ marginLeft: -7 }}
+				style={{ marginLeft: withoutLabel ? -3 : -7 }}
 				name='ion:chevron-back'
 				size={20}
 			/>
-			<Text className='text-base' style={{ color: accentColor }}>
-				{tBtn('back')}
-			</Text>
+
+			{!withoutLabel ? (
+				<Text className='text-base' style={{ color: accentColor }}>
+					{tBtn('back')}
+				</Text>
+			) : null}
 		</>
 	)
 
@@ -44,7 +60,7 @@ export function BackButton({ href }: IBackButtonProps): ReactElement {
 		<Pressable
 			accessibilityRole='button'
 			onPress={handlePress}
-			style={{ alignSelf: 'flex-start', zIndex: 1000 }}
+			style={[{ alignSelf: 'flex-start', zIndex: 1000 }, style]}
 		>
 			<GlassView
 				isInteractive
@@ -55,7 +71,7 @@ export function BackButton({ href }: IBackButtonProps): ReactElement {
 					borderRadius: 999,
 					flexDirection: 'row',
 					paddingHorizontal: 12,
-					paddingVertical: 8,
+					paddingVertical: withoutLabel ? 10 : 8,
 				}}
 			>
 				{label}
@@ -67,7 +83,7 @@ export function BackButton({ href }: IBackButtonProps): ReactElement {
 			className='flex-row items-center py-1 active:opacity-60'
 			hitSlop={{ bottom: 8, left: 4, right: 8, top: 8 }}
 			onPress={handlePress}
-			style={{ alignSelf: 'flex-start', zIndex: 1000 }}
+			style={[{ alignSelf: 'flex-start', zIndex: 1000 }, style]}
 		>
 			{label}
 		</Pressable>

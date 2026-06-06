@@ -3,6 +3,7 @@ import type {
 	IMasterProfileService,
 } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/components/base-page'
+import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import {
 	ECurrency,
@@ -10,7 +11,7 @@ import {
 } from '@/utils/format-price-by-currency'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
+import { Avatar, Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Pressable, Text, View } from 'react-native'
 
@@ -21,23 +22,12 @@ interface IMasterDetailProps {
 export function MasterDetail({ master }: IMasterDetailProps): ReactElement {
 	const router = useRouter()
 	const { t } = useScopedTranslation('pages', 'master')
-	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const mutedColor = useThemeColor('muted')
 	const services = master.services ?? []
 
 	return (
-		<BasePage>
+		<BasePage headerContent={<BackButton />}>
 			<View style={{ rowGap: 20 }}>
-				<Button
-					className='self-start'
-					onPress={() => router.back()}
-					size='sm'
-					variant='ghost'
-				>
-					<Ionicons name='arrow-back' size={20} color={mutedColor} />
-					<Button.Label>{tBtn('back')}</Button.Label>
-				</Button>
-
 				<Card className='rounded-none shadow-none bg-background-secondary'>
 					<Card.Body className='gap-4 p-0'>
 						<View className='flex-row items-start gap-3'>

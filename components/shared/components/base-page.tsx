@@ -1,7 +1,7 @@
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import type { ReactElement, ReactNode } from 'react'
-import { StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native'
+import { View, type StyleProp, type ViewStyle } from 'react-native'
 import Animated, {
 	Extrapolation,
 	interpolate,
@@ -10,9 +10,11 @@ import Animated, {
 	useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets, type Edge } from 'react-native-safe-area-context'
+import Svg, { Defs, LinearGradient, Rect, Stop } from 'react-native-svg'
 
 const DEFAULT_EDGES: readonly Edge[] = ['top', 'bottom']
 const TOP_EDGE_FADE_DISTANCE = 48
+const TOP_EDGE_FADE_EXTENT = 24
 
 interface IBasePageProps {
 	children: ReactNode
@@ -58,10 +60,11 @@ export function BasePage({
 		!disableTopSafeArea && hasHeader && edges.includes('top') ? insets.top : 0
 	const showTopEdgeBackground =
 		!disableTopSafeArea && edges.includes('top') && insets.top > 0
-	const topEdgeBorderColor =
-		resolvedColorScheme === 'dark'
-			? 'rgba(255, 255, 255, 0.08)'
-			: 'rgba(0, 0, 0, 0.08)'
+	const topEdgeOverlayHeight = insets.top + TOP_EDGE_FADE_EXTENT
+	const safeAreaEndOffset =
+		topEdgeOverlayHeight > 0 ? insets.top / topEdgeOverlayHeight : 1
+	const backgroundFadeMidOffset = safeAreaEndOffset * 0.55
+	const backgroundFadeEndOffset = Math.min(safeAreaEndOffset + 0.14, 0.94)
 
 	const scrollY = useSharedValue(0)
 
@@ -87,10 +90,7 @@ export function BasePage({
 					pointerEvents='none'
 					style={[
 						{
-							backgroundColor,
-							borderBottomColor: topEdgeBorderColor,
-							borderBottomWidth: StyleSheet.hairlineWidth,
-							height: insets.top,
+							height: topEdgeOverlayHeight,
 							left: 0,
 							position: 'absolute',
 							right: 0,
@@ -99,7 +99,50 @@ export function BasePage({
 						},
 						topEdgeAnimatedStyle,
 					]}
-				/>
+				>
+					<Svg
+						height={topEdgeOverlayHeight}
+						preserveAspectRatio='none'
+						width='100%'
+					>
+						<Defs>
+							<LinearGradient
+								id='basePageTopBackgroundFade'
+								x1='0'
+								y1='0'
+								x2='0'
+								y2='1'
+							>
+								<Stop
+									offset='0'
+									stopColor={backgroundColor}
+									stopOpacity='0.97'
+								/>
+								<Stop
+									offset={String(backgroundFadeMidOffset)}
+									stopColor={backgroundColor}
+									stopOpacity='0.88'
+								/>
+								<Stop
+									offset={String(safeAreaEndOffset)}
+									stopColor={backgroundColor}
+									stopOpacity='0.72'
+								/>
+								<Stop
+									offset={String(backgroundFadeEndOffset)}
+									stopColor={backgroundColor}
+									stopOpacity='0.24'
+								/>
+								<Stop offset='1' stopColor={backgroundColor} stopOpacity='0' />
+							</LinearGradient>
+						</Defs>
+						<Rect
+							fill='url(#basePageTopBackgroundFade)'
+							height='100%'
+							width='100%'
+						/>
+					</Svg>
+				</Animated.View>
 			) : null}
 			<Animated.ScrollView
 				contentContainerStyle={{

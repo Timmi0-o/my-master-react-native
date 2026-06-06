@@ -1,6 +1,7 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { BookAppointmentModal } from '@/components/pages/master-service/components/modals/book-appointment-modal/book-appointment-modal'
 import { BasePage } from '@/components/shared/components/base-page'
+import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import {
@@ -33,18 +34,8 @@ export function MasterServiceDetail({
 	const isClientMode = mode === 'client'
 
 	return (
-		<BasePage>
+		<BasePage headerContent={<BackButton />}>
 			<View style={{ rowGap: 20 }}>
-				<Button
-					className='self-start'
-					onPress={() => router.back()}
-					size='sm'
-					variant='ghost'
-				>
-					<Ionicons name='arrow-back' size={20} color={mutedColor} />
-					<Button.Label>{tBtn('back')}</Button.Label>
-				</Button>
-
 				<Card className='rounded-none shadow-none bg-background-secondary'>
 					<Card.Header className='gap-3'>
 						<Text className='text-2xl font-bold text-foreground'>

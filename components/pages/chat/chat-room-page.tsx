@@ -1,5 +1,7 @@
 import type { IAppointmentChatMessage } from '@/actions/appointment-chat/models/appointment-chat-message.schema'
 import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
+import { BackButton } from '@/components/shared/ui/back-button/back-button'
+import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useAuth } from '@/configs/auth/auth-context'
 import {
@@ -11,10 +13,9 @@ import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
-import { Ionicons } from '@expo/vector-icons'
-import { useRouter } from 'expo-router'
-import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
-import { Avatar, Button, Spinner, useThemeColor } from 'heroui-native'
+import { IconifyIcon } from '@huymobile/react-native-iconify'
+import { GlassView } from 'expo-glass-effect'
+import { Avatar, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import {
@@ -27,12 +28,22 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
+const CHAT_PEER_TITLE_MAX_LENGTH = 25
+
+function truncatePeerTitle(title: string, maxLength: number): string {
+	const trimmed = title.trim()
+	if (trimmed.length <= maxLength) {
+		return trimmed
+	}
+
+	return `${trimmed.slice(0, maxLength - 1).trimEnd()}…`
+}
+
 interface IChatRoomPageProps {
 	chat: IAppointmentChat
 }
 
 export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
-	const router = useRouter()
 	const insets = useSafeAreaInsets()
 
 	const { mode } = useActiveProfileMode()
@@ -44,10 +55,16 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 
 	const { t: tChat, i18n } = useScopedTranslation('common', 'chat')
 	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
-	const { t: tStatus } = useScopedTranslation('common', 'enums.appointmentStatus')
+	const { t: tStatus } = useScopedTranslation(
+		'common',
+		'enums.appointmentStatus',
+	)
 
-	const [accentColor, accentForegroundColor, mutedColor, borderColor] =
-		useThemeColor(['accent', 'accent-foreground', 'muted', 'border'])
+	const [accentColor, accentForegroundColor, borderColor] = useThemeColor([
+		'accent',
+		'accent-foreground',
+		'border',
+	])
 
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 
@@ -62,7 +79,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			: ''
 
 	const appointment = chat.appointment
-	const peerTitle =
+	const peerTitleFull =
 		mode === 'master'
 			? appointment?.clientUser
 				? [
@@ -75,6 +92,8 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 						.trim() || tChat('clientFallback')
 				: tChat('clientFallback')
 			: (appointment?.masterProfile?.displayName ?? tChat('masterFallback'))
+
+	const peerTitle = truncatePeerTitle(peerTitleFull, CHAT_PEER_TITLE_MAX_LENGTH)
 
 	const headerSubtitle = [
 		appointment?.serviceName,
@@ -102,7 +121,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 		await sendMessage.mutateAsync({ chatId: chat.id, body })
 	}, [chat.id, draft, sendMessage])
 
-	const avatarLetter = peerTitle.trim()[0]?.toUpperCase() ?? '?'
+	const avatarLetter = peerTitleFull.trim()[0]?.toUpperCase() ?? '?'
 
 	return (
 		<KeyboardAvoidingView
@@ -111,34 +130,44 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			style={{ backgroundColor, flex: 1 }}
 		>
 			<View
-				className='flex-row items-center gap-3 bg-background px-2 py-1'
-				style={{ paddingTop: insets.top + 4, borderColor }}
+				className='flex-row items-center justify-around px-2'
+				style={{ paddingTop: insets.top + 8 }}
 			>
-				<Button
-					isIconOnly
-					size='sm'
-					variant='ghost'
-					onPress={() => router.back()}
-				>
-					<Ionicons name='chevron-back' size={24} color={mutedColor} />
-				</Button>
+				<BackButton withoutLabel style={{ marginTop: 4 }} />
 
-				<Avatar alt={peerTitle} color='accent' size='sm'>
-					<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
-				</Avatar>
+				<View className='flex-row gap-2' style={{ marginHorizontal: 'auto' }}>
+					<Avatar alt={peerTitleFull} color='accent' size='md'>
+						<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
+					</Avatar>
 
-				<View className='min-w-0 flex-1'>
-					<Text
-						className='text-base font-semibold text-foreground'
-						numberOfLines={1}
+					<GlassView
+						isInteractive
+						glassEffectStyle='regular'
+						style={{
+							minWidth: 0,
+							borderRadius: 16,
+							overflow: 'hidden',
+							paddingHorizontal: 12,
+							paddingVertical: 8,
+						}}
 					>
-						{peerTitle}
-					</Text>
-					{headerSubtitle ? (
-						<Text className='text-xs text-muted' numberOfLines={1}>
-							{headerSubtitle}
+						<Text
+							className='font-semibold text-foreground'
+							style={{ fontSize: 14 }}
+							numberOfLines={1}
+						>
+							{peerTitle}
 						</Text>
-					) : null}
+						{headerSubtitle ? (
+							<Text
+								style={{ fontSize: 10 }}
+								className='text-muted'
+								numberOfLines={1}
+							>
+								{headerSubtitle}
+							</Text>
+						) : null}
+					</GlassView>
 				</View>
 			</View>
 
@@ -229,7 +258,11 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					{sendMessage.isPending ? (
 						<Spinner size='sm' color={accentForegroundColor} />
 					) : (
-						<Ionicons name='send' size={20} color={accentForegroundColor} />
+						<IconifyIcon
+							name='ion:send'
+							size={20}
+							color={accentForegroundColor}
+						/>
 					)}
 				</Pressable>
 			</View>
