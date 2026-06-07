@@ -4,19 +4,23 @@ import {
 	type GlassViewProps,
 } from 'expo-glass-effect'
 import type { ReactElement, ReactNode } from 'react'
+import { useCallback, useRef } from 'react'
 import {
 	Platform,
 	Pressable,
 	StyleSheet,
 	View,
+	type GestureResponderEvent,
 	type StyleProp,
 	type ViewStyle,
 } from 'react-native'
 
+const TAP_MOVE_THRESHOLD = 12
+
 interface IGlassWrapperProps extends Omit<GlassViewProps, 'children'> {
 	children: ReactNode
 	contentContainerStyle?: StyleProp<ViewStyle>
-	disabled?: boolean
+	isDisabled?: boolean
 	fallbackClassName?: string
 	onPress?: () => void
 }
@@ -24,7 +28,7 @@ interface IGlassWrapperProps extends Omit<GlassViewProps, 'children'> {
 export function GlassWrapper({
 	children,
 	contentContainerStyle,
-	disabled = false,
+	isDisabled = false,
 	fallbackClassName = 'overflow-hidden rounded-2xl border border-border bg-surface',
 	glassEffectStyle = 'regular',
 	isInteractive = true,
@@ -46,15 +50,55 @@ export function GlassWrapper({
 			? backgroundColorFromStyle
 			: undefined)
 
+	const disabledStyle: ViewStyle | undefined = isDisabled
+		? { opacity: 0.5 }
+		: undefined
+	const isGlassInteractive = isInteractive && !isDisabled
+
+	const touchStartRef = useRef<{ x: number; y: number } | null>(null)
+
+	const handleGlassTouchStart = useCallback(
+		(event: GestureResponderEvent): void => {
+			if (isDisabled || onPress == null) {
+				return
+			}
+
+			touchStartRef.current = {
+				x: event.nativeEvent.pageX,
+				y: event.nativeEvent.pageY,
+			}
+		},
+		[isDisabled, onPress],
+	)
+
+	const handleGlassTouchEnd = useCallback(
+		(event: GestureResponderEvent): void => {
+			if (isDisabled || onPress == null || touchStartRef.current == null) {
+				touchStartRef.current = null
+				return
+			}
+
+			const dx = Math.abs(event.nativeEvent.pageX - touchStartRef.current.x)
+			const dy = Math.abs(event.nativeEvent.pageY - touchStartRef.current.y)
+			touchStartRef.current = null
+
+			if (dx <= TAP_MOVE_THRESHOLD && dy <= TAP_MOVE_THRESHOLD) {
+				onPress()
+			}
+		},
+		[isDisabled, onPress],
+	)
+
 	if (!useGlass) {
 		if (onPress != null) {
 			return (
 				<Pressable
 					accessibilityRole='button'
+					accessibilityState={{ disabled: isDisabled }}
 					className={`${fallbackClassName} active:opacity-80`}
-					disabled={disabled}
+					disabled={isDisabled}
 					onPress={onPress}
-					style={[style, contentContainerStyle]}
+					style={[style, contentContainerStyle, disabledStyle]}
 				>
 					{children}
 				</Pressable>
@@ -64,36 +108,48 @@ export function GlassWrapper({
 		return (
 			<View
 				className={fallbackClassName}
-				style={[style, contentContainerStyle]}
+				pointerEvents={isDisabled ? 'none' : 'auto'}
+				style={[style, contentContainerStyle, disabledStyle]}
 			>
 				{children}
 			</View>
 		)
 	}
 
-	const content =
-		onPress != null ? (
-			<Pressable
-				accessibilityRole='button'
-				disabled={disabled}
-				onPress={onPress}
-				style={contentContainerStyle}
-			>
-				{children}
-			</Pressable>
-		) : (
-			<View style={contentContainerStyle}>{children}</View>
-		)
+	const content = (
+		<View
+			pointerEvents={onPress != null ? 'none' : undefined}
+			style={contentContainerStyle}
+		>
+			{children}
+		</View>
+	)
 
-	return (
+	const glassView = (
 		<GlassView
 			{...glassViewProps}
+			accessibilityRole={onPress != null ? 'button' : undefined}
+			accessibilityState={
+				onPress != null ? { disabled: isDisabled } : undefined
+			}
 			glassEffectStyle={glassEffectStyle}
-			isInteractive={isInteractive}
+			isInteractive={isGlassInteractive}
+			onTouchEnd={onPress != null ? handleGlassTouchEnd : undefined}
+			onTouchStart={onPress != null ? handleGlassTouchStart : undefined}
 			style={glassStyle}
 			tintColor={resolvedTintColor}
 		>
 			{content}
 		</GlassView>
+	)
+
+	if (!isDisabled) {
+		return glassView
+	}
+
+	return (
+		<View pointerEvents='none' style={disabledStyle}>
+			{glassView}
+		</View>
 	)
 }

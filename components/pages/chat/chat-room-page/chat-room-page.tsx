@@ -253,7 +253,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 						justifyContent: 'center',
 						width: 44,
 					}}
-					disabled={!draftMessage.trim() || sendMessage.isPending}
+					isDisabled={!draftMessage.trim() || sendMessage.isPending}
 					glassEffectStyle='regular'
 					onPress={() => void handleSendMessage()}
 					style={{ borderRadius: 999 }}

@@ -7,13 +7,13 @@ import { BasePage } from '@/components/shared/components/base-page'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterScheduleExceptionGetOne } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-get-one'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useEffect } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { Text, View } from 'react-native'
 import { DateTimeSelectField } from '../../components/datetime-select-field'
 import { ScheduleFormField } from '../../components/schedule-form-field'
+import { SaveButton } from '@/components/shared/ui/save-button/save-button'
 import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
 import { ExceptionKindField } from './components/exception-kind-field'
 import { TimeOfDaySelectField } from './components/time-of-day-select-field'
@@ -31,7 +31,6 @@ export function MasterScheduleExceptionEditPage({
 }: IMasterScheduleExceptionEditPageProps): ReactElement {
 	const { t } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tCommon } = useScopedTranslation('common')
-	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const { t: tField } = useScopedTranslation('ui', 'field')
 	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
 	const isEdit = Boolean(exceptionId)
@@ -41,12 +40,16 @@ export function MasterScheduleExceptionEditPage({
 		isEdit,
 	)
 
-	const { control, handleSubmit, reset } =
-		useForm<IMasterScheduleExceptionEdit>({
-			resolver: zodResolver(MasterScheduleExceptionEditSchema),
-			defaultValues: MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES(),
-			mode: 'onTouched',
-		})
+	const {
+		control,
+		handleSubmit,
+		reset,
+		formState: { isSubmitting },
+	} = useForm<IMasterScheduleExceptionEdit>({
+		resolver: zodResolver(MasterScheduleExceptionEditSchema),
+		defaultValues: MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES(),
+		mode: 'onTouched',
+	})
 
 	const { onSubmit, isPending } = useOnSubmitMasterScheduleExceptionEditForm({
 		masterProfileId: masterProfile.id,
@@ -54,6 +57,9 @@ export function MasterScheduleExceptionEditPage({
 	})
 
 	const kind = useWatch({ control, name: 'kind' })
+
+	const isSaveDisabled = isPending || isSubmitting
+	const isSaveLoading = isPending || isSubmitting
 
 	useEffect(() => {
 		if (existing) {
@@ -71,11 +77,22 @@ export function MasterScheduleExceptionEditPage({
 	}
 
 	return (
-		<BasePage>
-			<ScheduleScreenHeader
-				title={isEdit ? t('exceptionEdit') : t('exceptionNew')}
-			/>
-
+		<BasePage
+			headerContent={
+				<ScheduleScreenHeader
+					title={isEdit ? t('exceptionEdit') : t('exceptionNew')}
+					extraContent={
+						<SaveButton
+							isDisabled={isSaveDisabled}
+							isIconOnly
+							isLoading={isSaveLoading}
+							onPress={() => void handleSubmit(onSubmit)()}
+						/>
+					}
+				/>
+			}
+			adjustForKeyboard
+		>
 			<View className='gap-4'>
 				<View className='gap-2'>
 					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
@@ -148,17 +165,6 @@ export function MasterScheduleExceptionEditPage({
 						/>
 					</View>
 				</View>
-
-				<Button
-					className='rounded-2xl'
-					isDisabled={isPending}
-					onPress={handleSubmit(onSubmit)}
-					variant='primary'
-				>
-					<Button.Label>
-						{isPending ? tBtn('saving') : tBtn('save')}
-					</Button.Label>
-				</Button>
 			</View>
 		</BasePage>
 	)

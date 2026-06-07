@@ -4,9 +4,9 @@ import {
 } from '@/actions/master/models/master-profile-edit.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/components/base-page'
+import { SaveButton } from '@/components/shared/ui/save-button/save-button'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { Text, View } from 'react-native'
@@ -26,10 +26,13 @@ export function MasterBookingSettingsPage({
 	masterProfile,
 }: IMasterBookingSettingsPageProps): ReactElement {
 	const { t } = useScopedTranslation('pages', 'masterSettings')
-	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const { t: tField } = useScopedTranslation('ui', 'field')
 
-	const { control, handleSubmit } = useForm<IMasterProfileEdit>({
+	const {
+		control,
+		handleSubmit,
+		formState: { isSubmitting },
+	} = useForm<IMasterProfileEdit>({
 		resolver: zodResolver(MasterProfileEditSchema),
 		defaultValues: MASTER_PROFILE_EDIT_DEFAULT_VALUES(masterProfile),
 		mode: 'onTouched',
@@ -40,10 +43,26 @@ export function MasterBookingSettingsPage({
 	)
 	const bookingStatus = useWatch({ control, name: 'bookingStatus' })
 
-	return (
-		<BasePage adjustForKeyboard>
-			<ScheduleScreenHeader title={t('bookingTitle')} />
+	const isSaveDisabled = isPending || isSubmitting
+	const isSaveLoading = isPending || isSubmitting
 
+	return (
+		<BasePage
+			headerContent={
+				<ScheduleScreenHeader
+					title={t('bookingTitle')}
+					extraContent={
+						<SaveButton
+							isDisabled={isSaveDisabled}
+							isIconOnly
+							isLoading={isSaveLoading}
+							onPress={() => void handleSubmit(onSubmit)()}
+						/>
+					}
+				/>
+			}
+			adjustForKeyboard
+		>
 			<View className='gap-4'>
 				<View className='gap-2'>
 					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
@@ -89,17 +108,6 @@ export function MasterBookingSettingsPage({
 						/>
 					</View>
 				</View>
-
-				<Button
-					className='rounded-2xl'
-					isDisabled={isPending}
-					onPress={handleSubmit(onSubmit)}
-					variant='primary'
-				>
-					<Button.Label>
-						{isPending ? tBtn('saving') : tBtn('save')}
-					</Button.Label>
-				</Button>
 			</View>
 		</BasePage>
 	)

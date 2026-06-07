@@ -66,7 +66,10 @@ export function BackButton({
 				paddingVertical: withoutLabel ? 10 : 8,
 			}}
 			onPress={handlePress}
-			style={[{ alignSelf: 'flex-start', borderRadius: 999, zIndex: 1000 }, style]}
+			style={[
+				{ alignSelf: 'flex-start', borderRadius: 999, zIndex: 1000 },
+				style,
+			]}
 		>
 			{label}
 		</GlassWrapper>
@@ -85,7 +88,7 @@ export function BackButton({
 	return (
 		<>
 			<Stack.Header hidden />
-			<View className='self-start'>{button}</View>
+			<View>{button}</View>
 		</>
 	)
 }

@@ -86,7 +86,7 @@ export function BasePage({
 		: edges.includes('bottom')
 			? insets.bottom + 10
 			: 0
-	const paddingLeft = edges.includes('left') ? insets.left : 5
+	const paddingLeft = edges.includes('left') ? insets.left : 0
 	const paddingRight = edges.includes('right') ? insets.right : 0
 	const headerPaddingTop =
 		!disableTopSafeArea && hasHeader && edges.includes('top') ? insets.top : 0

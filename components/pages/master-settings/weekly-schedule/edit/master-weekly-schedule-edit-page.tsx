@@ -13,6 +13,7 @@ import { Button, Card, useToast } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
+import { SaveButton } from '@/components/shared/ui/save-button/save-button'
 import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
 import { ScheduleSimpleField } from '../../components/schedule-simple-field'
 
@@ -29,7 +30,6 @@ export function MasterWeeklyScheduleEditPage({
 	const { toast } = useToast()
 	const { t } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tCommon } = useScopedTranslation('common')
-	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const { t: tField } = useScopedTranslation('ui', 'field')
 	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
 	const dayOfWeekLabel = useEnumLabel('enums.dayOfWeek')
@@ -45,6 +45,8 @@ export function MasterWeeklyScheduleEditPage({
 	const [dayOfWeek, setDayOfWeek] = useState<TDayOfWeek>('MONDAY')
 	const [startTime, setStartTime] = useState('09:00')
 	const [endTime, setEndTime] = useState('18:00')
+
+	const isSavePending = createMutation.isPending || updateMutation.isPending
 
 	useEffect(() => {
 		if (existing) {
@@ -79,17 +81,31 @@ export function MasterWeeklyScheduleEditPage({
 	if (isEdit && isLoading) {
 		return (
 			<BasePage>
+				<ScheduleScreenHeader
+					title={isEdit ? t('intervalEdit') : t('intervalNew')}
+				/>
 				<Text className='text-muted'>{tCommon('loading')}</Text>
 			</BasePage>
 		)
 	}
 
 	return (
-		<BasePage>
-			<ScheduleScreenHeader
-				title={isEdit ? t('intervalEdit') : t('intervalNew')}
-			/>
-
+		<BasePage
+			headerContent={
+				<ScheduleScreenHeader
+					title={isEdit ? t('intervalEdit') : t('intervalNew')}
+					extraContent={
+						<SaveButton
+							isDisabled={isSavePending}
+							isIconOnly
+							isLoading={isSavePending}
+							onPress={() => void handleSave()}
+						/>
+					}
+				/>
+			}
+			adjustForKeyboard
+		>
 			<View style={{ rowGap: 16 }}>
 				<Card>
 					<Card.Header>
@@ -123,14 +139,6 @@ export function MasterWeeklyScheduleEditPage({
 					onChangeText={setEndTime}
 					inputProps={{ placeholder: tPlaceholder('timeEnd') }}
 				/>
-
-				<Button
-					variant='primary'
-					onPress={() => void handleSave()}
-					isDisabled={createMutation.isPending || updateMutation.isPending}
-				>
-					<Button.Label>{tBtn('save')}</Button.Label>
-				</Button>
 			</View>
 		</BasePage>
 	)

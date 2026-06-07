@@ -12,10 +12,16 @@ export function ScheduleScreenHeader({
 	extraContent,
 }: IScheduleScreenHeaderProps): ReactElement {
 	return (
-		<View className='mb-4 flex-row items-center gap-2'>
+		<View className='mb-4 flex-row items-center justify-between gap-2 px-2'>
 			<BackButton />
-			<Text className='flex-1 text-xl font-bold text-foreground'>{title}</Text>
-			{extraContent}
+			<Text
+				className='flex-1 text-xl font-bold text-foreground'
+				ellipsizeMode='tail'
+				numberOfLines={1}
+			>
+				{title}
+			</Text>
+			{extraContent ?? null}
 		</View>
 	)
 }
