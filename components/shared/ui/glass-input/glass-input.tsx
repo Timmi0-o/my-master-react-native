@@ -18,12 +18,19 @@ import {
 	type ViewStyle,
 } from 'react-native'
 
-const GLASS_INNER_INPUT_CLASS_NAME =
-	'rounded-none border-0 bg-transparent px-3 py-0 shadow-none focus:border-0'
+const GLASS_INNER_INPUT_BASE_CLASS_NAME =
+	'rounded-none border-0 bg-transparent py-0 shadow-none focus:border-0'
+const GLASS_INNER_INPUT_CLASS_NAME = `${GLASS_INNER_INPUT_BASE_CLASS_NAME} px-3`
+const GLASS_GROUP_INNER_INPUT_CLASS_NAME = `${GLASS_INNER_INPUT_BASE_CLASS_NAME} flex-1`
+const GLASS_SEARCH_INNER_INPUT_CLASS_NAME = `${GLASS_INNER_INPUT_BASE_CLASS_NAME} flex-1 pl-9 pr-12`
 const GLASS_INPUT_MIN_HEIGHT = 48
 const glassInnerInputStyle = {
 	paddingVertical: 0,
 	width: '100%',
+} as const satisfies TextStyle
+const glassGroupInnerInputStyle = {
+	flex: 1,
+	paddingVertical: 0,
 } as const satisfies TextStyle
 const FALLBACK_INPUT_CLASS_NAME = 'border border-border bg-surface'
 
@@ -57,48 +64,52 @@ function splitGlassInputStyle(style: StyleProp<ViewStyle>): {
 	}
 }
 
-const GlassShellInput = forwardRef<TextInput, InputProps>(function GlassShellInput(
-	{ className, multiline, style, variant, ...props },
-	ref,
-) {
-	return (
-		<Input
-			ref={ref}
-			className={mergeClassName(GLASS_INNER_INPUT_CLASS_NAME, className)}
-			multiline={multiline}
-			style={[
-				glassInnerInputStyle,
-				{ textAlignVertical: getGlassInputTextAlignVertical(multiline) },
-				style,
-			]}
-			variant={variant ?? 'secondary'}
-			{...props}
-		/>
-	)
-})
+const GlassShellInput = forwardRef<TextInput, InputProps>(
+	function GlassShellInput(
+		{ className, multiline, style, variant, ...props },
+		ref,
+	) {
+		return (
+			<Input
+				ref={ref}
+				className={mergeClassName(GLASS_INNER_INPUT_CLASS_NAME, className)}
+				multiline={multiline}
+				style={[
+					glassInnerInputStyle,
+					{ textAlignVertical: getGlassInputTextAlignVertical(multiline) },
+					style,
+				]}
+				variant={variant ?? 'secondary'}
+				{...props}
+			/>
+		)
+	},
+)
 
-export const GlassInputGroupInput = forwardRef<
-	TextInput,
-	InputGroupInputProps
->(function GlassInputGroupInput(
-	{ className, multiline, style, variant, ...props },
-	ref,
-) {
-	return (
-		<InputGroup.Input
-			ref={ref}
-			className={mergeClassName(GLASS_INNER_INPUT_CLASS_NAME, className)}
-			multiline={multiline}
-			style={[
-				glassInnerInputStyle,
-				{ textAlignVertical: getGlassInputTextAlignVertical(multiline) },
-				style,
-			]}
-			variant={variant ?? 'secondary'}
-			{...props}
-		/>
-	)
-})
+export const GlassInputGroupInput = forwardRef<TextInput, InputGroupInputProps>(
+	function GlassInputGroupInput(
+		{ className, multiline, style, variant, ...props },
+		ref,
+	) {
+		return (
+			<InputGroup.Input
+				ref={ref}
+				className={mergeClassName(
+					GLASS_GROUP_INNER_INPUT_CLASS_NAME,
+					className,
+				)}
+				multiline={multiline}
+				style={[
+					glassGroupInnerInputStyle,
+					{ textAlignVertical: getGlassInputTextAlignVertical(multiline) },
+					style,
+				]}
+				variant={variant ?? 'secondary'}
+				{...props}
+			/>
+		)
+	},
+)
 
 export function GlassSearchFieldInput(
 	props: Omit<InputProps, 'onChangeText' | 'value'>,
@@ -107,10 +118,10 @@ export function GlassSearchFieldInput(
 
 	return (
 		<SearchField.Input
-			className={mergeClassName(GLASS_INNER_INPUT_CLASS_NAME, className)}
+			className={mergeClassName(GLASS_SEARCH_INNER_INPUT_CLASS_NAME, className)}
 			multiline={multiline}
 			style={[
-				glassInnerInputStyle,
+				glassGroupInnerInputStyle,
 				{ textAlignVertical: getGlassInputTextAlignVertical(multiline) },
 				style,
 			]}

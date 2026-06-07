@@ -2,12 +2,12 @@ import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
 import { RecommendedServicesModal } from '@/components/pages/search/components/modals/recommended-services-modal/recommended-services-modal'
 import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/search/data/search-recommended-services.constants'
 import { BasePage } from '@/components/shared/components/base-page'
+import { MasterCard } from '@/components/shared/components/master-card/master-card'
+import { ServiceCard } from '@/components/shared/components/service-card/service-card'
 import {
 	GlassInputShell,
 	GlassSearchFieldInput,
 } from '@/components/shared/ui/glass-input/glass-input'
-import { MasterCard } from '@/components/shared/components/master-card/master-card'
-import { ServiceCard } from '@/components/shared/components/service-card/service-card'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterServiceGetMany } from '@/hooks/actions/master-service/use-master-service-get-many'
 import { useMasterProfileGetMany } from '@/hooks/actions/master/use-master-profile-get-many'
@@ -32,8 +32,8 @@ export const SearchPage = () => {
 
 	const search = searchParams.search ?? ''
 
-	const [draftSearch, setDraftSearch] = useState<string | null>(() =>
-		search.trim(),
+	const [draftSearch, setDraftSearch] = useState<string | null>(
+		() => search as string,
 	)
 
 	const debouncedDraftSearch = useDebounce(
@@ -52,7 +52,7 @@ export const SearchPage = () => {
 
 	useEffect(() => {
 		const nextValue = debouncedDraftSearch?.trim() || null
-		const currentValue = search.trim() || null
+		const currentValue = (search as string)?.trim() || null
 
 		if (nextValue === currentValue) return
 
@@ -91,7 +91,14 @@ export const SearchPage = () => {
 					value={draftSearch ?? ''}
 					onChange={(nextValue) => setDraftSearch(nextValue)}
 				>
-					<GlassInputShell style={{ minHeight: 60 }}>
+					<GlassInputShell
+						style={{
+							minHeight: 60,
+							maxWidth: '96%',
+							marginHorizontal: 'auto',
+							zIndex: 1000,
+						}}
+					>
 						<SearchField.Group>
 							<SearchField.SearchIcon />
 							<GlassSearchFieldInput
