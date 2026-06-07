@@ -1,5 +1,6 @@
 import type { IAppointmentChatMessage } from '@/actions/appointment-chat/models/appointment-chat-message.schema'
 import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
+import { BasePage } from '@/components/shared/components/base-page'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import { GlassWrapper } from '@/components/shared/ui/glass-wrapper/glass-wrapper'
@@ -14,17 +15,12 @@ import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
+import { useKeyboardVisibility } from '@/hooks/use-keyboard-visibility'
 import { IconifyIcon } from '@huymobile/react-native-iconify'
 import { Avatar, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
-import {
-	FlatList,
-	KeyboardAvoidingView,
-	Platform,
-	Text,
-	View,
-} from 'react-native'
+import { FlatList, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 const CHAT_PEER_TITLE_MAX_LENGTH = 25
@@ -44,6 +40,7 @@ interface IChatRoomPageProps {
 
 export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 	const insets = useSafeAreaInsets()
+	const isKeyboardVisible = useKeyboardVisibility()
 
 	const { mode } = useActiveProfileMode()
 
@@ -123,56 +120,97 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 	const avatarLetter = peerTitleFull.trim()[0]?.toUpperCase() ?? '?'
 
 	return (
-		<KeyboardAvoidingView
-			className='flex-1'
-			behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-			style={{ backgroundColor, flex: 1 }}
-		>
-			<View
-				className='flex-row items-center justify-around px-2'
-				style={{ paddingTop: insets.top + 8 }}
-			>
-				<BackButton withoutLabel style={{ marginTop: 4 }} />
+		<BasePage
+			adjustForKeyboard
+			isFooterFixed
+			isHeaderFixed
+			scrollEnabled={false}
+			headerContent={
+				<View className='flex-row items-center justify-around px-2'>
+					<BackButton withoutLabel />
 
-				<View
-					className='flex-row gap-2 justify-between'
-					style={{ marginHorizontal: 'auto' }}
-				>
-					<GlassWrapper
-						contentContainerStyle={{
-							paddingHorizontal: 12,
-							paddingVertical: 8,
-						}}
-						style={{ borderRadius: 16, minWidth: 0 }}
+					<View
+						className='flex-row gap-2 justify-between'
+						style={{ marginHorizontal: 'auto' }}
 					>
-						<Text
-							className='font-semibold text-foreground'
-							style={{ fontSize: 14 }}
-							numberOfLines={1}
+						<GlassWrapper
+							contentContainerStyle={{
+								paddingHorizontal: 12,
+								paddingVertical: 8,
+							}}
+							style={{ borderRadius: 999, minWidth: 0 }}
 						>
-							{peerTitle}
-						</Text>
-						{headerSubtitle ? (
 							<Text
-								style={{ fontSize: 10 }}
-								className='text-muted'
+								className='font-semibold text-foreground'
+								style={{ fontSize: 14 }}
 								numberOfLines={1}
 							>
-								{headerSubtitle}
+								{peerTitle}
 							</Text>
-						) : null}
-					</GlassWrapper>
+							{headerSubtitle ? (
+								<Text
+									style={{ fontSize: 10 }}
+									className='text-muted'
+									numberOfLines={1}
+								>
+									{headerSubtitle}
+								</Text>
+							) : null}
+						</GlassWrapper>
 
-					<Avatar alt={peerTitleFull} color='accent' size='md'>
-						<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
-					</Avatar>
+						<Avatar alt={peerTitleFull} color='accent' size='md'>
+							<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
+						</Avatar>
+					</View>
 				</View>
-			</View>
+			}
+			footerContent={
+				<View
+					className='flex-row items-center gap-2 border-t border-border px-3 pt-2'
+					style={{
+						borderColor,
+						paddingBottom: isKeyboardVisible ? 8 : insets.bottom + 8,
+					}}
+				>
+					<GlassInput
+						multiline
+						placeholder={tPlaceholder('chatMessage')}
+						value={draftMessage}
+						onChangeText={setDraftMessage}
+						style={{ flex: 1, maxHeight: 120, minHeight: 44 }}
+					/>
 
+					<GlassWrapper
+						contentContainerStyle={{
+							alignItems: 'center',
+							height: 44,
+							justifyContent: 'center',
+							width: 44,
+						}}
+						isDisabled={!draftMessage.trim() || sendMessage.isPending}
+						onPress={() => void handleSendMessage()}
+						style={{ borderRadius: 999 }}
+						tintColor={accentColor}
+					>
+						{sendMessage.isPending ? (
+							<Spinner size='sm' color={accentForegroundColor} />
+						) : (
+							<IconifyIcon
+								name='ion:send'
+								size={20}
+								color={accentForegroundColor}
+							/>
+						)}
+					</GlassWrapper>
+				</View>
+			}
+		>
 			<FlatList
 				ref={listRef}
 				data={messages}
 				keyExtractor={(item) => item.id}
+				keyboardDismissMode='interactive'
+				keyboardShouldPersistTaps='handled'
 				contentContainerStyle={{
 					flexGrow: 1,
 					gap: 8,
@@ -203,7 +241,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 
 					return (
 						<View
-							className={`w-fit`}
+							className='w-fit'
 							style={{
 								maxWidth: '86%',
 								alignSelf: isMine ? 'flex-end' : 'flex-start',
@@ -230,46 +268,6 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					)
 				}}
 			/>
-
-			<View
-				className='flex-row items-center gap-2 border-t border-border px-3 pt-2'
-				style={{
-					borderColor,
-					paddingBottom: insets.bottom + 8,
-				}}
-			>
-				<GlassInput
-					multiline
-					placeholder={tPlaceholder('chatMessage')}
-					value={draftMessage}
-					onChangeText={setDraftMessage}
-					style={{ flex: 1, maxHeight: 120, minHeight: 44 }}
-				/>
-
-				<GlassWrapper
-					contentContainerStyle={{
-						alignItems: 'center',
-						height: 44,
-						justifyContent: 'center',
-						width: 44,
-					}}
-					isDisabled={!draftMessage.trim() || sendMessage.isPending}
-					glassEffectStyle='regular'
-					onPress={() => void handleSendMessage()}
-					style={{ borderRadius: 999 }}
-					tintColor={accentColor}
-				>
-					{sendMessage.isPending ? (
-						<Spinner size='sm' color={accentForegroundColor} />
-					) : (
-						<IconifyIcon
-							name='ion:send'
-							size={20}
-							color={accentForegroundColor}
-						/>
-					)}
-				</GlassWrapper>
-			</View>
-		</KeyboardAvoidingView>
+		</BasePage>
 	)
 }

@@ -12,6 +12,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import {
 	Platform,
 	RefreshControl,
+	KeyboardAvoidingView,
 	View,
 	type StyleProp,
 	type ViewStyle,
@@ -38,14 +39,17 @@ const PULL_REFRESH_RESET_RATIO = 0.85
 interface IBasePageProps {
 	children: ReactNode
 	/**
-	 * Scrolls with page content (inside ScrollView).
+	 * Header slot. By default scrolls with content; set `isHeaderFixed` to pin it.
 	 */
 	headerContent?: ReactNode
 	/**
-	 * Fixed overlay at the bottom. Content scrolls underneath; safe-area bottom
-	 * should be handled inside footerContent when needed.
+	 * Footer slot. By default fixed overlay; set `isFooterFixed={false}` to scroll with content.
 	 */
 	footerContent?: ReactNode
+	/** Pin `headerContent` above the scroll area. Default: scrolls with content. */
+	isHeaderFixed?: boolean
+	/** Pin `footerContent` as bottom overlay. Default: true when `footerContent` is set. */
+	isFooterFixed?: boolean
 	/**
 	 * Which screen edges get initial content padding from safe-area insets.
 	 * Scroll can move content past these paddings (under status bar / tab bar).
@@ -53,6 +57,8 @@ interface IBasePageProps {
 	edges?: readonly Edge[]
 	style?: StyleProp<ViewStyle>
 	disableTopSafeArea?: boolean
+	/** When false, children render in a flex container instead of ScrollView (e.g. FlatList). */
+	scrollEnabled?: boolean
 	adjustForKeyboard?: boolean
 	onRefresh?: () => void
 	refreshing?: boolean
@@ -63,6 +69,9 @@ export function BasePage({
 	children,
 	headerContent,
 	footerContent,
+	isHeaderFixed = false,
+	isFooterFixed = true,
+	scrollEnabled = true,
 	style,
 	contentContainerStyle,
 	edges = DEFAULT_EDGES,
@@ -78,10 +87,16 @@ export function BasePage({
 	const backgroundColor = THEME_BACKGROUND_COLORS[resolvedColorScheme]
 	const hasHeader = headerContent != null
 	const hasFooter = footerContent != null
+	const hasScrollHeader = hasHeader && !isHeaderFixed
+	const hasFixedHeader = hasHeader && isHeaderFixed
+	const hasFixedFooter = hasFooter && isFooterFixed
+	const hasScrollFooter = hasFooter && !isFooterFixed
+	const useKeyboardAvoidingFooter = adjustForKeyboard && hasFixedFooter
+	const useAbsoluteFooter = hasFixedFooter && !useKeyboardAvoidingFooter
 
 	const paddingTop =
 		!disableTopSafeArea && !hasHeader && edges.includes('top') ? insets.top : 0
-	const paddingBottom = hasFooter
+	const paddingBottom = useAbsoluteFooter
 		? 0
 		: edges.includes('bottom')
 			? insets.bottom + 10
@@ -95,13 +110,35 @@ export function BasePage({
 		!disableTopSafeArea &&
 		edges.includes('top') &&
 		insets.top > 0
-	const showBottomEdgeBackground = hasFooter
+	const showBottomEdgeBackground = useAbsoluteFooter
 
 	const footerReservedHeight =
 		FOOTER_PADDING_TOP + FOOTER_CONTENT_MIN_HEIGHT + insets.bottom
-	const scrollPaddingBottom = hasFooter
+	const scrollPaddingBottom = useAbsoluteFooter
 		? footerReservedHeight + EDGE_FADE_EXTENT
 		: paddingBottom
+
+	const headerSlotStyle = {
+		backgroundColor,
+		paddingLeft,
+		paddingRight,
+		paddingTop: headerPaddingTop,
+	}
+
+	const scrollHeader = hasScrollHeader ? (
+		<View style={headerSlotStyle}>{headerContent}</View>
+	) : null
+
+	const scrollFooter = hasScrollFooter ? (
+		<View
+			style={{
+				paddingBottom: edges.includes('bottom') ? insets.bottom : 0,
+				paddingTop: FOOTER_PADDING_TOP,
+			}}
+		>
+			{footerContent}
+		</View>
+	) : null
 
 	const topEdgeOverlayHeight = insets.top + EDGE_FADE_EXTENT
 	const topSafeAreaEndOffset =
@@ -123,7 +160,8 @@ export function BasePage({
 	const pullRefreshTriggered = useSharedValue(false)
 	const isRefreshingShared = useSharedValue(refreshing)
 	const hasRefresh = onRefresh != null
-	const trackScroll = showTopEdgeBackground || hasFooter || hasRefresh
+	const trackScroll =
+		scrollEnabled && (showTopEdgeBackground || useAbsoluteFooter || hasRefresh)
 	const refreshIndicatorTop = Math.max(paddingTop, insets.top) + 4
 
 	useEffect(() => {
@@ -211,53 +249,105 @@ export function BasePage({
 		}
 	})
 
+	const bodyContentStyle = [
+		{
+			backgroundColor,
+			flexGrow: 1,
+			paddingBottom: scrollPaddingBottom,
+			paddingLeft,
+			paddingRight,
+			paddingTop,
+		},
+		contentContainerStyle,
+	]
+
+	const staticBodyStyle = [
+		{
+			backgroundColor,
+			flex: 1,
+			paddingLeft,
+			paddingRight,
+			paddingTop,
+		},
+		contentContainerStyle,
+	]
+
+	const keyboardFooter = useKeyboardAvoidingFooter ? (
+		<View
+			style={{
+				backgroundColor,
+				paddingLeft,
+				paddingRight,
+				paddingTop: FOOTER_PADDING_TOP,
+			}}
+		>
+			{footerContent}
+		</View>
+	) : null
+
+	const mainColumn = (
+		<>
+			{hasFixedHeader ? (
+				<View style={{ ...headerSlotStyle, zIndex: 11 }}>{headerContent}</View>
+			) : null}
+
+			{scrollEnabled ? (
+				<Animated.ScrollView
+					alwaysBounceVertical={hasRefresh ? true : undefined}
+					automaticallyAdjustKeyboardInsets={
+						adjustForKeyboard && !useKeyboardAvoidingFooter && Platform.OS === 'ios'
+					}
+					contentContainerStyle={bodyContentStyle}
+					keyboardShouldPersistTaps={adjustForKeyboard ? 'handled' : undefined}
+					onScroll={trackScroll ? handleScroll : undefined}
+					refreshControl={
+						Platform.OS === 'android' && hasRefresh ? (
+							<RefreshControl
+								colors={[accentColor]}
+								onRefresh={onRefresh}
+								progressViewOffset={
+									hasFixedHeader ? headerPaddingTop : paddingTop
+								}
+								refreshing={refreshing}
+								tintColor={accentColor}
+							/>
+						) : undefined
+					}
+					scrollEventThrottle={16}
+					style={[{ backgroundColor, flex: 1 }, style]}
+				>
+					{scrollHeader}
+					{children}
+					{scrollFooter}
+				</Animated.ScrollView>
+			) : (
+				<View
+					style={[staticBodyStyle, style]}
+					{...(adjustForKeyboard ? { pointerEvents: 'box-none' as const } : {})}
+				>
+					{scrollHeader}
+					{children}
+					{scrollFooter}
+				</View>
+			)}
+
+			{keyboardFooter}
+		</>
+	)
+
 	return (
 		<View style={{ backgroundColor, flex: 1 }}>
-			<Animated.ScrollView
-				alwaysBounceVertical={hasRefresh ? true : undefined}
-				automaticallyAdjustKeyboardInsets={
-					adjustForKeyboard && Platform.OS === 'ios'
-				}
-				contentContainerStyle={[
-					{
-						backgroundColor,
-						flexGrow: 1,
-						paddingBottom: scrollPaddingBottom,
-						paddingLeft,
-						paddingRight,
-						paddingTop,
-					},
-					contentContainerStyle,
-				]}
-				keyboardShouldPersistTaps={adjustForKeyboard ? 'handled' : undefined}
-				onScroll={trackScroll ? handleScroll : undefined}
-				refreshControl={
-					Platform.OS === 'android' && hasRefresh ? (
-						<RefreshControl
-							colors={[accentColor]}
-							onRefresh={onRefresh}
-							progressViewOffset={paddingTop}
-							refreshing={refreshing}
-							tintColor={accentColor}
-						/>
-					) : undefined
-				}
-				scrollEventThrottle={16}
-				style={[{ backgroundColor, flex: 1 }, style]}
-			>
-				{headerContent ? (
-					<View
-						style={{
-							paddingLeft,
-							paddingRight,
-							paddingTop: headerPaddingTop,
-						}}
-					>
-						{headerContent}
-					</View>
-				) : null}
-				{children}
-			</Animated.ScrollView>
+			{useKeyboardAvoidingFooter ? (
+				<KeyboardAvoidingView
+					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+					keyboardVerticalOffset={0}
+					style={{ flex: 1 }}
+				>
+					{mainColumn}
+				</KeyboardAvoidingView>
+			) : (
+				mainColumn
+			)}
 
 			{hasRefresh ? (
 				<Animated.View
@@ -409,7 +499,7 @@ export function BasePage({
 				</Animated.View>
 			) : null}
 
-			{footerContent ? (
+			{useAbsoluteFooter ? (
 				<View
 					style={{
 						bottom: 0,
