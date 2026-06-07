@@ -9,9 +9,9 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import type { Href } from 'expo-router'
 import { useRouter } from 'expo-router'
-import { Card, Chip, useThemeColor } from 'heroui-native'
+import { Card, Chip, PressableFeedback, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { ScheduleScreenHeader } from '../components/schedule-screen-header'
 
 interface IMasterSettingsHubProps {
@@ -41,43 +41,44 @@ function SettingsTileBlock({
 	const isWide = variant === 'wide'
 
 	return (
-		<Pressable
+		<PressableFeedback
 			accessibilityRole='button'
 			onPress={onPress}
 			style={{
 				minHeight: isWide ? 92 : 132,
 				width: isWide ? '100%' : '48%',
 			}}
-			className={`rounded-2xl border border-border bg-background-secondary active:opacity-80 ${
-				isWide
-					? 'flex-row items-center gap-3 px-4 py-4'
-					: 'flex-col justify-between p-4'
-			}`}
 		>
-			{isWide ? (
-				<>
-					<View className='rounded-2xl bg-surface p-3'>
-						<Ionicons name={tile.icon} size={22} color={mutedColor} />
-					</View>
-					<Text className='flex-1 text-base font-semibold text-foreground'>
-						{tile.label}
-					</Text>
-					<Ionicons name='chevron-forward' size={20} color={mutedColor} />
-				</>
-			) : (
-				<>
-					<View className='mb-2 flex-row items-start justify-between'>
-						<View className='rounded-2xl bg-surface p-3'>
-							<Ionicons name={tile.icon} size={26} color={mutedColor} />
+			<PressableFeedback.Ripple />
+
+			<Card>
+				<Card.Body>
+					{isWide ? (
+						<View className='flex-row items-center gap-3'>
+							<View className='rounded-2xl bg-surface p-3'>
+								<Ionicons name={tile.icon} size={22} color={mutedColor} />
+							</View>
+							<Text className='flex-1 text-base font-semibold text-foreground'>
+								{tile.label}
+							</Text>
+							<Ionicons name='chevron-forward' size={20} color={mutedColor} />
 						</View>
-						<Ionicons name='chevron-forward' size={18} color={mutedColor} />
-					</View>
-					<Text className='text-sm font-semibold text-foreground'>
-						{tile.label}
-					</Text>
-				</>
-			)}
-		</Pressable>
+					) : (
+						<>
+							<View className='mb-2 flex-row items-start justify-between'>
+								<View className='rounded-2xl bg-surface p-3'>
+									<Ionicons name={tile.icon} size={26} color={mutedColor} />
+								</View>
+								<Ionicons name='chevron-forward' size={18} color={mutedColor} />
+							</View>
+							<Text className='text-sm font-semibold text-foreground'>
+								{tile.label}
+							</Text>
+						</>
+					)}
+				</Card.Body>
+			</Card>
+		</PressableFeedback>
 	)
 }
 

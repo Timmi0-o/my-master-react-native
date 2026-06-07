@@ -50,8 +50,32 @@ alwaysApply: true
 - Auth-related logic must go through project auth context/store/helpers only.
 - Детальные правила actions/hooks/контракт API: `.cursor/rules/api-and-actions.mdc`.
 - Хуки в `hooks/actions/`: строго `use{Entity}{Operation}` как у action (`useAppointmentChatGetOne`, не `useChatsList`). См. `api-and-actions.mdc`.
-- Query в URL и фильтры list: `../../.cursor/skills/react-native-query-filters/SKILL.md` (`useManageSearchParams` + `formatQueryGet*`).
 - Сквозной поток данных (бэк + клиент): `../../.cursor/rules/project-data-flow.mdc`.
+
+## Agent skills (Expo / RN)
+
+Скилы — **корень репо** `.cursor/skills/`. Перед задачей читать релевантный `SKILL.md`:
+
+| Задача | Skill |
+|--------|-------|
+| Экраны, навигация, анимации, tabs | `building-native-ui` |
+| Uniwind / className | `.cursor/rules/uniwind-styling.mdc` |
+| Tailwind/NativeWind setup с нуля | `expo-tailwind-setup` |
+| API, fetch, кэш, loaders | `native-data-fetching` |
+| Query в URL, фильтры list | `react-native-query-filters` |
+| Zod-схемы actions | `react-native-zod-schemas` |
+| Expo SDK upgrade | `upgrading-expo` |
+| Dev client | `expo-dev-client` |
+| App Store / Play Store | `expo-deployment` |
+| EAS workflows CI/CD | `expo-cicd-workflows` |
+| EAS Update insights | `eas-update-insights` |
+| Нативные модули | `expo-module` |
+| App Clip | `add-app-clip` |
+| Brownfield embed RN | `expo-brownfield` |
+| API routes (EAS Hosting) | `expo-api-routes` |
+| EAS Observe | `expo-observe` |
+| SwiftUI / Compose UI | `expo-ui-swiftui`, `expo-ui-jetpack-compose` |
+| DOM components | `use-dom` |
 
 ## Quality bar
 

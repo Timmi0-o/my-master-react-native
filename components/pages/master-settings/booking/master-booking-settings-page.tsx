@@ -7,9 +7,14 @@ import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { SaveButton } from '@/components/shared/ui/save-button/save-button'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Card, Typography } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
-import { Text, View } from 'react-native'
+import Animated, {
+	FadeIn,
+	FadeOut,
+	LinearTransition,
+} from 'react-native-reanimated'
 import { ScheduleFormField } from '../components/schedule-form-field'
 import { ScheduleScreenHeader } from '../components/schedule-screen-header'
 import { BookingStatusField } from './components/booking-status-field'
@@ -63,52 +68,65 @@ export function MasterBookingSettingsPage({
 			}
 			adjustForKeyboard
 		>
-			<View className='gap-4'>
-				<View className='gap-2'>
-					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+			<Animated.View className='gap-4' layout={LinearTransition.duration(280)}>
+				<Animated.View
+					className='gap-2'
+					layout={LinearTransition.duration(280)}
+				>
+					<Typography type='h3' style={{ marginLeft: 8 }}>
 						{tField('status')}
-					</Text>
+					</Typography>
 					<BookingStatusField control={control} name='bookingStatus' />
-				</View>
+					{bookingStatus === 'PAUSED' ? (
+						<Animated.View
+							entering={FadeIn.duration(120)}
+							exiting={FadeOut.duration(100)}
+							layout={LinearTransition.duration(200)}
+						>
+							<PausedUntilField control={control} name='pausedUntil' />
+						</Animated.View>
+					) : null}
+				</Animated.View>
 
-				{bookingStatus === 'PAUSED' ? (
-					<PausedUntilField control={control} name='pausedUntil' />
-				) : null}
-
-				<View className='gap-2'>
-					<Text className='px-1 text-sm font-semibold uppercase text-muted'>
+				<Animated.View
+					className='gap-2'
+					layout={LinearTransition.duration(280)}
+				>
+					<Typography type='h3' style={{ marginLeft: 8 }}>
 						{t('bookingRules')}
-					</Text>
+					</Typography>
 
-					<View className='gap-4 rounded-2xl border border-border bg-background-secondary p-4'>
-						<TimezoneSelectField control={control} name='timezone' />
-						<ScheduleFormField
-							control={control}
-							label={tField('minLeadMinutes')}
-							name='minNoticeMinutes'
-							inputProps={{ keyboardType: 'number-pad' }}
-						/>
-						<ScheduleFormField
-							control={control}
-							label={tField('maxDaysAhead')}
-							name='maxBookingDaysAhead'
-							inputProps={{ keyboardType: 'number-pad' }}
-						/>
-						<ScheduleFormField
-							control={control}
-							label={tField('slotStepMinutes')}
-							name='slotStepMinutes'
-							inputProps={{ keyboardType: 'number-pad' }}
-						/>
-						<ScheduleFormField
-							control={control}
-							label={tField('gapMinutes')}
-							name='bufferBetweenAppointmentsMinutes'
-							inputProps={{ keyboardType: 'number-pad' }}
-						/>
-					</View>
-				</View>
-			</View>
+					<Card>
+						<Card.Body>
+							<TimezoneSelectField control={control} name='timezone' />
+							<ScheduleFormField
+								control={control}
+								label={tField('minLeadMinutes')}
+								name='minNoticeMinutes'
+								inputProps={{ keyboardType: 'number-pad' }}
+							/>
+							<ScheduleFormField
+								control={control}
+								label={tField('maxDaysAhead')}
+								name='maxBookingDaysAhead'
+								inputProps={{ keyboardType: 'number-pad' }}
+							/>
+							<ScheduleFormField
+								control={control}
+								label={tField('slotStepMinutes')}
+								name='slotStepMinutes'
+								inputProps={{ keyboardType: 'number-pad' }}
+							/>
+							<ScheduleFormField
+								control={control}
+								label={tField('gapMinutes')}
+								name='bufferBetweenAppointmentsMinutes'
+								inputProps={{ keyboardType: 'number-pad' }}
+							/>
+						</Card.Body>
+					</Card>
+				</Animated.View>
+			</Animated.View>
 		</BasePage>
 	)
 }
