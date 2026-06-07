@@ -2,6 +2,7 @@ import type { IAppointmentChatMessage } from '@/actions/appointment-chat/models/
 import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
+import { GlassWrapper } from '@/components/shared/ui/glass-wrapper/glass-wrapper'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useAuth } from '@/configs/auth/auth-context'
 import {
@@ -14,7 +15,6 @@ import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
 import { IconifyIcon } from '@huymobile/react-native-iconify'
-import { GlassView } from 'expo-glass-effect'
 import { Avatar, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
@@ -136,20 +136,12 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 				<BackButton withoutLabel style={{ marginTop: 4 }} />
 
 				<View className='flex-row gap-2' style={{ marginHorizontal: 'auto' }}>
-					<Avatar alt={peerTitleFull} color='accent' size='md'>
-						<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
-					</Avatar>
-
-					<GlassView
-						isInteractive
-						glassEffectStyle='regular'
-						style={{
-							minWidth: 0,
-							borderRadius: 16,
-							overflow: 'hidden',
+					<GlassWrapper
+						contentContainerStyle={{
 							paddingHorizontal: 12,
 							paddingVertical: 8,
 						}}
+						style={{ borderRadius: 16, minWidth: 0 }}
 					>
 						<Text
 							className='font-semibold text-foreground'
@@ -167,7 +159,11 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 								{headerSubtitle}
 							</Text>
 						) : null}
-					</GlassView>
+					</GlassWrapper>
+
+					<Avatar alt={peerTitleFull} color='accent' size='md'>
+						<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
+					</Avatar>
 				</View>
 			</View>
 

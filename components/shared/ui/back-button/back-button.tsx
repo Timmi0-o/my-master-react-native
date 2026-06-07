@@ -1,6 +1,7 @@
+import { GlassWrapper } from '@/components/shared/ui/glass-wrapper/glass-wrapper'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { IconifyIcon } from '@huymobile/react-native-iconify'
-import { GlassView, isLiquidGlassAvailable } from 'expo-glass-effect'
+import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { Stack, useRouter, type Href } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -57,26 +58,18 @@ export function BackButton({
 	)
 
 	const button = useGlass ? (
-		<Pressable
-			accessibilityRole='button'
+		<GlassWrapper
+			contentContainerStyle={{
+				alignItems: 'center',
+				flexDirection: 'row',
+				paddingHorizontal: 12,
+				paddingVertical: withoutLabel ? 10 : 8,
+			}}
 			onPress={handlePress}
-			style={[{ alignSelf: 'flex-start', zIndex: 1000 }, style]}
+			style={[{ alignSelf: 'flex-start', borderRadius: 999, zIndex: 1000 }, style]}
 		>
-			<GlassView
-				isInteractive
-				glassEffectStyle='regular'
-				style={{
-					alignItems: 'center',
-					alignSelf: 'flex-start',
-					borderRadius: 999,
-					flexDirection: 'row',
-					paddingHorizontal: 12,
-					paddingVertical: withoutLabel ? 10 : 8,
-				}}
-			>
-				{label}
-			</GlassView>
-		</Pressable>
+			{label}
+		</GlassWrapper>
 	) : (
 		<Pressable
 			accessibilityRole='button'

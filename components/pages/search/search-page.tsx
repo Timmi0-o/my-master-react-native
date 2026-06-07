@@ -91,12 +91,11 @@ export const SearchPage = () => {
 					value={draftSearch ?? ''}
 					onChange={(nextValue) => setDraftSearch(nextValue)}
 				>
-					<GlassInputShell>
+					<GlassInputShell style={{ minHeight: 60 }}>
 						<SearchField.Group>
 							<SearchField.SearchIcon />
 							<SearchField.Input
 								className={glassInnerInputClassName}
-								style={{ minHeight: 60 }}
 								placeholder={tPlaceholder('searchServices')}
 							/>
 							<SearchField.ClearButton />
