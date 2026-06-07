@@ -12,7 +12,7 @@ import type { ReactElement } from 'react'
 import { useMemo, useState } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
 import { Modal, Pressable, Text, View } from 'react-native'
-import { buildTimeOfDayOptions } from '../helpers/build-paused-until-options'
+import { buildTimeOfDayOptions } from '../../../helpers/build-paused-until-options'
 
 interface ITimeOfDaySelectFieldProps<T extends FieldValues> {
 	control: Control<T>

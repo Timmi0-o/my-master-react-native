@@ -1,4 +1,4 @@
-import HomePage from '@/components/pages/home/home-page'
+import HomePage from '@/components/pages/home/home-page/home-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import {
 	routeErrorText,

@@ -13,8 +13,8 @@ import { Button, Card, useToast } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from './schedule-screen-header'
-import { ScheduleSimpleField } from './schedule-simple-field'
+import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { ScheduleSimpleField } from '../../components/schedule-simple-field'
 
 interface IMasterWeeklyScheduleEditPageProps {
 	masterProfile: IMasterProfile

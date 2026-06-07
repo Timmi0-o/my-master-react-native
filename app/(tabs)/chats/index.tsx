@@ -1,5 +1,5 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { ChatsPage } from '@/components/pages/chats/chats-page'
+import { ChatsPage } from '@/components/pages/chats/chats-page/chats-page'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { routeErrorText } from '@/configs/i18n/use-route-feedback'
 import { useAppointmentGetMyClientsMany } from '@/hooks/actions/appointment/use-appointment-get-my-clients-many'

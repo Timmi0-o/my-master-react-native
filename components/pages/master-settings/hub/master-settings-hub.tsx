@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router'
 import { Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Pressable, Text, View } from 'react-native'
-import { ScheduleScreenHeader } from './schedule-screen-header'
+import { ScheduleScreenHeader } from '../components/schedule-screen-header'
 
 interface IMasterSettingsHubProps {
 	masterProfile: IMasterProfile

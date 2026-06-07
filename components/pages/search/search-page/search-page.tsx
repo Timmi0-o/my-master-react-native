@@ -1,6 +1,6 @@
 import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
-import { RecommendedServicesModal } from '@/components/pages/search/components/modals/recommended-services-modal/recommended-services-modal'
-import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/search/data/search-recommended-services.constants'
+import { RecommendedServicesModal } from './components/modals/recommended-services-modal/recommended-services-modal'
+import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from './data/search-recommended-services.constants'
 import { BasePage } from '@/components/shared/components/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { MasterCard } from '@/components/shared/components/master-card/master-card'

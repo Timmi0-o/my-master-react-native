@@ -1,5 +1,5 @@
-import { MasterScheduleExceptionsListPage } from '@/components/pages/master-settings/master-schedule-exceptions-list-page'
-import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import { MasterScheduleExceptionsListPage } from '@/components/pages/master-settings/schedule-exceptions/list/master-schedule-exceptions-list-page'
+import { useMasterSettingsProfile } from '@/components/pages/master-settings/hooks/use-master-settings-profile'
 import {
 	routeErrorText,
 	routeLoadingText,

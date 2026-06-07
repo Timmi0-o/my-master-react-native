@@ -1,5 +1,5 @@
-import { MasterBookingSettingsPage } from '@/components/pages/master-settings/master-booking-settings-page'
-import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import { MasterBookingSettingsPage } from '@/components/pages/master-settings/booking/master-booking-settings-page'
+import { useMasterSettingsProfile } from '@/components/pages/master-settings/hooks/use-master-settings-profile'
 import {
 	routeErrorText,
 	routeLoadingText,

@@ -1,5 +1,5 @@
-import { MasterWeeklyScheduleEditPage } from '@/components/pages/master-settings/master-weekly-schedule-edit-page'
-import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import { MasterWeeklyScheduleEditPage } from '@/components/pages/master-settings/weekly-schedule/edit/master-weekly-schedule-edit-page'
+import { useMasterSettingsProfile } from '@/components/pages/master-settings/hooks/use-master-settings-profile'
 import {
 	routeErrorText,
 	routeLoadingText,

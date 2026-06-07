@@ -1,5 +1,5 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
-import { ScheduleSimpleField } from '@/components/pages/master-settings/schedule-simple-field'
+import { ScheduleSimpleField } from '@/components/pages/master-settings/components/schedule-simple-field'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
 	resolveLocale,

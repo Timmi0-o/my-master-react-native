@@ -1,5 +1,5 @@
-import { MasterSettingsHub } from '@/components/pages/master-settings/master-settings-hub'
-import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import { MasterSettingsHub } from '@/components/pages/master-settings/hub/master-settings-hub'
+import { useMasterSettingsProfile } from '@/components/pages/master-settings/hooks/use-master-settings-profile'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
 	routeErrorText,

@@ -1,7 +1,7 @@
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import type { ReactElement } from 'react'
 import { Control, FieldValues, Path } from 'react-hook-form'
-import { DateTimeSelectField } from './datetime-select-field'
+import { DateTimeSelectField } from '../../components/datetime-select-field'
 
 interface IPausedUntilFieldProps<T extends FieldValues> {
 	control: Control<T>

@@ -16,7 +16,7 @@ import Animated, {
 	FadeInDown,
 	LinearTransition,
 } from 'react-native-reanimated'
-import { AuthInputField } from './auth-input-field'
+import { AuthInputField } from './components/auth-input-field'
 import { LOGIN_FORM_DEFAULT_VALUES } from './data/login-form-default-values'
 import { useOnSubmit } from './hooks/use-on-submit'
 

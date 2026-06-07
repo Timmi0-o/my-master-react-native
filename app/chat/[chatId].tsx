@@ -1,4 +1,4 @@
-import { ChatRoomPage } from '@/components/pages/chat/chat-room-page'
+import { ChatRoomPage } from '@/components/pages/chat/chat-room-page/chat-room-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { routeErrorText } from '@/configs/i18n/use-route-feedback'

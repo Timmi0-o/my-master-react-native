@@ -1,5 +1,5 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
-import { BookAppointmentModal } from '@/components/pages/master-service/components/modals/book-appointment-modal/book-appointment-modal'
+import { BookAppointmentModal } from './components/modals/book-appointment-modal/book-appointment-modal'
 import { BasePage } from '@/components/shared/components/base-page'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'

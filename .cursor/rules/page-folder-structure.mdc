@@ -1,0 +1,72 @@
+---
+description: Структура папок components/pages — экран в подпапке, без «каши» в корне
+globs: components/pages/**/*.{ts,tsx}
+alwaysApply: false
+---
+
+# Группировка страниц (`components/pages/`)
+
+## Принцип
+
+Не складывать все экраны, хуки и компоненты фичи в одну папку. Каждый **экран** (или логическая страница: list / edit / hub) — в **своей подпапке** со своими локальными артефактами.
+
+Общие для всей фичи вещи — только в **корне модуля** фичи, не в корне `pages/`.
+
+## Структура модуля фичи
+
+```
+components/pages/<feature>/
+├── hooks/              # хуки, нужные нескольким экранам модуля
+├── components/         # UI, переиспользуемый внутри модуля
+├── helpers/            # утилиты модуля (если реально общие)
+├── <screen-a>/         # один экран или hub
+│   └── <screen-a>.tsx
+├── <screen-b>/
+│   ├── list/
+│   │   └── <screen-b>-list-page.tsx
+│   └── edit/
+│       ├── <screen-b>-edit-page.tsx
+│       ├── components/   # поля/блоки только для edit
+│       ├── hooks/        # use-on-submit, локальная логика
+│       └── data/         # default-values, constants экрана
+```
+
+## Что куда класть
+
+| Артефакт | Где |
+|---|---|
+| Страница (компонент экрана) | `<feature>/<screen>/` или `<feature>/<screen>/list|edit/` |
+| Поле формы, модалка **только этого экрана** | `.../<screen>/components/` |
+| `use-on-submit-*`, локальный hook экрана | `.../<screen>/hooks/` |
+| `*-default-values`, константы меню экрана | `.../<screen>/data/` |
+| Хук профиля / guard для всех роутов модуля | `<feature>/hooks/` |
+| Header, field, util **2+ экранов модуля** | `<feature>/components/` или `<feature>/helpers/` |
+| Action, Zod-схема API | `actions/<feature>/` (не в `components/pages/`) |
+
+## Запрещено
+
+- Плоский корень с десятком `*-page.tsx`, общим `hooks/`, `data/`, `components/` «на всех».
+- Выносить в корень модуля то, что используется **одним** экраном.
+- Дублировать общий компонент в каждой подпапке вместо `<feature>/components/`.
+
+## Эталоны
+
+**Мультиэкранный модуль** — `components/pages/master-settings/`:
+
+- `hub/` — хаб настроек
+- `booking/` — booking page + свои `components/`, `hooks/`, `data/`
+- `weekly-schedule/list|edit/` — список и редактирование
+- `schedule-exceptions/list/` + `schedule-exceptions/edit/` с локальными `components/`, `hooks/`, `data/`
+- корень: `hooks/use-master-settings-profile`, `components/schedule-screen-header`, `helpers/build-paused-until-options`
+
+**Один экран** — всё равно подпапка экрана, не плоский корень фичи:
+
+- `auth/login/` — `login-page.tsx`, `components/`, `hooks/`, `data/`
+- `home/home-page/` — page + `components/modals/`, `data/`
+- `search/search-page/`, `profile/profile-page/`, `settings/settings-page/`, `chats/chats-page/`, `chat/chat-room-page/`
+- `master/master-detail/`, `record/record-detail/`, `master-service/master-service-detail/` (+ локальные `components/`, напр. modal бронирования)
+
+## Импорты
+
+- Внутри подпапки экрана — относительные `./components/`, `./hooks/`.
+- Из другого модуля или `app/` — алиас `@/components/pages/<feature>/...` с полным путём до подпапки.

@@ -1,6 +1,6 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { ClientRecordsModal } from '@/components/pages/home/components/modals/client-records-modal/client-records-modal'
-import { HOME_RECORDS_PREVIEW_LIMIT } from '@/components/pages/home/data/home-records.constants'
+import { ClientRecordsModal } from './components/modals/client-records-modal/client-records-modal'
+import { HOME_RECORDS_PREVIEW_LIMIT } from './data/home-records.constants'
 import { BasePage } from '@/components/shared/components/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { RecordCard } from '@/components/shared/components/record-card/record-card'

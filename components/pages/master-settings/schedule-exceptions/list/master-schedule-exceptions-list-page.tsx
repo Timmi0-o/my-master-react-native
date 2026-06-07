@@ -14,7 +14,7 @@ import { useRouter } from 'expo-router'
 import { Button, Card, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from './schedule-screen-header'
+import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
 
 interface IMasterScheduleExceptionsListPageProps {
 	masterProfile: IMasterProfile

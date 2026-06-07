@@ -10,13 +10,13 @@ import { Button } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useForm, useWatch } from 'react-hook-form'
 import { Text, View } from 'react-native'
+import { ScheduleFormField } from '../components/schedule-form-field'
+import { ScheduleScreenHeader } from '../components/schedule-screen-header'
 import { BookingStatusField } from './components/booking-status-field'
 import { PausedUntilField } from './components/paused-until-field'
-import { ScheduleFormField } from './components/schedule-form-field'
 import { TimezoneSelectField } from './components/timezone-select-field'
 import { MASTER_PROFILE_EDIT_DEFAULT_VALUES } from './data/master-profile-edit-default-values'
 import { useOnSubmitMasterProfileEditForm } from './hooks/use-on-submit-master-profile-edit-form'
-import { ScheduleScreenHeader } from './schedule-screen-header'
 
 interface IMasterBookingSettingsPageProps {
 	masterProfile: IMasterProfile
