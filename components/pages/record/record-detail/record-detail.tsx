@@ -1,5 +1,5 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'

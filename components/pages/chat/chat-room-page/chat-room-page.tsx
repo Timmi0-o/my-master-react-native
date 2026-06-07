@@ -1,6 +1,6 @@
 import type { IAppointmentChatMessage } from '@/actions/appointment-chat/models/appointment-chat-message.schema'
 import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import { GlassWrapper } from '@/components/shared/ui/glass-wrapper/glass-wrapper'

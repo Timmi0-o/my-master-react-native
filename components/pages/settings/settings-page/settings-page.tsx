@@ -1,4 +1,4 @@
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { Card, Switch } from 'heroui-native'

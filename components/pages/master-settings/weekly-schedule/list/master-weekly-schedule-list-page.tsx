@@ -3,7 +3,7 @@ import type {
 	TDayOfWeek,
 } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -119,9 +119,7 @@ export function MasterWeeklyScheduleListPage({
 							</Card>
 						)
 					})}
-					{!data.length ? (
-						<DataNotFound message={t('emptyIntervals')} />
-					) : null}
+					{!data.length ? <DataNotFound message={t('emptyIntervals')} /> : null}
 				</View>
 			)}
 		</BasePage>

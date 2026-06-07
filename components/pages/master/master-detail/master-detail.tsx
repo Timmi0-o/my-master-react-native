@@ -2,7 +2,7 @@ import type {
 	IMasterProfile,
 	IMasterProfileService,
 } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'

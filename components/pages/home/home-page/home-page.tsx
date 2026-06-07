@@ -1,17 +1,17 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { ClientRecordsModal } from './components/modals/client-records-modal/client-records-modal'
-import { HOME_RECORDS_PREVIEW_LIMIT } from './data/home-records.constants'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { RecordCard } from '@/components/shared/components/record-card/record-card'
+import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
-import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import { Button, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Text, View } from 'react-native'
+import { ClientRecordsModal } from './components/modals/client-records-modal/client-records-modal'
+import { HOME_RECORDS_PREVIEW_LIMIT } from './data/home-records.constants'
 
 interface IHomePageProps {
 	mode: ActiveProfileMode

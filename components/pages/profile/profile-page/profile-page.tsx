@@ -1,6 +1,6 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import type { IUserProfile } from '@/actions/user-profile/models/user-profile.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
@@ -188,9 +188,7 @@ export default function ProfilePage({
 							<DataNotFound
 								compact
 								message={
-									mode === 'master'
-										? t('masterNotFound')
-										: t('clientNotFound')
+									mode === 'master' ? t('masterNotFound') : t('clientNotFound')
 								}
 							/>
 						)}

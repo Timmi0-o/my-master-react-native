@@ -1,5 +1,5 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import {
 	resolveLocale,
 	toDateTimeLocale,

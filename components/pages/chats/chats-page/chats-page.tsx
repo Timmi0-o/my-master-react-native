@@ -1,5 +1,5 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { ChatListItem } from '@/components/shared/components/chat-list-item/chat-list-item'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
@@ -29,10 +29,7 @@ export const ChatsPage = ({
 	const emptyLabel = mode === 'master' ? t('emptyMaster') : t('emptyClient')
 
 	return (
-		<BasePage
-			onRefresh={onRefresh}
-			refreshing={isRefreshing}
-		>
+		<BasePage onRefresh={onRefresh} refreshing={isRefreshing}>
 			<View className='gap-3 py-5'>
 				<View className='mb-2'>
 					<Text className='ml-2 text-2xl font-bold text-foreground'>

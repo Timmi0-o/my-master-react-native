@@ -1,6 +1,5 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
-import { BookAppointmentModal } from './components/modals/book-appointment-modal/book-appointment-modal'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -14,6 +13,7 @@ import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
+import { BookAppointmentModal } from './components/modals/book-appointment-modal/book-appointment-modal'
 
 interface IMasterServiceDetailProps {
 	service: IMasterService

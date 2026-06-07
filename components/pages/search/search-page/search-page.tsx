@@ -1,7 +1,5 @@
 import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
-import { RecommendedServicesModal } from './components/modals/recommended-services-modal/recommended-services-modal'
-import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from './data/search-recommended-services.constants'
-import { BasePage } from '@/components/shared/components/base-page'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { MasterCard } from '@/components/shared/components/master-card/master-card'
 import { ServiceCard } from '@/components/shared/components/service-card/service-card'
@@ -28,6 +26,8 @@ import {
 } from 'heroui-native'
 import { useEffect, useState } from 'react'
 import { ScrollView, Text, View, type ViewStyle } from 'react-native'
+import { RecommendedServicesModal } from './components/modals/recommended-services-modal/recommended-services-modal'
+import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from './data/search-recommended-services.constants'
 
 const RECOMMENDED_SERVICE_CARD_STYLE: ViewStyle = { width: 220 }
 const VIEW_MORE_BUTTON_STYLE: ViewStyle = { minHeight: 88, width: 120 }
