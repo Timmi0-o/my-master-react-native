@@ -1,6 +1,6 @@
 import {
+	GlassInputGroupInput,
 	GlassInputShell,
-	glassInnerInputClassName,
 } from '@/components/shared/ui/glass-input/glass-input'
 import { Ionicons } from '@expo/vector-icons'
 import {
@@ -57,8 +57,7 @@ export function AuthInputField<T extends FieldValues>({
 							<InputGroup.Prefix isDecorative>
 								<Ionicons name={leftIcon} size={18} color={mutedColor} />
 							</InputGroup.Prefix>
-							<InputGroup.Input
-								className={glassInnerInputClassName}
+							<GlassInputGroupInput
 								value={(field.value ?? '') as string}
 								onChangeText={field.onChange}
 								onBlur={field.onBlur}

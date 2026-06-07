@@ -8,13 +8,16 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useAppointmentCreate } from '@/hooks/actions/appointment/use-appointment-create'
 import { useMasterServiceGetAvailableSlots } from '@/hooks/actions/master-service/use-master-service-get-available-slots'
 import { formatDate } from '@/utils/format-date.util'
-import { ECurrency, formatPriceByCurrency } from '@/utils/format-price-by-currency'
+import {
+	ECurrency,
+	formatPriceByCurrency,
+} from '@/utils/format-price-by-currency'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import { BottomSheet, Button, Spinner } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Text, View } from 'react-native'
+import { Platform, Text, View } from 'react-native'
 
 const BOOKING_DATE_OPTIONS_COUNT = 14
 
@@ -54,7 +57,10 @@ export function BookAppointmentModal({
 	const { t: tPlaceholder } = useScopedTranslation('ui', 'placeholder')
 	const { t: tUi } = useScopedTranslation('ui')
 	const createAppointment = useAppointmentCreate()
-	const dateOptions = useMemo(() => buildDateOptions(BOOKING_DATE_OPTIONS_COUNT), [])
+	const dateOptions = useMemo(
+		() => buildDateOptions(BOOKING_DATE_OPTIONS_COUNT),
+		[],
+	)
 	const [selectedDate, setSelectedDate] = useState(dateOptions[0] ?? '')
 	const [selectedStartsAt, setSelectedStartsAt] = useState<string | null>(null)
 	const [message, setMessage] = useState('')
@@ -109,9 +115,7 @@ export function BookAppointmentModal({
 			masterProfileId,
 			masterServiceId: service.id,
 			startsAt: selectedStartsAt,
-			...(trimmedMessage
-				? { initialMessage: { body: trimmedMessage } }
-				: {}),
+			...(trimmedMessage ? { initialMessage: { body: trimmedMessage } } : {}),
 		})
 
 		onClose()
@@ -149,8 +153,9 @@ export function BookAppointmentModal({
 
 					<BottomSheetScrollView
 						contentContainerClassName='gap-4 pb-6'
-						keyboardShouldPersistTaps='handled'
 						showsVerticalScrollIndicator={false}
+						automaticallyAdjustKeyboardInsets={Platform.OS === 'ios'}
+						keyboardShouldPersistTaps={'handled'}
 					>
 						<View className='gap-2'>
 							<Text className='text-sm font-medium text-foreground'>

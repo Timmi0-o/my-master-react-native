@@ -22,7 +22,6 @@ import {
 	FlatList,
 	KeyboardAvoidingView,
 	Platform,
-	Pressable,
 	Text,
 	View,
 } from 'react-native'
@@ -68,7 +67,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
 
-	const [draft, setDraft] = useState('')
+	const [draftMessage, setDraftMessage] = useState('')
 	const listRef = useRef<FlatList<IAppointmentChatMessage>>(null)
 
 	const sendMessage = useAppointmentChatMessageCreate(chat.id)
@@ -111,15 +110,15 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 		)
 	}, [chat.messages])
 
-	const handleSend = useCallback(async () => {
-		const body = draft.trim()
+	const handleSendMessage = useCallback(async () => {
+		const body = draftMessage.trim()
 		if (!body || sendMessage.isPending) {
 			return
 		}
 
-		setDraft('')
+		setDraftMessage('')
 		await sendMessage.mutateAsync({ chatId: chat.id, body })
-	}, [chat.id, draft, sendMessage])
+	}, [chat.id, draftMessage, sendMessage])
 
 	const avatarLetter = peerTitleFull.trim()[0]?.toUpperCase() ?? '?'
 
@@ -135,7 +134,10 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			>
 				<BackButton withoutLabel style={{ marginTop: 4 }} />
 
-				<View className='flex-row gap-2' style={{ marginHorizontal: 'auto' }}>
+				<View
+					className='flex-row gap-2 justify-between'
+					style={{ marginHorizontal: 'auto' }}
+				>
 					<GlassWrapper
 						contentContainerStyle={{
 							paddingHorizontal: 12,
@@ -203,7 +205,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 						<View
 							className={`w-fit`}
 							style={{
-								maxWidth: '72%',
+								maxWidth: '86%',
 								alignSelf: isMine ? 'flex-end' : 'flex-start',
 							}}
 						>
@@ -237,19 +239,26 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 				}}
 			>
 				<GlassInput
+					numberOfLines={10}
 					multiline
 					placeholder={tPlaceholder('chatMessage')}
-					value={draft}
-					onChangeText={setDraft}
+					value={draftMessage}
+					onChangeText={setDraftMessage}
 					style={{ flex: 1, minHeight: 40 }}
 				/>
 
-				<Pressable
-					accessibilityRole='button'
-					className='mb-1 h-11 w-11 items-center justify-center rounded-full active:opacity-80'
-					style={{ backgroundColor: accentColor }}
-					disabled={!draft.trim() || sendMessage.isPending}
-					onPress={() => void handleSend()}
+				<GlassWrapper
+					contentContainerStyle={{
+						alignItems: 'center',
+						height: 44,
+						justifyContent: 'center',
+						width: 44,
+					}}
+					disabled={!draftMessage.trim() || sendMessage.isPending}
+					glassEffectStyle='regular'
+					onPress={() => void handleSendMessage()}
+					style={{ borderRadius: 999, marginBottom: 4 }}
+					tintColor={accentColor}
 				>
 					{sendMessage.isPending ? (
 						<Spinner size='sm' color={accentForegroundColor} />
@@ -260,7 +269,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 							color={accentForegroundColor}
 						/>
 					)}
-				</Pressable>
+				</GlassWrapper>
 			</View>
 		</KeyboardAvoidingView>
 	)

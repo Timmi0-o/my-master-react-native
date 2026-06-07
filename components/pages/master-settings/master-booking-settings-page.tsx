@@ -41,7 +41,7 @@ export function MasterBookingSettingsPage({
 	const bookingStatus = useWatch({ control, name: 'bookingStatus' })
 
 	return (
-		<BasePage>
+		<BasePage adjustForKeyboard>
 			<ScheduleScreenHeader title={t('bookingTitle')} />
 
 			<View className='gap-4'>
@@ -63,7 +63,6 @@ export function MasterBookingSettingsPage({
 
 					<View className='gap-4 rounded-2xl border border-border bg-background-secondary p-4'>
 						<TimezoneSelectField control={control} name='timezone' />
-
 						<ScheduleFormField
 							control={control}
 							label={tField('minLeadMinutes')}

@@ -7,6 +7,7 @@ import type { ReactElement, ReactNode } from 'react'
 import {
 	Platform,
 	Pressable,
+	StyleSheet,
 	View,
 	type StyleProp,
 	type ViewStyle,
@@ -29,9 +30,21 @@ export function GlassWrapper({
 	isInteractive = true,
 	onPress,
 	style,
+	tintColor,
 	...glassViewProps
 }: IGlassWrapperProps): ReactElement {
 	const useGlass = Platform.OS === 'ios' && isLiquidGlassAvailable()
+	const flatStyle = StyleSheet.flatten(style)
+	const backgroundColorFromStyle = flatStyle?.backgroundColor
+	const glassStyle =
+		useGlass && backgroundColorFromStyle != null
+			? { ...flatStyle, backgroundColor: undefined }
+			: style
+	const resolvedTintColor =
+		tintColor ??
+		(typeof backgroundColorFromStyle === 'string'
+			? backgroundColorFromStyle
+			: undefined)
 
 	if (!useGlass) {
 		if (onPress != null) {
@@ -77,7 +90,8 @@ export function GlassWrapper({
 			{...glassViewProps}
 			glassEffectStyle={glassEffectStyle}
 			isInteractive={isInteractive}
-			style={style}
+			style={glassStyle}
+			tintColor={resolvedTintColor}
 		>
 			{content}
 		</GlassView>

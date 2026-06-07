@@ -53,6 +53,7 @@ interface IBasePageProps {
 	edges?: readonly Edge[]
 	style?: StyleProp<ViewStyle>
 	disableTopSafeArea?: boolean
+	adjustForKeyboard?: boolean
 	onRefresh?: () => void
 	refreshing?: boolean
 }
@@ -64,6 +65,7 @@ export function BasePage({
 	style,
 	edges = DEFAULT_EDGES,
 	disableTopSafeArea = false,
+	adjustForKeyboard = false,
 	onRefresh,
 	refreshing = false,
 }: IBasePageProps): ReactElement {
@@ -218,6 +220,9 @@ export function BasePage({
 		<View style={{ backgroundColor, flex: 1 }}>
 			<Animated.ScrollView
 				alwaysBounceVertical={hasRefresh ? true : undefined}
+				automaticallyAdjustKeyboardInsets={
+					adjustForKeyboard && Platform.OS === 'ios'
+				}
 				contentContainerStyle={{
 					backgroundColor,
 					flexGrow: 1,
@@ -226,6 +231,9 @@ export function BasePage({
 					paddingRight,
 					paddingTop,
 				}}
+				keyboardShouldPersistTaps={
+					adjustForKeyboard ? 'handled' : undefined
+				}
 				onScroll={trackScroll ? handleScroll : undefined}
 				refreshControl={
 					Platform.OS === 'android' && hasRefresh ? (

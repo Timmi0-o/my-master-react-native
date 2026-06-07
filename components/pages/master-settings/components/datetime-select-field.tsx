@@ -88,7 +88,9 @@ export function DateTimeSelectField<T extends FieldValues>({
 					const parsedTimeKey = formatPausedUntilTimeKey(parsed)
 					const nextTimeKey =
 						timesForDate.find((option) => option.value === parsedTimeKey)
-							?.value ?? timesForDate[0]?.value ?? '00:00'
+							?.value ??
+						timesForDate[0]?.value ??
+						'00:00'
 
 					setDraftDateKey(nextDateKey)
 					setDraftTimeKey(nextTimeKey)
@@ -162,11 +164,7 @@ export function DateTimeSelectField<T extends FieldValues>({
 							>
 								{displayValue || placeholder}
 							</Text>
-							<Ionicons
-								color={mutedColor}
-								name='calendar-outline'
-								size={20}
-							/>
+							<Ionicons color={mutedColor} name='calendar-outline' size={20} />
 						</Pressable>
 
 						<Modal

@@ -4,7 +4,7 @@ import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/se
 import { BasePage } from '@/components/shared/components/base-page'
 import {
 	GlassInputShell,
-	glassInnerInputClassName,
+	GlassSearchFieldInput,
 } from '@/components/shared/ui/glass-input/glass-input'
 import { MasterCard } from '@/components/shared/components/master-card/master-card'
 import { ServiceCard } from '@/components/shared/components/service-card/service-card'
@@ -94,8 +94,7 @@ export const SearchPage = () => {
 					<GlassInputShell style={{ minHeight: 60 }}>
 						<SearchField.Group>
 							<SearchField.SearchIcon />
-							<SearchField.Input
-								className={glassInnerInputClassName}
+							<GlassSearchFieldInput
 								placeholder={tPlaceholder('searchServices')}
 							/>
 							<SearchField.ClearButton />

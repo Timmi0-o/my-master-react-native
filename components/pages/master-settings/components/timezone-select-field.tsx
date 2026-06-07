@@ -1,16 +1,11 @@
-import {
-	buildMasterTimezoneOptions,
-	type TMasterTimezoneId,
-} from '@/constants/master-timezones.constants'
 import { useAppLocale } from '@/configs/i18n/locale-context'
 import { resolveLocale } from '@/configs/i18n/supported-locales'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import {
-	FieldError,
-	Label,
-	Select,
-	TextField,
-} from 'heroui-native'
+	buildMasterTimezoneOptions,
+	type TMasterTimezoneId,
+} from '@/constants/master-timezones.constants'
+import { FieldError, Label, Select, TextField } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useMemo } from 'react'
 import { Control, Controller, FieldValues, Path } from 'react-hook-form'
