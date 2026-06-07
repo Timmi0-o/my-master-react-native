@@ -10,6 +10,7 @@ export const useAppointmentChatGetOne = (chatId: string) => {
 	return useQuery<IAppointmentChat | null>({
 		queryKey: ['appointment-chat', chatId],
 		enabled: chatId.length > 0,
+		staleTime: 30_000,
 		queryFn: async () => {
 			const res = await appointmentChatsGetOne(chatId, {
 				filters: { preset: 'BASE' },

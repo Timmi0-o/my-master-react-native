@@ -14,7 +14,9 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { parseJwt } from '@/helpers/jwt.helper'
+import { useAppointmentChatGetOne } from '@/hooks/actions/appointment-chat/use-appointment-chat-get-one'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
+import { useAppointmentChatRealtime } from '@/hooks/use-appointment-chat-realtime'
 import { useKeyboardVisibility } from '@/hooks/use-keyboard-visibility'
 import { IconifyIcon } from '@huymobile/react-native-iconify'
 import { Avatar, Spinner, useThemeColor } from 'heroui-native'
@@ -67,14 +69,18 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 	const [draftMessage, setDraftMessage] = useState('')
 	const listRef = useRef<FlatList<IAppointmentChatMessage>>(null)
 
+	const { data: activeChat = chat } = useAppointmentChatGetOne(chat.id)
+
 	const sendMessage = useAppointmentChatMessageCreate(chat.id)
+
+	useAppointmentChatRealtime(chat.id, Boolean(activeChat))
 
 	const currentUserId =
 		state.status === 'authenticated'
 			? (parseJwt(state.session.accessToken)?.sub ?? '')
 			: ''
 
-	const appointment = chat.appointment
+	const appointment = activeChat.appointment
 	const peerTitleFull =
 		mode === 'master'
 			? appointment?.clientUser
@@ -99,13 +105,13 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 		.join(' · ')
 
 	const messages = useMemo(() => {
-		const items = chat.messages ?? []
+		const items = activeChat.messages ?? []
 
 		return [...items].sort(
 			(a, b) =>
 				new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
 		)
-	}, [chat.messages])
+	}, [activeChat.messages])
 
 	const handleSendMessage = useCallback(async () => {
 		const body = draftMessage.trim()
@@ -208,6 +214,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			<FlatList
 				ref={listRef}
 				data={messages}
+				extraData={messages.length}
 				keyExtractor={(item) => item.id}
 				keyboardDismissMode='interactive'
 				keyboardShouldPersistTaps='handled'
