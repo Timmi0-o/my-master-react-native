@@ -216,33 +216,36 @@ export function BookAppointmentModal({
 							)}
 						</View>
 
-						<ScheduleSimpleField
-							label={tField('messageToMaster')}
-							value={message}
-							onChangeText={setMessage}
-							inputProps={{
-								multiline: true,
-								numberOfLines: 3,
-								placeholder: tPlaceholder('bookingMessage'),
-							}}
-						/>
+						{selectedStartsAt ? (
+							<>
+								<ScheduleSimpleField
+									label={tField('messageToMaster')}
+									value={message}
+									onChangeText={setMessage}
+									inputProps={{
+										multiline: true,
+										numberOfLines: 3,
+										placeholder: tPlaceholder('bookingMessage'),
+									}}
+								/>
 
-						<Button
-							className='rounded-2xl'
-							isDisabled={
-								!selectedStartsAt ||
-								createAppointment.isPending ||
-								slotsQuery.isLoading
-							}
-							onPress={handleSubmit}
-							variant='primary'
-						>
-							{createAppointment.isPending ? (
-								<Spinner size='sm' color='white' />
-							) : (
-								<Button.Label>{tBtn('confirmBooking')}</Button.Label>
-							)}
-						</Button>
+								<Button
+									isDisabled={
+										!selectedStartsAt ||
+										createAppointment.isPending ||
+										slotsQuery.isLoading
+									}
+									onPress={handleSubmit}
+									variant='primary'
+								>
+									{createAppointment.isPending ? (
+										<Spinner size='sm' color='white' />
+									) : (
+										<Button.Label>{tBtn('confirmBooking')}</Button.Label>
+									)}
+								</Button>
+							</>
+						) : null}
 					</BottomSheetScrollView>
 				</BottomSheet.Content>
 			</BottomSheet.Portal>
