@@ -6,10 +6,9 @@ import {
 import { authStore } from '@/configs/auth/auth-store'
 import { APPOINTMENT_CHAT_WS_EVENTS } from '@/constants/appointment-chat-ws.events'
 import {
-	removeAppointmentChatMessageFromCache,
-	upsertAppointmentChatMessageInCache,
-} from '@/helpers/appointment-chat/appointment-chat-query-cache'
-import { buildAppointmentChatWsUrl } from '@/helpers/appointment-chat/build-appointment-chat-ws-url'
+	queryCacheRemoveAppointmentChatMessage,
+	queryCacheUpsertAppointmentChatMessage,
+} from '@/hooks/ws/use-appointment-chat-realtime/helpers/appointment-chat-query-cache'
 import { useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef } from 'react'
 import { io, type Socket } from 'socket.io-client'
@@ -34,6 +33,7 @@ export const useAppointmentChatRealtime = (
 
 		const connect = async (): Promise<void> => {
 			const token = await authStore.getAccessToken()
+
 			if (!token || disposed) {
 				return
 			}
@@ -55,6 +55,7 @@ export const useAppointmentChatRealtime = (
 						}
 
 						const errorResult = AppointmentChatWsAckErrorSchema.safeParse(ack)
+
 						if (errorResult.success) {
 							console.warn(
 								'[appointment-chat-ws] join failed:',
@@ -87,7 +88,7 @@ export const useAppointmentChatRealtime = (
 						return
 					}
 
-					upsertAppointmentChatMessageInCache(
+					queryCacheUpsertAppointmentChatMessage(
 						queryClient,
 						chatId,
 						parsed.data.result.data,
@@ -107,7 +108,7 @@ export const useAppointmentChatRealtime = (
 						return
 					}
 
-					removeAppointmentChatMessageFromCache(
+					queryCacheRemoveAppointmentChatMessage(
 						queryClient,
 						chatId,
 						parsed.data.result.data.messageId,
@@ -129,4 +130,14 @@ export const useAppointmentChatRealtime = (
 			socketRef.current = null
 		}
 	}, [chatId, enabled, queryClient])
+}
+
+const buildAppointmentChatWsUrl = (): string => {
+	const apiUrl = process.env.EXPO_PUBLIC_API_URL
+	if (!apiUrl) {
+		throw new Error('EXPO_PUBLIC_API_URL is required')
+	}
+
+	const origin = apiUrl.replace(/\/v1\/?$/, '')
+	return `${origin}/v1/appointment-chats`
 }

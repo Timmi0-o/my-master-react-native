@@ -1,11 +1,11 @@
-import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
 import type { IAppointmentChatMessage } from '@/actions/appointment-chat/models/appointment-chat-message.schema'
+import type { IAppointmentChat } from '@/actions/appointment-chat/models/appointment-chat.schema'
 import type { QueryClient } from '@tanstack/react-query'
 
 const appointmentChatQueryKey = (chatId: string) =>
 	['appointment-chat', chatId] as const
 
-export const upsertAppointmentChatMessageInCache = (
+export const queryCacheUpsertAppointmentChatMessage = (
 	queryClient: QueryClient,
 	chatId: string,
 	message: IAppointmentChatMessage,
@@ -36,7 +36,7 @@ export const upsertAppointmentChatMessageInCache = (
 	)
 }
 
-export const removeAppointmentChatMessageFromCache = (
+export const queryCacheRemoveAppointmentChatMessage = (
 	queryClient: QueryClient,
 	chatId: string,
 	messageId: string,

@@ -2,9 +2,9 @@ import {
 	appointmentChatMessagesCreate,
 	type ICreateAppointmentChatMessagePayload,
 } from '@/actions/appointment-chat/actions'
-import { upsertAppointmentChatMessageInCache } from '@/helpers/appointment-chat/appointment-chat-query-cache'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { scopedT } from '@/configs/i18n/scoped-t'
+import { queryCacheUpsertAppointmentChatMessage } from '@/hooks/ws/use-appointment-chat-realtime/helpers/appointment-chat-query-cache'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
 export const useAppointmentChatMessageCreate = (chatId: string) => {
@@ -28,7 +28,7 @@ export const useAppointmentChatMessageCreate = (chatId: string) => {
 		},
 		onSuccess: async (message) => {
 			if (message) {
-				upsertAppointmentChatMessageInCache(queryClient, chatId, message)
+				queryCacheUpsertAppointmentChatMessage(queryClient, chatId, message)
 			}
 
 			await queryClient.invalidateQueries({ queryKey: ['appointments'] })
