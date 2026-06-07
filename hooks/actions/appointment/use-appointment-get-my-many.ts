@@ -7,7 +7,9 @@ import { useToast } from 'heroui-native'
 export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
 	const { toast } = useToast()
 
-	const { data, isLoading, error } = useQuery<IAppointment[]>({
+	const { data, isLoading, error, refetch, isRefetching } = useQuery<
+		IAppointment[]
+	>({
 		queryKey: ['appointments', 'my'],
 		enabled: options?.enabled ?? true,
 		queryFn: async () => {
@@ -33,5 +35,5 @@ export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
 		},
 	})
 
-	return { data, isLoading, error }
+	return { data, isLoading, error, refetch, isRefetching }
 }

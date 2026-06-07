@@ -6,7 +6,6 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Skeleton } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 
 const CHAT_SKELETON_COUNT = 8
 
@@ -14,23 +13,26 @@ interface IChatsPageProps {
 	mode: ActiveProfileMode
 	chats: IAppointment[]
 	isLoading: boolean
+	isRefreshing: boolean
+	onRefresh: () => void
 }
 
 export const ChatsPage = ({
 	mode,
 	chats,
 	isLoading,
+	isRefreshing,
+	onRefresh,
 }: IChatsPageProps): ReactElement => {
 	const { t } = useScopedTranslation('pages', 'chats')
 	const emptyLabel = mode === 'master' ? t('emptyMaster') : t('emptyClient')
 
 	return (
-		<BasePage>
-			<ScrollView
-				className='flex-1'
-				contentContainerClassName='gap-3 py-5'
-				showsVerticalScrollIndicator={false}
-			>
+		<BasePage
+			onRefresh={onRefresh}
+			refreshing={isRefreshing}
+		>
+			<View className='gap-3 py-5'>
 				<View className='mb-2'>
 					<Text className='ml-2 text-2xl font-bold text-foreground'>
 						{t('title')}
@@ -52,7 +54,7 @@ export const ChatsPage = ({
 				) : (
 					<Text className='ml-2 text-base text-muted'>{emptyLabel}</Text>
 				)}
-			</ScrollView>
+			</View>
 		</BasePage>
 	)
 }

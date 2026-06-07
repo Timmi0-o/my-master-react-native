@@ -9,7 +9,9 @@ export const useAppointmentGetMyClientsMany = (options?: {
 }) => {
 	const { toast } = useToast()
 
-	const { data, isLoading, error } = useQuery<IAppointment[]>({
+	const { data, isLoading, error, refetch, isRefetching } = useQuery<
+		IAppointment[]
+	>({
 		queryKey: ['appointments', 'my-clients'],
 		enabled: options?.enabled ?? true,
 		queryFn: async () => {
@@ -35,5 +37,5 @@ export const useAppointmentGetMyClientsMany = (options?: {
 		},
 	})
 
-	return { data, isLoading, error }
+	return { data, isLoading, error, refetch, isRefetching }
 }

@@ -5,7 +5,7 @@ import { routeErrorText } from '@/configs/i18n/use-route-feedback'
 import { useAppointmentGetMyClientsMany } from '@/hooks/actions/appointment/use-appointment-get-my-clients-many'
 import { useAppointmentGetMyMany } from '@/hooks/actions/appointment/use-appointment-get-my-many'
 import type { ReactElement } from 'react'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Text } from 'react-native'
 
 export default function Chats(): ReactElement {
@@ -54,6 +54,10 @@ export default function Chats(): ReactElement {
 		})
 	}, [activeQuery.data])
 
+	const handleRefresh = useCallback(() => {
+		void activeQuery.refetch()
+	}, [activeQuery.refetch])
+
 	if (activeQuery.error?.message) {
 		return <Text>{routeErrorText(activeQuery.error.message)}</Text>
 	}
@@ -63,6 +67,8 @@ export default function Chats(): ReactElement {
 			mode={mode}
 			chats={chats}
 			isLoading={activeQuery.isLoading}
+			isRefreshing={activeQuery.isRefetching}
+			onRefresh={handleRefresh}
 		/>
 	)
 }
