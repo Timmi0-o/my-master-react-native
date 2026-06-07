@@ -1,5 +1,6 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { RecordCard } from '@/components/shared/components/record-card/record-card'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
@@ -48,7 +49,7 @@ export function ClientRecordsModal({
 						showsVerticalScrollIndicator={false}
 					>
 						{appointments.length === 0 ? (
-							<Text className='text-base text-muted'>{t('empty')}</Text>
+							<DataNotFound compact message={t('empty')} />
 						) : (
 							appointments.map((appointment) => (
 								<RecordCard

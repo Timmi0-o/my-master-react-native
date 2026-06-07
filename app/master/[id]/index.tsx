@@ -1,4 +1,5 @@
 import { MasterDetail } from '@/components/pages/master/master-detail/master-detail'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { routeErrorText } from '@/configs/i18n/use-route-feedback'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -33,12 +34,14 @@ export default function MasterProfileScreen(): ReactElement {
 				style={{ paddingTop: insets.top + 8 }}
 			>
 				<BackButton />
-				<View className='flex-1 items-center justify-center gap-3 px-2'>
-					<Text className='text-center text-foreground'>
-						{error?.message
-							? routeErrorText(error.message)
-							: t('profileNotFound')}
-					</Text>
+				<View className='flex-1'>
+					<DataNotFound
+						message={
+							error?.message
+								? routeErrorText(error.message)
+								: t('profileNotFound')
+						}
+					/>
 				</View>
 			</View>
 		)

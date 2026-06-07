@@ -4,6 +4,7 @@ import type {
 } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/components/base-page'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { DAY_OF_WEEK_ORDER } from '@/constants/master-schedule.constants'
@@ -119,9 +120,7 @@ export function MasterWeeklyScheduleListPage({
 						)
 					})}
 					{!data.length ? (
-						<Text className='text-center text-muted'>
-							{t('emptyIntervals')}
-						</Text>
+						<DataNotFound message={t('emptyIntervals')} />
 					) : null}
 				</View>
 			)}

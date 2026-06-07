@@ -1,5 +1,6 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { ScheduleSimpleField } from '@/components/pages/master-settings/schedule-simple-field'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
 	resolveLocale,
 	toDateTimeLocale,
@@ -192,7 +193,7 @@ export function BookAppointmentModal({
 									<Spinner size='sm' />
 								</View>
 							) : slots.length === 0 ? (
-								<Text className='text-sm text-muted'>{t('noSlots')}</Text>
+								<DataNotFound compact message={t('noSlots')} />
 							) : (
 								<View className='flex-row flex-wrap gap-2'>
 									{slots.map((slot) => {

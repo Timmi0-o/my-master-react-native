@@ -1,4 +1,5 @@
 import RecordDetail from '@/components/pages/record/record-detail/record-detail'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import {
 	routeErrorText,
@@ -8,7 +9,7 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useAppointmentGetOne } from '@/hooks/actions/appointment/use-appointment-get-one'
 import { useLocalSearchParams } from 'expo-router'
 import type { ReactElement } from 'react'
-import { Text } from 'react-native'
+import { Text, View } from 'react-native'
 
 export default function RecordScreen(): ReactElement {
 	const { mode } = useActiveProfileMode()
@@ -22,11 +23,19 @@ export default function RecordScreen(): ReactElement {
 	}
 
 	if (error?.message) {
-		return <Text>{routeErrorText(error.message)}</Text>
+		return (
+			<View className='flex-1 bg-background'>
+				<DataNotFound message={routeErrorText(error.message)} />
+			</View>
+		)
 	}
 
 	if (!data) {
-		return <Text>{t('notFound')}</Text>
+		return (
+			<View className='flex-1 bg-background'>
+				<DataNotFound message={t('notFound')} />
+			</View>
+		)
 	}
 
 	return <RecordDetail appointment={data} mode={mode} />

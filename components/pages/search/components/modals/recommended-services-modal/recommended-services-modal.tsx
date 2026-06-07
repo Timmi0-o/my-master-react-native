@@ -1,5 +1,6 @@
 import { IRecommendedService } from '@/actions/service/models/service.schema'
 import { ServiceCard } from '@/components/shared/components/service-card/service-card'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { BottomSheetScrollView } from '@gorhom/bottom-sheet'
 import { BottomSheet } from 'heroui-native'
@@ -45,9 +46,7 @@ export function RecommendedServicesModal({
 						showsVerticalScrollIndicator={false}
 					>
 						{services.length === 0 ? (
-							<Text className='text-base text-muted'>
-								{t('servicesNotFound')}
-							</Text>
+							<DataNotFound compact message={t('servicesNotFound')} />
 						) : (
 							services.map((service) => (
 								<ServiceCard

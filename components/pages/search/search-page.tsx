@@ -2,6 +2,7 @@ import { FieldTypes } from '@/actions/base-models/filters/field-types.schema'
 import { RecommendedServicesModal } from '@/components/pages/search/components/modals/recommended-services-modal/recommended-services-modal'
 import { SEARCH_RECOMMENDED_SERVICES_PREVIEW_LIMIT } from '@/components/pages/search/data/search-recommended-services.constants'
 import { BasePage } from '@/components/shared/components/base-page'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { MasterCard } from '@/components/shared/components/master-card/master-card'
 import { ServiceCard } from '@/components/shared/components/service-card/service-card'
 import {
@@ -165,12 +166,12 @@ export const SearchPage = () => {
 									</Button>
 								)}
 							</ScrollView>
-						) : (
-							<Text className='text-base text-muted ml-2'>
-								{isServicesLoading
-									? t('loadingServices')
-									: t('servicesNotFound')}
+						) : isServicesLoading ? (
+							<Text className='ml-2 text-base text-muted'>
+								{t('loadingServices')}
 							</Text>
+						) : (
+							<DataNotFound compact message={t('servicesNotFound')} />
 						)}
 					</Card.Body>
 				</Card>
@@ -191,9 +192,7 @@ export const SearchPage = () => {
 							<MasterCard key={master.id} master={master} />
 						))}
 						{!isMastersLoading && masters?.length === 0 ? (
-							<Text className='text-base text-muted ml-2'>
-								{t('mastersNotFound')}
-							</Text>
+							<DataNotFound compact message={t('mastersNotFound')} />
 						) : null}
 					</Card.Body>
 				</Card>

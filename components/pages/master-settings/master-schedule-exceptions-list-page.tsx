@@ -1,5 +1,6 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import { BasePage } from '@/components/shared/components/base-page'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
 	resolveLocale,
 	toDateTimeLocale,
@@ -108,9 +109,7 @@ export function MasterScheduleExceptionsListPage({
 						</Card>
 					))}
 					{!data.length ? (
-						<Text className='text-center text-muted'>
-							{t('emptyExceptions')}
-						</Text>
+						<DataNotFound message={t('emptyExceptions')} />
 					) : null}
 				</View>
 			)}

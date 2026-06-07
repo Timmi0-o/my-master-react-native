@@ -2,6 +2,7 @@ import type { IAppointment } from '@/actions/appointment/models/appointment.sche
 import { ClientRecordsModal } from '@/components/pages/home/components/modals/client-records-modal/client-records-modal'
 import { HOME_RECORDS_PREVIEW_LIMIT } from '@/components/pages/home/data/home-records.constants'
 import { BasePage } from '@/components/shared/components/base-page'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { RecordCard } from '@/components/shared/components/record-card/record-card'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -73,7 +74,7 @@ export default function HomePage({
 						)}
 					</View>
 				) : (
-					<Text className='text-base text-muted'>{t('empty')}</Text>
+					<DataNotFound message={t('empty')} />
 				)}
 			</View>
 

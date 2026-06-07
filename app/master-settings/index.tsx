@@ -1,5 +1,6 @@
 import { MasterSettingsHub } from '@/components/pages/master-settings/master-settings-hub'
 import { useMasterSettingsProfile } from '@/components/pages/master-settings/use-master-settings-profile'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
 	routeErrorText,
 	routeLoadingText,
@@ -28,14 +29,16 @@ export default function MasterSettingsIndexScreen(): ReactElement {
 	if (error?.message || !masterProfile) {
 		return (
 			<View
-				className='flex-1 items-center justify-center bg-background px-6'
+				className='flex-1 bg-background px-4'
 				style={{ paddingTop: insets.top }}
 			>
-				<Text className='text-center text-foreground'>
-					{error?.message
-						? routeErrorText(error.message)
-						: t('masterProfileNotFound')}
-				</Text>
+				<DataNotFound
+					message={
+						error?.message
+							? routeErrorText(error.message)
+							: t('masterProfileNotFound')
+					}
+				/>
 			</View>
 		)
 	}

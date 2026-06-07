@@ -1,9 +1,9 @@
-import { useThemeApp } from '@/configs/theme/theme-context'
 import {
 	getPullRefreshProgress,
 	PULL_REFRESH_THRESHOLD,
 	PullRefreshProgressRing,
 } from '@/components/shared/components/pull-refresh-progress-ring'
+import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import * as Haptics from 'expo-haptics'
 import { Spinner, useThemeColor } from 'heroui-native'
@@ -56,6 +56,7 @@ interface IBasePageProps {
 	adjustForKeyboard?: boolean
 	onRefresh?: () => void
 	refreshing?: boolean
+	contentContainerStyle?: StyleProp<ViewStyle>
 }
 
 export function BasePage({
@@ -63,6 +64,7 @@ export function BasePage({
 	headerContent,
 	footerContent,
 	style,
+	contentContainerStyle,
 	edges = DEFAULT_EDGES,
 	disableTopSafeArea = false,
 	adjustForKeyboard = false,
@@ -151,10 +153,7 @@ export function BasePage({
 			const nextPullOffset = Math.max(0, -event.contentOffset.y)
 			pullOffset.value = nextPullOffset
 
-			if (
-				nextPullOffset <
-				PULL_REFRESH_THRESHOLD * PULL_REFRESH_RESET_RATIO
-			) {
+			if (nextPullOffset < PULL_REFRESH_THRESHOLD * PULL_REFRESH_RESET_RATIO) {
 				pullRefreshTriggered.value = false
 				return
 			}
@@ -196,11 +195,7 @@ export function BasePage({
 		const isActive = isRefreshingShared.value || progress > 0.05
 
 		return {
-			opacity: isActive
-				? isRefreshingShared.value
-					? 1
-					: progress
-				: 0,
+			opacity: isActive ? (isRefreshingShared.value ? 1 : progress) : 0,
 			transform: [
 				{
 					translateY: isRefreshingShared.value
@@ -223,17 +218,18 @@ export function BasePage({
 				automaticallyAdjustKeyboardInsets={
 					adjustForKeyboard && Platform.OS === 'ios'
 				}
-				contentContainerStyle={{
-					backgroundColor,
-					flexGrow: 1,
-					paddingBottom: scrollPaddingBottom,
-					paddingLeft,
-					paddingRight,
-					paddingTop,
-				}}
-				keyboardShouldPersistTaps={
-					adjustForKeyboard ? 'handled' : undefined
-				}
+				contentContainerStyle={[
+					{
+						backgroundColor,
+						flexGrow: 1,
+						paddingBottom: scrollPaddingBottom,
+						paddingLeft,
+						paddingRight,
+						paddingTop,
+					},
+					contentContainerStyle,
+				]}
+				keyboardShouldPersistTaps={adjustForKeyboard ? 'handled' : undefined}
 				onScroll={trackScroll ? handleScroll : undefined}
 				refreshControl={
 					Platform.OS === 'android' && hasRefresh ? (

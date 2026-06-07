@@ -7,17 +7,10 @@ import { useAppLocale } from '@/configs/i18n/locale-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Spinner, useThemeColor } from 'heroui-native'
+import { Button, Card, Spinner, useThemeColor } from 'heroui-native'
 import { ReactElement, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import {
-	KeyboardAvoidingView,
-	Platform,
-	Pressable,
-	ScrollView,
-	Text,
-	View,
-} from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import Animated, {
 	FadeIn,
 	FadeInDown,
@@ -54,45 +47,40 @@ export default function LoginPage(): ReactElement {
 	])
 
 	return (
-		<BasePage>
-			<KeyboardAvoidingView
-				style={{ flex: 1 }}
-				behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+		<BasePage
+			style={{ paddingHorizontal: 8 }}
+			contentContainerStyle={{ justifyContent: 'center' }}
+			adjustForKeyboard
+		>
+			<Animated.View
+				entering={FadeInDown.duration(450)}
+				style={{ marginBottom: 20, alignItems: 'center' }}
 			>
-				<ScrollView
-					contentContainerClassName='grow justify-center px-6 py-8'
-					keyboardShouldPersistTaps='handled'
-					showsVerticalScrollIndicator={false}
+				<View
+					className='mb-5 items-center justify-center'
+					style={{
+						width: 64,
+						height: 64,
+						borderRadius: 24,
+						backgroundColor: accentColor,
+					}}
 				>
-					<Animated.View
-						entering={FadeInDown.duration(450)}
-						style={{ marginBottom: 40, alignItems: 'center' }}
-					>
-						<View
-							className='mb-5 items-center justify-center'
-							style={{
-								width: 64,
-								height: 64,
-								borderRadius: 24,
-								backgroundColor: accentColor,
-							}}
-						>
-							<Ionicons
-								name={
-									isSubmitting ? 'lock-open-outline' : 'lock-closed-outline'
-								}
-								size={28}
-								color={accentForegroundColor}
-							/>
-						</View>
-						<Text className='text-3xl font-bold text-foreground'>
-							{tAuth('title')}
-						</Text>
-						<Text className='mt-2 text-center text-base text-muted'>
-							{tAuth('subtitle')}
-						</Text>
-					</Animated.View>
+					<Ionicons
+						name={isSubmitting ? 'lock-open-outline' : 'lock-closed-outline'}
+						size={28}
+						color={accentForegroundColor}
+					/>
+				</View>
+				<Text className='text-3xl font-bold text-foreground'>
+					{tAuth('title')}
+				</Text>
+				<Text className='mt-2 text-center text-base text-muted'>
+					{tAuth('subtitle')}
+				</Text>
+			</Animated.View>
 
+			<Card>
+				<Card.Body>
 					<Animated.View
 						entering={FadeInDown.delay(120).duration(450)}
 						className='gap-4'
@@ -167,8 +155,8 @@ export default function LoginPage(): ReactElement {
 							</Button>
 						</View>
 					</Animated.View>
-				</ScrollView>
-			</KeyboardAvoidingView>
+				</Card.Body>
+			</Card>
 		</BasePage>
 	)
 }

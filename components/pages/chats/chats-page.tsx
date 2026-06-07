@@ -1,6 +1,7 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { BasePage } from '@/components/shared/components/base-page'
 import { ChatListItem } from '@/components/shared/components/chat-list-item/chat-list-item'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Skeleton } from 'heroui-native'
@@ -52,7 +53,7 @@ export const ChatsPage = ({
 						/>
 					))
 				) : (
-					<Text className='ml-2 text-base text-muted'>{emptyLabel}</Text>
+					<DataNotFound message={emptyLabel} />
 				)}
 			</View>
 		</BasePage>

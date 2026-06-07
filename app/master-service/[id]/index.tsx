@@ -1,4 +1,5 @@
 import { MasterServiceDetail } from '@/components/pages/master-service/master-service-detail/master-service-detail'
+import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { routeErrorText } from '@/configs/i18n/use-route-feedback'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -33,10 +34,12 @@ export default function MasterServiceScreen(): ReactElement {
 				style={{ paddingTop: insets.top + 8 }}
 			>
 				<BackButton />
-				<View className='flex-1 items-center justify-center gap-3 px-2'>
-					<Text className='text-center text-foreground'>
-						{error?.message ? routeErrorText(error.message) : t('notFound')}
-					</Text>
+				<View className='flex-1'>
+					<DataNotFound
+						message={
+							error?.message ? routeErrorText(error.message) : t('notFound')
+						}
+					/>
 				</View>
 			</View>
 		)
