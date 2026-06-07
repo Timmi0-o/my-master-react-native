@@ -232,19 +232,18 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			/>
 
 			<View
-				className='flex-row items-end gap-2 border-t border-border px-3 pt-2'
+				className='flex-row items-center gap-2 border-t border-border px-3 pt-2'
 				style={{
 					borderColor,
 					paddingBottom: insets.bottom + 8,
 				}}
 			>
 				<GlassInput
-					numberOfLines={10}
 					multiline
 					placeholder={tPlaceholder('chatMessage')}
 					value={draftMessage}
 					onChangeText={setDraftMessage}
-					style={{ flex: 1, minHeight: 40 }}
+					style={{ flex: 1, maxHeight: 120, minHeight: 44 }}
 				/>
 
 				<GlassWrapper
@@ -257,7 +256,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					disabled={!draftMessage.trim() || sendMessage.isPending}
 					glassEffectStyle='regular'
 					onPress={() => void handleSendMessage()}
-					style={{ borderRadius: 999, marginBottom: 4 }}
+					style={{ borderRadius: 999 }}
 					tintColor={accentColor}
 				>
 					{sendMessage.isPending ? (

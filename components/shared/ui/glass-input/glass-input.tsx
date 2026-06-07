@@ -46,21 +46,37 @@ function getGlassInputTextAlignVertical(
 	return multiline ? 'top' : 'center'
 }
 
-function splitGlassInputStyle(style: StyleProp<ViewStyle>): {
+function splitGlassInputStyle(
+	style: StyleProp<ViewStyle>,
+	multiline?: boolean,
+): {
 	inputStyle: StyleProp<TextStyle>
 	shellStyle: StyleProp<ViewStyle>
+	shellContentStyle: StyleProp<ViewStyle>
 } {
 	const flatStyle = StyleSheet.flatten(style) ?? {}
+	const minHeight = flatStyle.minHeight ?? GLASS_INPUT_MIN_HEIGHT
 
 	return {
 		shellStyle: {
 			alignSelf: flatStyle.alignSelf,
 			flex: flatStyle.flex,
 			maxHeight: flatStyle.maxHeight,
-			minHeight: flatStyle.minHeight ?? GLASS_INPUT_MIN_HEIGHT,
+			minHeight,
 			width: flatStyle.width,
 		},
-		inputStyle: glassInnerInputStyle,
+		shellContentStyle: {
+			justifyContent: multiline ? 'flex-start' : 'center',
+		},
+		inputStyle: multiline
+			? {
+					flex: 1,
+					minHeight,
+					paddingBottom: 10,
+					paddingTop: 10,
+					width: '100%',
+				}
+			: glassInnerInputStyle,
 	}
 }
 
@@ -166,18 +182,27 @@ export function GlassInputShell({
 }
 
 export const GlassInput = forwardRef<TextInput, InputProps>(function GlassInput(
-	{ style, ...props },
+	{ multiline, style, ...props },
 	ref,
 ) {
 	const useGlass = Platform.OS === 'ios' && isLiquidGlassAvailable()
-	const { inputStyle, shellStyle } = splitGlassInputStyle(
+	const { inputStyle, shellContentStyle, shellStyle } = splitGlassInputStyle(
 		style as StyleProp<ViewStyle>,
+		multiline,
 	)
 
 	if (useGlass) {
 		return (
-			<GlassInputShell style={shellStyle}>
-				<GlassShellInput ref={ref} style={inputStyle} {...props} />
+			<GlassInputShell
+				contentContainerStyle={shellContentStyle}
+				style={shellStyle}
+			>
+				<GlassShellInput
+					ref={ref}
+					multiline={multiline}
+					style={inputStyle}
+					{...props}
+				/>
 			</GlassInputShell>
 		)
 	}

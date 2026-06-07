@@ -23,12 +23,13 @@ export function ProfileModeSwitcher({
 			onValueChange={(value) => onModeChange(value as ActiveProfileMode)}
 			variant='primary'
 		>
-			<Tabs.List className='w-full self-stretch rounded-2xl'>
+			<Tabs.List className='w-full self-stretch'>
 				<Tabs.Indicator />
 				{ACTIVE_PROFILE_MODES.map((profileMode) => (
 					<Tabs.Trigger
 						key={profileMode}
-						className='min-h-[40px] flex-1'
+						className='flex-1 py-3'
+						style={{ minHeight: 44 }}
 						value={profileMode}
 					>
 						<Tabs.Label className='text-sm font-semibold'>

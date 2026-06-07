@@ -8,6 +8,7 @@ import {
 	GlassInputShell,
 	GlassSearchFieldInput,
 } from '@/components/shared/ui/glass-input/glass-input'
+import { GlassWrapper } from '@/components/shared/ui/glass-wrapper/glass-wrapper'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterServiceGetMany } from '@/hooks/actions/master-service/use-master-service-get-many'
 import { useMasterProfileGetMany } from '@/hooks/actions/master/use-master-profile-get-many'
@@ -15,9 +16,17 @@ import { useDebounce } from '@/hooks/use-debounce'
 import { useManageSearchParams } from '@/hooks/use-manage-search-params'
 import { useQuerySynchronization } from '@/hooks/use-query-synchronization'
 import { Ionicons } from '@expo/vector-icons'
-import { Button, Card, SearchField, useThemeColor } from 'heroui-native'
+import { router } from 'expo-router'
+import {
+	Avatar,
+	Button,
+	Card,
+	SearchField,
+	Typography,
+	useThemeColor,
+} from 'heroui-native'
 import { useEffect, useState } from 'react'
-import { ScrollView, Text, type ViewStyle } from 'react-native'
+import { ScrollView, Text, View, type ViewStyle } from 'react-native'
 
 const RECOMMENDED_SERVICE_CARD_STYLE: ViewStyle = { width: 220 }
 const VIEW_MORE_BUTTON_STYLE: ViewStyle = { minHeight: 88, width: 120 }
@@ -82,10 +91,20 @@ export const SearchPage = () => {
 	return (
 		<BasePage>
 			<ScrollView contentContainerClassName='gap-3'>
-				{/* <Image
-					source={require('@/assets/images/ad-mock.jpeg')}
-					style={{ width: '100%', height: 250 }}
-				/> */}
+				<View className='mx-2 flex-row items-center gap-2 justify-between'>
+					<Typography.Heading type='h2' style={{ opacity: 0.85 }}>
+						My Master
+					</Typography.Heading>
+
+					<GlassWrapper
+						onPress={() => router.push('/(tabs)')}
+						style={{ borderRadius: 999, zIndex: 1000 }}
+					>
+						<Avatar>
+							<Avatar.Fallback />
+						</Avatar>
+					</GlassWrapper>
+				</View>
 
 				<SearchField
 					value={draftSearch ?? ''}

@@ -51,19 +51,19 @@ function ProfileMenuRow({
 		<Pressable
 			accessibilityRole='button'
 			accessibilityState={{ disabled: isDisabled }}
-			className={`flex-row items-center gap-3 px-4 py-3.5 active:opacity-80 ${
+			className={`flex-row items-center gap-3 px-2 py-2 active:opacity-80 ${
 				isDisabled ? 'opacity-50' : ''
 			} ${isLast ? '' : 'border-b border-border'}`}
 			disabled={isDisabled}
 			onPress={onPress}
 		>
-			<View className='items-center justify-center rounded-2xl bg-surface p-2.5'>
+			<View className='items-center justify-center rounded-2xl bg-surface p-3'>
 				<Ionicons name={icon} size={22} color={iconColor} />
 			</View>
 
-			<View className='min-w-0 flex-1 gap-0.5'>
+			<View className='flex-1 gap-1'>
 				<Text
-					className='text-base font-semibold leading-5'
+					className='text-base font-semibold text-foreground'
 					style={{ color: labelColor }}
 				>
 					{label}
@@ -125,7 +125,7 @@ export default function ProfilePage({
 					/>
 				</View>
 
-				<View className='overflow-hidden rounded-3xl border border-border bg-background-secondary'>
+				<View className='overflow-hidden'>
 					<View className='items-center px-5 pb-6 pt-8'>
 						<View
 							className='mb-5 items-center justify-center rounded-full border-4 bg-surface'
@@ -161,13 +161,13 @@ export default function ProfilePage({
 									{displayName}
 								</Text>
 
-								<View className='rounded-full bg-surface px-3 py-1'>
+								<View className='rounded-full bg-surface px-3 py-2'>
 									<Text className='text-xs font-medium uppercase tracking-wide text-muted'>
 										{profileModeLabel(mode)}
 									</Text>
 								</View>
 
-								<View className='mt-1 flex-row items-center gap-2 rounded-2xl bg-surface p-2 mb-2'>
+								<View className='mt-1 mb-2 flex-row items-center gap-2 rounded-2xl bg-surface p-3'>
 									<Ionicons name='star' size={18} color={accentColor} />
 									<Text className='text-base font-semibold text-foreground'>
 										{t('ratingChip', { rating })}
@@ -176,7 +176,7 @@ export default function ProfilePage({
 
 								{masterDescription ? (
 									<Text
-										className='mt-1 px-2 text-center text-sm leading-5 text-muted py-2'
+										className='mt-1 px-2 py-2 text-center text-sm text-muted'
 										numberOfLines={3}
 									>
 										{masterDescription}

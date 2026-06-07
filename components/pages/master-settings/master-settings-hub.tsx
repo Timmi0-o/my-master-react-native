@@ -44,32 +44,35 @@ function SettingsTileBlock({
 		<Pressable
 			accessibilityRole='button'
 			onPress={onPress}
-			style={{ width: isWide ? '100%' : '48%' }}
+			style={{
+				minHeight: isWide ? 92 : 132,
+				width: isWide ? '100%' : '48%',
+			}}
 			className={`rounded-2xl border border-border bg-background-secondary active:opacity-80 ${
 				isWide
-					? 'min-h-[92px] flex-row items-center gap-3 px-4 py-3.5'
-					: 'min-h-[132px] flex-col justify-between p-4'
+					? 'flex-row items-center gap-3 px-4 py-4'
+					: 'flex-col justify-between p-4'
 			}`}
 		>
 			{isWide ? (
 				<>
-					<View className='rounded-2xl bg-surface p-2.5'>
+					<View className='rounded-2xl bg-surface p-3'>
 						<Ionicons name={tile.icon} size={22} color={mutedColor} />
 					</View>
-					<Text className='flex-1 text-base font-semibold leading-5 text-foreground'>
+					<Text className='flex-1 text-base font-semibold text-foreground'>
 						{tile.label}
 					</Text>
 					<Ionicons name='chevron-forward' size={20} color={mutedColor} />
 				</>
 			) : (
 				<>
-					<View className='flex-row items-start justify-between'>
-						<View className='rounded-2xl bg-surface p-3 mb-2'>
+					<View className='mb-2 flex-row items-start justify-between'>
+						<View className='rounded-2xl bg-surface p-3'>
 							<Ionicons name={tile.icon} size={26} color={mutedColor} />
 						</View>
 						<Ionicons name='chevron-forward' size={18} color={mutedColor} />
 					</View>
-					<Text className='text-[14px] font-semibold leading-5 text-foreground'>
+					<Text className='text-sm font-semibold text-foreground'>
 						{tile.label}
 					</Text>
 				</>
