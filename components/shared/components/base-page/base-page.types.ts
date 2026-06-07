@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { StyleProp, ViewStyle } from 'react-native'
 import type { Edge, EdgeInsets } from 'react-native-safe-area-context'
+import type { IOverlayOpacityStop } from './helpers/build-overlay-opacity-stops'
 
 export interface IBasePageProps {
 	children: ReactNode
@@ -12,6 +13,11 @@ export interface IBasePageProps {
 	isHeaderFixed?: boolean
 	/** Pin `footerContent` as bottom overlay. Default: true when `footerContent` is set. */
 	isFooterFixed?: boolean
+	/**
+	 * Контент на всю высоту под абсолютными header/footer (для чата).
+	 * Не включать на обычных scroll-экранах.
+	 */
+	useOverlayChrome?: boolean
 	/**
 	 * Which screen edges get initial content padding from safe-area insets.
 	 * Scroll can move content past these paddings (under status bar / tab bar).
@@ -32,6 +38,7 @@ export interface IBasePageLayoutInput {
 	footerContent?: ReactNode
 	isHeaderFixed: boolean
 	isFooterFixed: boolean
+	useOverlayChrome: boolean
 	edges: readonly Edge[]
 	disableTopSafeArea: boolean
 	adjustForKeyboard: boolean
@@ -39,12 +46,16 @@ export interface IBasePageLayoutInput {
 	onRefresh?: () => void
 	insets: EdgeInsets
 	backgroundColor: string
+	headerOverlayHeight: number
+	footerOverlayHeight: number
 }
 
 export interface IBasePageLayoutState {
 	hasScrollHeader: boolean
 	hasFixedHeader: boolean
 	hasScrollFooter: boolean
+	hasFixedFooter: boolean
+	useOverlayChrome: boolean
 	useKeyboardAvoidingFooter: boolean
 	useAbsoluteFooter: boolean
 	paddingTop: number
@@ -52,26 +63,31 @@ export interface IBasePageLayoutState {
 	paddingLeft: number
 	paddingRight: number
 	headerPaddingTop: number
+	contentInsetTop: number
+	contentInsetBottom: number
 	showTopEdgeBackground: boolean
 	showBottomEdgeBackground: boolean
+	showOverlayTopFade: boolean
+	showOverlayBottomFade: boolean
 	scrollPaddingBottom: number
 	headerSlotStyle: ViewStyle
+	headerOverlayStyle: ViewStyle
+	footerOverlayStyle: ViewStyle
 	hasRefresh: boolean
 	trackScroll: boolean
 	refreshIndicatorTop: number
 	topEdgeOverlayHeight: number
 	bottomEdgeOverlayHeight: number
-	topBackgroundFadeMidOffset: number
-	topBackgroundFadeEndOffset: number
-	topSafeAreaEndOffset: number
-	bottomBackgroundFadeMidOffset: number
-	bottomBackgroundFadeEndOffset: number
-	bottomSafeAreaEndOffset: number
+	overlayFooterFadeHeight: number
+	overlayHeaderFadeHeight: number
+	overlayFooterChromeRatio: number
+	overlayHeaderChromeRatio: number
+	topScrollFadeStops: IOverlayOpacityStop[]
+	bottomScrollFadeStops: IOverlayOpacityStop[]
 }
 
 export interface IEdgeFadeStops {
 	overlayHeight: number
 	safeAreaEndOffset: number
-	fadeMidOffset: number
-	fadeEndOffset: number
+	scrollFadeStops: IOverlayOpacityStop[]
 }

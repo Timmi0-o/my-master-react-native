@@ -16,8 +16,8 @@ import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatGetOne } from '@/hooks/actions/appointment-chat/use-appointment-chat-get-one'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
-import { useAppointmentChatRealtime } from '@/hooks/use-appointment-chat-realtime'
 import { useKeyboardVisibility } from '@/hooks/use-keyboard-visibility'
+import { useAppointmentChatRealtime } from '@/hooks/ws/use-appointment-chat-realtime/use-appointment-chat-realtime'
 import { IconifyIcon } from '@huymobile/react-native-iconify'
 import { Avatar, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -58,10 +58,9 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 		'enums.appointmentStatus',
 	)
 
-	const [accentColor, accentForegroundColor, borderColor] = useThemeColor([
+	const [accentColor, accentForegroundColor] = useThemeColor([
 		'accent',
 		'accent-foreground',
-		'border',
 	])
 
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
@@ -80,7 +79,8 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			? (parseJwt(state.session.accessToken)?.sub ?? '')
 			: ''
 
-	const appointment = activeChat.appointment
+	const appointment = activeChat?.appointment
+
 	const peerTitleFull =
 		mode === 'master'
 			? appointment?.clientUser
@@ -105,13 +105,13 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 		.join(' · ')
 
 	const messages = useMemo(() => {
-		const items = activeChat.messages ?? []
+		const items = activeChat?.messages ?? []
 
 		return [...items].sort(
 			(a, b) =>
 				new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
 		)
-	}, [activeChat.messages])
+	}, [activeChat?.messages])
 
 	const handleSendMessage = useCallback(async () => {
 		const body = draftMessage.trim()
@@ -131,6 +131,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			isFooterFixed
 			isHeaderFixed
 			scrollEnabled={false}
+			useOverlayChrome
 			headerContent={
 				<View className='flex-row items-center justify-around px-2'>
 					<BackButton withoutLabel />
@@ -172,9 +173,8 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			}
 			footerContent={
 				<View
-					className='flex-row items-center gap-2 border-t border-border px-3 pt-2'
+					className='flex-row items-center gap-2 px-3 pt-2'
 					style={{
-						borderColor,
 						paddingBottom: isKeyboardVisible ? 8 : insets.bottom + 8,
 					}}
 				>

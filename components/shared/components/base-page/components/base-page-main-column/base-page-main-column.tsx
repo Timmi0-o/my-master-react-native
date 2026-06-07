@@ -46,13 +46,15 @@ export function BasePageMainColumn({
 		hasFixedHeader,
 		hasScrollFooter,
 		hasScrollHeader,
+		contentInsetBottom,
+		contentInsetTop,
 		headerSlotStyle,
 		paddingLeft,
 		paddingRight,
 		paddingTop,
-		headerPaddingTop,
 		scrollPaddingBottom,
 		useKeyboardAvoidingFooter,
+		useOverlayChrome,
 	} = layout
 
 	const scrollHeader =
@@ -76,7 +78,7 @@ export function BasePageMainColumn({
 			paddingBottom: scrollPaddingBottom,
 			paddingLeft,
 			paddingRight,
-			paddingTop,
+			paddingTop: useOverlayChrome ? contentInsetTop : paddingTop,
 		},
 		contentContainerStyle,
 	]
@@ -87,14 +89,13 @@ export function BasePageMainColumn({
 			flex: 1,
 			paddingLeft,
 			paddingRight,
-			paddingTop,
 		},
-		contentContainerStyle,
+		style,
 	]
 
 	return (
 		<>
-			{hasFixedHeader && headerContent != null ? (
+			{hasFixedHeader && !useOverlayChrome && headerContent != null ? (
 				<View style={{ ...headerSlotStyle, zIndex: 11 }}>{headerContent}</View>
 			) : null}
 
@@ -103,9 +104,9 @@ export function BasePageMainColumn({
 					adjustForKeyboard={adjustForKeyboard}
 					backgroundColor={backgroundColor}
 					contentContainerStyle={scrollContentStyle}
-					hasFixedHeader={hasFixedHeader}
+					hasFixedHeader={hasFixedHeader && !useOverlayChrome}
 					hasRefresh={hasRefresh}
-					headerPaddingTop={headerPaddingTop}
+					headerPaddingTop={layout.headerPaddingTop}
 					onRefresh={onRefresh}
 					onScroll={onScroll}
 					paddingTop={paddingTop}
@@ -120,9 +121,12 @@ export function BasePageMainColumn({
 			) : (
 				<BasePageStaticBody
 					adjustForKeyboard={adjustForKeyboard}
+					applyContentInsets={useOverlayChrome}
+					contentInsetBottom={contentInsetBottom}
+					contentInsetTop={contentInsetTop}
 					scrollFooter={scrollFooter}
 					scrollHeader={scrollHeader}
-					style={[staticContentStyle, style]}
+					style={staticContentStyle}
 				>
 					{children}
 				</BasePageStaticBody>

@@ -14,7 +14,10 @@ import {
 	type AnimatedStyle,
 } from 'react-native-reanimated'
 import type { ViewStyle } from 'react-native'
-import { BASE_PAGE_EDGE_FADE_DISTANCE, BASE_PAGE_PULL_REFRESH_RESET_RATIO } from '../constants/base-page.constants'
+import {
+	BASE_PAGE_EDGE_FADE_DISTANCE,
+	BASE_PAGE_PULL_REFRESH_RESET_RATIO,
+} from '../constants/base-page.constants'
 
 interface IUseBasePageScrollBehaviorParams {
 	hasRefresh: boolean

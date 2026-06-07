@@ -1,12 +1,12 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
+import { ChatListItem } from '@/components/pages/chats/chats-page/components/chat-list-item/chat-list-item'
 import { BasePage } from '@/components/shared/components/base-page/base-page'
-import { ChatListItem } from '@/components/shared/components/chat-list-item/chat-list-item'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
-import { Skeleton } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
+import { ChatSkeletonItem } from './components/skeletons/chat-skeleton-item'
 
 const CHAT_SKELETON_COUNT = 8
 
@@ -38,39 +38,29 @@ export const ChatsPage = ({
 				</View>
 
 				{isLoading ? (
-					Array.from({ length: CHAT_SKELETON_COUNT }).map((_, index) => (
-						<ChatSkeletonItem key={index} />
-					))
-				) : chats.length > 0 ? (
-					chats.map((appointment) => (
-						<ChatListItem
-							key={appointment.chat?.id ?? appointment.id}
-							appointment={appointment}
-							mode={mode}
-						/>
-					))
+					<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
+						{Array.from({ length: CHAT_SKELETON_COUNT }).map((_, index) => (
+							<ChatSkeletonItem
+								key={index}
+								isLast={index === CHAT_SKELETON_COUNT - 1}
+							/>
+						))}
+					</View>
+				) : chats.length ? (
+					<View className='overflow-hidden bg-background-secondary'>
+						{chats.map((appointment, index) => (
+							<ChatListItem
+								key={appointment.chat?.id ?? appointment.id}
+								appointment={appointment}
+								isLast={index === chats.length - 1}
+								mode={mode}
+							/>
+						))}
+					</View>
 				) : (
 					<DataNotFound message={emptyLabel} />
 				)}
 			</View>
 		</BasePage>
-	)
-}
-
-function ChatSkeletonItem() {
-	return (
-		<View className='flex-row items-center gap-3 rounded-2xl bg-surface px-3 py-3'>
-			<Skeleton className='h-12 w-12 rounded-full' />
-
-			<View className='flex-1 gap-2'>
-				<View className='flex-row items-center justify-between gap-4'>
-					<Skeleton className='h-4 w-32 rounded-full' />
-					<Skeleton className='h-3 w-10 rounded-full' />
-				</View>
-
-				<Skeleton className='h-3 w-24 rounded-full' />
-				<Skeleton className='h-4 w-full rounded-full' />
-			</View>
-		</View>
 	)
 }

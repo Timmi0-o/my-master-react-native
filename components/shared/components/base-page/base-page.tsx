@@ -1,12 +1,13 @@
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
-import type { ReactElement } from 'react'
+import { useState, type ReactElement } from 'react'
 import { KeyboardAvoidingView, Platform, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import type { IBasePageProps } from './base-page.types'
 import { BasePageAbsoluteFooter } from './components/base-page-absolute-footer/base-page-absolute-footer'
 import { BasePageEdgeFade } from './components/base-page-edge-fade/base-page-edge-fade'
 import { BasePageMainColumn } from './components/base-page-main-column/base-page-main-column'
+import { BasePageOverlaySlot } from './components/base-page-overlay-slot/base-page-overlay-slot'
 import { BasePagePullRefreshIndicator } from './components/base-page-pull-refresh-indicator/base-page-pull-refresh-indicator'
 import { BASE_PAGE_DEFAULT_EDGES } from './constants/base-page.constants'
 import { useBasePageLayout } from './hooks/use-base-page-layout'
@@ -20,6 +21,7 @@ export function BasePage({
 	footerContent,
 	isHeaderFixed = false,
 	isFooterFixed = true,
+	useOverlayChrome = false,
 	scrollEnabled = true,
 	style,
 	contentContainerStyle,
@@ -32,12 +34,15 @@ export function BasePage({
 	const { resolvedColorScheme } = useThemeApp()
 	const insets = useSafeAreaInsets()
 	const backgroundColor = THEME_BACKGROUND_COLORS[resolvedColorScheme]
+	const [headerOverlayHeight, setHeaderOverlayHeight] = useState(0)
+	const [footerOverlayHeight, setFooterOverlayHeight] = useState(0)
 
 	const layout = useBasePageLayout({
 		headerContent,
 		footerContent,
 		isHeaderFixed,
 		isFooterFixed,
+		useOverlayChrome,
 		edges,
 		disableTopSafeArea,
 		adjustForKeyboard,
@@ -45,6 +50,8 @@ export function BasePage({
 		onRefresh,
 		insets,
 		backgroundColor,
+		headerOverlayHeight,
+		footerOverlayHeight,
 	})
 
 	const {
@@ -81,18 +88,78 @@ export function BasePage({
 		</BasePageMainColumn>
 	)
 
+	const pageBody = useOverlayChrome ? (
+		<View style={{ flex: 1 }}>
+			<View style={{ flex: 1, zIndex: 0 }}>{mainColumn}</View>
+
+			{layout.showOverlayTopFade ? (
+				<BasePageEdgeFade
+					backgroundColor={backgroundColor}
+					chromeZoneRatio={layout.overlayHeaderChromeRatio}
+					edgeInset={0}
+					fadeKind='overlay'
+					gradientId='basePageOverlayTopFade'
+					height={layout.overlayHeaderFadeHeight}
+					placement='top'
+				/>
+			) : null}
+
+			{layout.showOverlayBottomFade ? (
+				<BasePageEdgeFade
+					backgroundColor={backgroundColor}
+					chromeZoneRatio={layout.overlayFooterChromeRatio}
+					edgeInset={0}
+					fadeKind='overlay'
+					gradientId='basePageOverlayBottomFade'
+					height={layout.overlayFooterFadeHeight}
+					placement='bottom'
+				/>
+			) : null}
+
+			{layout.hasFixedHeader && headerContent != null ? (
+				<BasePageOverlaySlot
+					onLayout={setHeaderOverlayHeight}
+					placement='top'
+					style={layout.headerOverlayStyle}
+				>
+					{headerContent}
+				</BasePageOverlaySlot>
+			) : null}
+
+			{layout.hasFixedFooter && footerContent != null ? (
+				<BasePageOverlaySlot
+					onLayout={setFooterOverlayHeight}
+					placement='bottom'
+					style={layout.footerOverlayStyle}
+				>
+					{footerContent}
+				</BasePageOverlaySlot>
+			) : null}
+		</View>
+	) : (
+		mainColumn
+	)
+
 	return (
 		<View style={{ backgroundColor, flex: 1 }}>
-			{layout.useKeyboardAvoidingFooter ? (
+			{useOverlayChrome && adjustForKeyboard ? (
 				<KeyboardAvoidingView
 					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
 					keyboardVerticalOffset={0}
 					style={{ flex: 1 }}
 				>
-					{mainColumn}
+					{pageBody}
+				</KeyboardAvoidingView>
+			) : layout.useKeyboardAvoidingFooter ? (
+				<KeyboardAvoidingView
+					behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+					keyboardVerticalOffset={0}
+					style={{ flex: 1 }}
+				>
+					{pageBody}
 				</KeyboardAvoidingView>
 			) : (
-				mainColumn
+				pageBody
 			)}
 
 			{layout.hasRefresh ? (
@@ -108,12 +175,10 @@ export function BasePage({
 				<BasePageEdgeFade
 					animatedStyle={topEdgeAnimatedStyle}
 					backgroundColor={backgroundColor}
-					fadeEndOffset={layout.topBackgroundFadeEndOffset}
-					fadeMidOffset={layout.topBackgroundFadeMidOffset}
 					gradientId='basePageTopBackgroundFade'
 					height={layout.topEdgeOverlayHeight}
 					placement='top'
-					safeAreaEndOffset={layout.topSafeAreaEndOffset}
+					scrollFadeStops={layout.topScrollFadeStops}
 				/>
 			) : null}
 
@@ -121,12 +186,10 @@ export function BasePage({
 				<BasePageEdgeFade
 					animatedStyle={bottomEdgeAnimatedStyle}
 					backgroundColor={backgroundColor}
-					fadeEndOffset={layout.bottomBackgroundFadeEndOffset}
-					fadeMidOffset={layout.bottomBackgroundFadeMidOffset}
 					gradientId='basePageBottomBackgroundFade'
 					height={layout.bottomEdgeOverlayHeight}
 					placement='bottom'
-					safeAreaEndOffset={layout.bottomSafeAreaEndOffset}
+					scrollFadeStops={layout.bottomScrollFadeStops}
 				/>
 			) : null}
 
