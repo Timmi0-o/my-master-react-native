@@ -23,6 +23,7 @@ interface IMasterDetailProps {
 export function MasterDetail({ master }: IMasterDetailProps): ReactElement {
 	const router = useRouter()
 	const { t } = useScopedTranslation('pages', 'master')
+
 	const mutedColor = useThemeColor('muted')
 	const services = master.services ?? []
 
@@ -95,6 +96,8 @@ function MasterServiceItem({
 	onPress,
 }: IMasterServiceItemProps): ReactElement {
 	const mutedColor = useThemeColor('muted')
+
+	const { t: tUi } = useScopedTranslation('ui', 'common')
 
 	return (
 		<Pressable

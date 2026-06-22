@@ -24,13 +24,17 @@ export function MasterServiceDetail({
 }: IMasterServiceDetailProps): ReactElement {
 	const router = useRouter()
 	const { mode } = useActiveProfileMode()
+
 	const { t } = useScopedTranslation('pages', 'masterService')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const { t: tField } = useScopedTranslation('ui', 'field')
 	const { t: tUi } = useScopedTranslation('ui')
+
 	const mutedColor = useThemeColor('muted')
 	const masterProfile = service.masterProfile
+
 	const [isBookingModalVisible, setIsBookingModalVisible] = useState(false)
+
 	const isClientMode = mode === 'client'
 
 	return (
