@@ -1,8 +1,8 @@
+import { NavigationTab } from '@/components/shared/ui/navigation-tab'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
-import { NativeTabs } from 'expo-router/unstable-native-tabs'
 import { useRouter, useSegments } from 'expo-router'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 export default function TabLayout() {
 	const { mode } = useActiveProfileMode()
@@ -18,56 +18,69 @@ export default function TabLayout() {
 	}, [router, segments, showSearchTab])
 
 	return (
-		<NativeTabs blurEffect='systemDefault' minimizeBehavior='automatic'>
-			<NativeTabs.Trigger name='general/index'>
-				<NativeTabs.Trigger.Label>{t('home')}</NativeTabs.Trigger.Label>
-				<NativeTabs.Trigger.Icon
+		<NavigationTab blurEffect='systemDefault' minimizeBehavior='automatic'>
+			<NavigationTab.Trigger name='general/index'>
+				<NavigationTab.Trigger.Label>{t('home')}</NavigationTab.Trigger.Label>
+				<NavigationTab.Trigger.Icon
+					md={{ default: 'home', selected: 'home-filled' }}
 					sf={{
 						default: 'house',
 						selected: 'house.fill',
 					}}
 				/>
-			</NativeTabs.Trigger>
+			</NavigationTab.Trigger>
 
 			{showSearchTab ? (
-				<NativeTabs.Trigger name='search/index'>
-					<NativeTabs.Trigger.Label>{t('search')}</NativeTabs.Trigger.Label>
-					<NativeTabs.Trigger.Icon
+				<NavigationTab.Trigger name='search/index'>
+					<NavigationTab.Trigger.Label>
+						{t('search')}
+					</NavigationTab.Trigger.Label>
+					<NavigationTab.Trigger.Icon
+						md={{ default: 'search', selected: 'search' }}
 						sf={{
 							default: 'magnifyingglass',
 							selected: 'magnifyingglass.circle.fill',
 						}}
 					/>
-				</NativeTabs.Trigger>
+				</NavigationTab.Trigger>
 			) : null}
 
-			<NativeTabs.Trigger name='chats/index'>
-				<NativeTabs.Trigger.Label>{t('chats')}</NativeTabs.Trigger.Label>
-				<NativeTabs.Trigger.Icon
+			<NavigationTab.Trigger name='chats/index'>
+				<NavigationTab.Trigger.Label>{t('chats')}</NavigationTab.Trigger.Label>
+				<NavigationTab.Trigger.Icon
+					md={{ default: 'chat-bubble-outline', selected: 'chat-bubble' }}
 					sf={{
 						default: 'message',
 						selected: 'message.fill',
 					}}
 				/>
-			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name='index'>
-				<NativeTabs.Trigger.Label>{t('profile')}</NativeTabs.Trigger.Label>
-				<NativeTabs.Trigger.Icon
+			</NavigationTab.Trigger>
+
+			<NavigationTab.Trigger name='index'>
+				<NavigationTab.Trigger.Label>
+					{t('profile')}
+				</NavigationTab.Trigger.Label>
+				<NavigationTab.Trigger.Icon
+					md={{ default: 'person-outline', selected: 'person' }}
 					sf={{
 						default: 'person',
 						selected: 'person.fill',
 					}}
 				/>
-			</NativeTabs.Trigger>
-			<NativeTabs.Trigger name='settings/index'>
-				<NativeTabs.Trigger.Label>{t('settings')}</NativeTabs.Trigger.Label>
-				<NativeTabs.Trigger.Icon
+			</NavigationTab.Trigger>
+
+			<NavigationTab.Trigger name='settings/index'>
+				<NavigationTab.Trigger.Label>
+					{t('settings')}
+				</NavigationTab.Trigger.Label>
+				<NavigationTab.Trigger.Icon
+					md={{ default: 'settings', selected: 'settings' }}
 					sf={{
 						default: 'gearshape',
 						selected: 'gearshape.fill',
 					}}
 				/>
-			</NativeTabs.Trigger>
-		</NativeTabs>
+			</NavigationTab.Trigger>
+		</NavigationTab>
 	)
 }

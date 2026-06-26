@@ -18,7 +18,7 @@ import { useAppointmentChatGetOne } from '@/hooks/actions/appointment-chat/use-a
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
 import { useKeyboardVisibility } from '@/hooks/use-keyboard-visibility'
 import { useAppointmentChatRealtime } from '@/hooks/ws/use-appointment-chat-realtime/use-appointment-chat-realtime'
-import { IconifyIcon } from '@huymobile/react-native-iconify'
+import { Ionicons } from '@expo/vector-icons'
 import { Avatar, Spinner, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useCallback, useMemo, useRef, useState } from 'react'
@@ -58,9 +58,10 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 		'enums.appointmentStatus',
 	)
 
-	const [accentColor, accentForegroundColor] = useThemeColor([
+	const [accentColor, accentForegroundColor, surfaceColor] = useThemeColor([
 		'accent',
 		'accent-foreground',
+		'surface',
 	])
 
 	const dateTimeLocale = toDateTimeLocale(resolveLocale(i18n.language))
@@ -133,13 +134,10 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 			scrollEnabled={false}
 			useOverlayChrome
 			headerContent={
-				<View className='flex-row items-center justify-around px-2'>
+				<View className='flex-row items-center px-2'>
 					<BackButton withoutLabel />
 
-					<View
-						className='flex-row gap-2 justify-between'
-						style={{ marginHorizontal: 'auto' }}
-					>
+					<View className='min-w-0 flex-1 flex-row items-center justify-center gap-2 px-2'>
 						<GlassWrapper
 							contentContainerStyle={{
 								paddingHorizontal: 12,
@@ -199,13 +197,9 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 						tintColor={accentColor}
 					>
 						{sendMessage.isPending ? (
-							<Spinner size='sm' color={accentForegroundColor} />
+							<Spinner size='sm' color={surfaceColor} />
 						) : (
-							<IconifyIcon
-								name='ion:send'
-								size={20}
-								color={accentForegroundColor}
-							/>
+							<Ionicons color={surfaceColor} name='send' size={20} />
 						)}
 					</GlassWrapper>
 				</View>
