@@ -1,0 +1,22 @@
+{
+	"hubTitle": "Horario y reservas",
+	"currentStatus": "Estado actual",
+	"bookingRules": "Reservas y reglas",
+	"weeklySchedule": "Horario semanal",
+	"exceptions": "Días libres y excepciones",
+	"weeklyListTitle": "Horario semanal",
+	"exceptionsListTitle": "Días libres y excepciones",
+	"bookingTitle": "Aceptación de reservas",
+	"exceptionEdit": "Editar excepción",
+	"exceptionNew": "Nueva excepción",
+	"exceptionPeriod": "Periodo",
+	"exceptionDetails": "Detalles",
+	"customWorkHours": "Horario de trabajo",
+	"intervalEdit": "Editar intervalo",
+	"intervalNew": "Nuevo intervalo",
+	"masterProfileNotFound": "Perfil de profesional no encontrado",
+	"pausedUntil": "Pausa hasta: {{date}}",
+	"emptyExceptions": "No hay excepciones. Añade un día libre o vacaciones.",
+	"emptyIntervals": "No hay intervalos. Añade horario laboral por día.",
+	"customHours": "Horario: {{start}} – {{end}}"
+}

@@ -27,7 +27,7 @@ export const useMasterWeeklyScheduleUpdate = (masterProfileId: string) => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data
+			return res.result?.data
 		},
 		onSuccess: async (_data, variables) => {
 			await queryClient.invalidateQueries({

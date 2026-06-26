@@ -1,29 +1,28 @@
+import { IMyMasterEndpointResponse } from '@/contracts/api-response/my-master-api-core/types/i-my-master-endpoint-response.type'
+import { myMasterEndpointResponseMapper } from '@/contracts/api-response/my-master-api-core'
+import { IAppActionResponseError } from '@/contracts/api-response/types'
+import { resolveActionErrorMessage } from '@/helpers/resolve-action-error-message'
 import { scopedT } from '@/configs/i18n/scoped-t'
 
-interface IErrorResponse {
-	error: {
-		statusCode: number
-		message: string
-	}
-	result: null
-}
-
-export const ErrorObjectSetup = async (res: Response) => {
+export const ErrorObjectSetup = async (
+	res: Response,
+): Promise<{ result: null; error: IAppActionResponseError } | undefined> => {
 	if (res.ok) return
 
-	let errorData
+	let errorData: IAppActionResponseError
 
 	try {
-		const errorResponse = (await res.json()) as IErrorResponse
-
-		console.log('errorResponse', errorResponse)
+		const errorResponse = (await res.json()) as IMyMasterEndpointResponse
+		const formattedErrorResponse =
+			myMasterEndpointResponseMapper(errorResponse)?.error
 
 		errorData = {
-			statusCode: errorResponse.error.statusCode ?? res.status,
-			timestamp: new Date().toISOString(),
-			message:
-				errorResponse.error.message ||
-				scopedT('requestFailed', 'common', 'errors', { status: res.status }),
+			statusCode: formattedErrorResponse?.statusCode || res.status,
+			timestamp:
+				formattedErrorResponse?.timestamp || new Date().toISOString(),
+			message: formattedErrorResponse?.message
+				? resolveActionErrorMessage(formattedErrorResponse.message)
+				: scopedT('requestFailed', 'common', 'errors', { status: res.status }),
 		}
 	} catch {
 		errorData = {
@@ -35,5 +34,5 @@ export const ErrorObjectSetup = async (res: Response) => {
 		}
 	}
 
-	return { result: { data: null, success: false }, error: errorData }
+	return { result: null, error: errorData }
 }

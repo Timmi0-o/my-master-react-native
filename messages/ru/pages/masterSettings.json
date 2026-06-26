@@ -1,0 +1,22 @@
+{
+	"hubTitle": "Расписание и записи",
+	"currentStatus": "Текущий статус",
+	"bookingRules": "Приём записей и правила",
+	"weeklySchedule": "Недельное расписание",
+	"exceptions": "Выходные и исключения",
+	"weeklyListTitle": "Недельное расписание",
+	"exceptionsListTitle": "Выходные и исключения",
+	"bookingTitle": "Приём записей",
+	"exceptionEdit": "Редактировать исключение",
+	"exceptionNew": "Новое исключение",
+	"exceptionPeriod": "Период",
+	"exceptionDetails": "Дополнительно",
+	"customWorkHours": "Часы работы",
+	"intervalEdit": "Редактировать интервал",
+	"intervalNew": "Новый интервал",
+	"masterProfileNotFound": "Профиль мастера не найден",
+	"pausedUntil": "Пауза до: {{date}}",
+	"emptyExceptions": "Нет исключений. Добавьте выходной или отпуск.",
+	"emptyIntervals": "Нет интервалов. Добавьте рабочие часы по дням недели.",
+	"customHours": "Часы: {{start}} – {{end}}"
+}

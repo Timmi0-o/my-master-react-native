@@ -1,0 +1,7 @@
+{
+	"titleClient": "My bookings",
+	"titleMaster": "My clients' bookings",
+	"empty": "No bookings yet",
+	"allRecordsTitle": "All bookings",
+	"allRecordsCount": "Total bookings: {{count}}"
+}

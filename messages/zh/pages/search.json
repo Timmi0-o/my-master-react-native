@@ -1,0 +1,9 @@
+{
+	"loadingServices": "正在加载服务...",
+	"servicesNotFound": "未找到服务",
+	"recommendedForYou": "为你推荐",
+	"servicesTotalCount": "服务总数：{{count}}",
+	"popularMasters": "热门技师",
+	"loadingMasters": "正在加载技师...",
+	"mastersNotFound": "未找到技师"
+}

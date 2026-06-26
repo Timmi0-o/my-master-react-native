@@ -1,0 +1,21 @@
+{
+	"back": "Atrás",
+	"save": "Guardar",
+	"saving": "Guardando...",
+	"more": "Más",
+	"edit": "Editar",
+	"delete": "Eliminar",
+	"editShort": "Editar",
+	"deleteShort": "Elim.",
+	"openChat": "Abrir chat",
+	"book": "Reservar",
+	"viewAll": "Ver todo",
+	"confirmBooking": "Confirmar reserva",
+	"addException": "Añadir excepción",
+	"addInterval": "Añadir intervalo",
+	"login": "Iniciar sesión",
+	"configureSchedule": "Configurar horario",
+	"changePassword": "Cambiar contraseña",
+	"signOut": "Cerrar sesión",
+	"done": "Listo"
+}

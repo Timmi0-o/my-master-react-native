@@ -1,0 +1,15 @@
+{
+	"timeStart": "09:00",
+	"timeEnd": "18:00",
+	"pauseUntil": "Select date and time",
+	"periodStart": "Select date and time",
+	"periodEnd": "Select date and time",
+	"workStart": "Select time",
+	"workEnd": "Select time",
+	"bookingMessage": "Wishes or questions before booking",
+	"chatMessage": "Message",
+	"searchServices": "Find services...",
+	"loginEmail": "you@example.com",
+	"loginPassword": "••••••••",
+	"searchRecords": "Find appointments..."
+}

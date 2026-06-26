@@ -1,0 +1,7 @@
+{
+	"loading": "Загрузка...",
+	"masterNotFound": "Профиль мастера не найден",
+	"clientNotFound": "Профиль клиента не найден",
+	"accountManagement": "Управление аккаунтом",
+	"ratingChip": "Рейтинг: {{rating}}"
+}

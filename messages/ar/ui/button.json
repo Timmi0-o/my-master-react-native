@@ -1,0 +1,21 @@
+{
+	"back": "رجوع",
+	"save": "حفظ",
+	"saving": "جارٍ الحفظ...",
+	"more": "المزيد",
+	"edit": "تعديل",
+	"delete": "حذف",
+	"editShort": "تعديل",
+	"deleteShort": "حذف",
+	"openChat": "فتح المحادثة",
+	"book": "احجز",
+	"viewAll": "عرض الكل",
+	"confirmBooking": "تأكيد الحجز",
+	"addException": "إضافة استثناء",
+	"addInterval": "إضافة فترة زمنية",
+	"login": "تسجيل الدخول",
+	"configureSchedule": "إعداد الجدول",
+	"changePassword": "تغيير كلمة المرور",
+	"signOut": "تسجيل الخروج",
+	"done": "تم"
+}

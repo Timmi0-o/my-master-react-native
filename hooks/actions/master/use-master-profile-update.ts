@@ -22,7 +22,7 @@ export const useMasterProfileUpdate = (masterProfileId: string) => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data as IMasterProfile
+			return res.result?.data as IMasterProfile
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: ['master-profiles', 'me'] })

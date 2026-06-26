@@ -24,7 +24,7 @@ export const useAppointmentChatMessageCreate = (chatId: string) => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data
+			return res.result?.data
 		},
 		onSuccess: async (message) => {
 			if (message) {

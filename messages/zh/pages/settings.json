@@ -1,0 +1,12 @@
+{
+	"title": "设置",
+	"appearance": {
+		"title": "外观",
+		"darkMode": "深色主题",
+		"darkModeHint": "为应用启用深色样式"
+	},
+	"language": {
+		"title": "语言",
+		"hint": "应用界面语言"
+	}
+}

@@ -1,0 +1,21 @@
+{
+	"back": "返回",
+	"save": "保存",
+	"saving": "保存中...",
+	"more": "更多",
+	"edit": "编辑",
+	"delete": "删除",
+	"editShort": "编辑",
+	"deleteShort": "删除",
+	"openChat": "打开聊天",
+	"book": "预约",
+	"viewAll": "查看全部",
+	"confirmBooking": "确认预约",
+	"addException": "添加例外",
+	"addInterval": "添加时段",
+	"login": "登录",
+	"configureSchedule": "配置日程",
+	"changePassword": "修改密码",
+	"signOut": "退出登录",
+	"done": "完成"
+}

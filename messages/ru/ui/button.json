@@ -1,0 +1,21 @@
+{
+	"back": "Назад",
+	"save": "Сохранить",
+	"saving": "Сохранение...",
+	"more": "Еще",
+	"edit": "Изменить",
+	"delete": "Удалить",
+	"editShort": "Изм.",
+	"deleteShort": "Удал.",
+	"openChat": "Открыть чат",
+	"book": "Записаться",
+	"viewAll": "Посмотреть все",
+	"confirmBooking": "Подтвердить запись",
+	"addException": "Добавить исключение",
+	"addInterval": "Добавить интервал",
+	"login": "Войти",
+	"configureSchedule": "Настроить расписание",
+	"changePassword": "Изменить пароль",
+	"signOut": "Выйти",
+	"done": "Готово"
+}

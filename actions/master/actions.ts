@@ -20,6 +20,8 @@ export const masterProfilesGetMany = async (
 		{
 			url: API_ROUTES.masterProfiles.many,
 			params: { method: 'GET' },
+			isArray: true,
+			isPublic: true,
 			...options,
 		},
 		MasterProfilesGetManyFiltersSchema,
@@ -34,6 +36,7 @@ export const masterProfilesGetOne = async (
 		{
 			url: API_ROUTES.masterProfiles.one(id),
 			params: { method: 'GET' },
+			isPublic: true,
 			...options,
 		},
 		MasterProfileGetOneFiltersSchema,

@@ -1,0 +1,12 @@
+{
+	"title": "Ajustes",
+	"appearance": {
+		"title": "Apariencia",
+		"darkMode": "Tema oscuro",
+		"darkModeHint": "Activa el estilo oscuro de la aplicación"
+	},
+	"language": {
+		"title": "Idioma",
+		"hint": "Idioma de la interfaz de la aplicación"
+	}
+}

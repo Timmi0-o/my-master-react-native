@@ -1,0 +1,14 @@
+{
+	"loading": "Loading service...",
+	"notFound": "Service not found",
+	"masterSection": "Master",
+	"detailsTab": "Details",
+	"reviewsTab": "Reviews",
+	"descriptionTitle": "Description",
+	"reviewsEmpty": "No reviews yet",
+	"bookModal": {
+		"title": "Book service",
+		"freeTime": "Available time",
+		"noSlots": "No available slots for this date"
+	}
+}

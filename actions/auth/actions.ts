@@ -3,12 +3,14 @@ import { abstractMutateAction } from '@/helpers/action.helper'
 import { IActionResponse } from '@/types/i-action.types'
 import {
 	ILogin,
-	ILoginResponse,
+	IRegister,
+} from './models/login.schema'
+import {
+	IAuthResponse,
 	ILogoutRequest,
 	ILogoutResponse,
 	IRefreshRequest,
-	IRefreshResponse,
-} from './models/login.schema'
+} from './models/auth.model'
 import {
 	IResetPasswordRequest,
 	ISetNewPassword,
@@ -16,8 +18,8 @@ import {
 
 export const login = async (
 	data: ILogin,
-): Promise<IActionResponse<ILoginResponse | null>> => {
-	return abstractMutateAction<ILogin, ILoginResponse>({
+): Promise<IActionResponse<IAuthResponse | null>> => {
+	return abstractMutateAction<IAuthResponse, ILogin>({
 		url: API_ROUTES.auth.login,
 		isPublic: true,
 		params: {
@@ -32,8 +34,8 @@ export const login = async (
 
 export const refresh = async (
 	payload: IRefreshRequest,
-): Promise<IActionResponse<IRefreshResponse | null>> => {
-	return abstractMutateAction<IRefreshRequest, IRefreshResponse>({
+): Promise<IActionResponse<IAuthResponse | null>> => {
+	return abstractMutateAction<IAuthResponse, IRefreshRequest>({
 		url: API_ROUTES.auth.refresh,
 		isPublic: true,
 		params: {
@@ -46,7 +48,7 @@ export const refresh = async (
 export const logout = async (
 	payload: ILogoutRequest,
 ): Promise<IActionResponse<ILogoutResponse | null>> => {
-	return abstractMutateAction<ILogoutRequest, ILogoutResponse>({
+	return abstractMutateAction<ILogoutResponse, ILogoutRequest>({
 		url: API_ROUTES.auth.logout,
 		params: {
 			method: 'POST',
@@ -55,12 +57,25 @@ export const logout = async (
 	})
 }
 
+export const register = async (
+	data: IRegister,
+): Promise<IActionResponse<IAuthResponse | null>> => {
+	return abstractMutateAction<IAuthResponse, IRegister>({
+		url: API_ROUTES.auth.register,
+		isPublic: true,
+		params: {
+			method: 'POST',
+			body: data,
+		},
+	})
+}
+
 export const requestResetPassword = async (
 	payload: IResetPasswordRequest,
 ): Promise<IActionResponse<{ success: boolean; data: boolean } | null>> => {
 	return abstractMutateAction<
-		{ email: string },
-		{ success: boolean; data: boolean }
+		{ success: boolean; data: boolean },
+		{ email: string }
 	>({
 		url: API_ROUTES.auth.requestResetPassword,
 		isPublic: true,
@@ -72,8 +87,8 @@ export const validateResetPasswordToken = async (
 	token: string,
 ): Promise<IActionResponse<{ success: boolean; data: boolean } | null>> => {
 	return abstractMutateAction<
-		{ token: string },
-		{ success: boolean; data: boolean }
+		{ success: boolean; data: boolean },
+		{ token: string }
 	>({
 		url: API_ROUTES.auth.validateResetPasswordToken,
 		isPublic: true,
@@ -85,8 +100,8 @@ export const resetPassword = async (
 	payload: ISetNewPassword,
 ): Promise<IActionResponse<{ success: boolean; data: boolean } | null>> => {
 	return abstractMutateAction<
-		{ token: string; password: string },
-		{ success: boolean; data: boolean }
+		{ success: boolean; data: boolean },
+		{ token: string; password: string }
 	>({
 		url: API_ROUTES.auth.resetPassword,
 		isPublic: true,

@@ -1,0 +1,10 @@
+{
+	"loading": "Cargando servicio...",
+	"notFound": "Servicio no encontrado",
+	"masterSection": "Profesional",
+	"bookModal": {
+		"title": "Reservar servicio",
+		"freeTime": "Horario disponible",
+		"noSlots": "No hay franjas disponibles para esta fecha"
+	}
+}

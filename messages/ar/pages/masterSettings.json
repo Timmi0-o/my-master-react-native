@@ -1,0 +1,22 @@
+{
+	"hubTitle": "الجدول والحجوزات",
+	"currentStatus": "الحالة الحالية",
+	"bookingRules": "الحجوزات والقواعد",
+	"weeklySchedule": "الجدول الأسبوعي",
+	"exceptions": "أيام الإجازة والاستثناءات",
+	"weeklyListTitle": "الجدول الأسبوعي",
+	"exceptionsListTitle": "أيام الإجازة والاستثناءات",
+	"bookingTitle": "قبول الحجوزات",
+	"exceptionEdit": "تعديل الاستثناء",
+	"exceptionNew": "استثناء جديد",
+	"exceptionPeriod": "الفترة",
+	"exceptionDetails": "تفاصيل إضافية",
+	"customWorkHours": "ساعات العمل",
+	"intervalEdit": "تعديل الفترة الزمنية",
+	"intervalNew": "فترة زمنية جديدة",
+	"masterProfileNotFound": "لم يتم العثور على ملف المختص",
+	"pausedUntil": "متوقف حتى: {{date}}",
+	"emptyExceptions": "لا توجد استثناءات. أضف يوم إجازة أو عطلة.",
+	"emptyIntervals": "لا توجد فترات. أضف ساعات العمل حسب أيام الأسبوع.",
+	"customHours": "الساعات: {{start}} – {{end}}"
+}

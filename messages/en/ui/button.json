@@ -1,0 +1,23 @@
+{
+	"back": "Back",
+	"save": "Save",
+	"saving": "Saving...",
+	"more": "More",
+	"edit": "Edit",
+	"delete": "Delete",
+	"editShort": "Edit",
+	"deleteShort": "Del.",
+	"openChat": "Open chat",
+	"book": "Book",
+	"viewAll": "View all",
+	"confirmBooking": "Confirm booking",
+	"addException": "Add exception",
+	"addInterval": "Add time slot",
+	"login": "Sign in",
+	"register": "Sign up",
+	"send": "Send",
+	"configureSchedule": "Configure schedule",
+	"changePassword": "Change password",
+	"signOut": "Sign out",
+	"done": "Done"
+}

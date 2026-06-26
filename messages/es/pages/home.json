@@ -1,0 +1,7 @@
+{
+	"titleClient": "Mis reservas",
+	"titleMaster": "Reservas de mis clientes",
+	"empty": "Aún no hay reservas",
+	"allRecordsTitle": "Todas las reservas",
+	"allRecordsCount": "Total de reservas: {{count}}"
+}

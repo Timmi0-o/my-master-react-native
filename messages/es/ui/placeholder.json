@@ -1,0 +1,15 @@
+{
+	"timeStart": "09:00",
+	"timeEnd": "18:00",
+	"pauseUntil": "Seleccionar fecha y hora",
+	"periodStart": "Seleccionar fecha y hora",
+	"periodEnd": "Seleccionar fecha y hora",
+	"workStart": "Seleccionar hora",
+	"workEnd": "Seleccionar hora",
+	"bookingMessage": "Deseos o preguntas antes de reservar",
+	"chatMessage": "Mensaje",
+	"searchServices": "Buscar servicios...",
+	"loginEmail": "tu@ejemplo.com",
+	"loginPassword": "••••••••",
+	"searchRecords": "Buscar citas..."
+}

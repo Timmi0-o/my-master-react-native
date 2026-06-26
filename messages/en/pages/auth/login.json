@@ -1,0 +1,9 @@
+{
+	"title": "Welcome",
+	"subtitle": "Sign in to continue",
+	"emailLabel": "Email",
+	"passwordLabel": "Password",
+	"forgotPasswordLink": "Forgot password?",
+	"signUpPrompt": "Don't have an account?",
+	"signUpLink": "Sign up"
+}

@@ -1,0 +1,7 @@
+{
+	"titleClient": "Мои записи",
+	"titleMaster": "Записи моих клиентов",
+	"empty": "Записей пока нет",
+	"allRecordsTitle": "Все записи",
+	"allRecordsCount": "Всего записей: {{count}}"
+}

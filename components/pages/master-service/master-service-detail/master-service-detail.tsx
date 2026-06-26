@@ -14,6 +14,7 @@ import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { BookAppointmentModal } from './components/modals/book-appointment-modal/book-appointment-modal'
+import { MasterServiceContent } from './components/master-service-content/master-service-content'
 
 interface IMasterServiceDetailProps {
 	service: IMasterService
@@ -51,13 +52,6 @@ export function MasterServiceDetail({
 					</Card.Header>
 
 					<Card.Body className='mt-2 gap-3 p-0'>
-						{service.description ? (
-							<DetailInfoRow
-								icon='document-text-outline'
-								label={tField('description')}
-								value={service.description}
-							/>
-						) : null}
 						{service.durationMinutes != null ? (
 							<DetailInfoRow
 								icon='time-outline'
@@ -74,6 +68,8 @@ export function MasterServiceDetail({
 						/>
 					</Card.Body>
 				</Card>
+
+				<MasterServiceContent service={service} />
 
 				{masterProfile ? (
 					<Card>

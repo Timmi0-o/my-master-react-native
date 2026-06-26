@@ -1,0 +1,15 @@
+{
+	"timeStart": "09:00",
+	"timeEnd": "18:00",
+	"pauseUntil": "Выберите дату и время",
+	"periodStart": "Выберите дату и время",
+	"periodEnd": "Выберите дату и время",
+	"workStart": "Выберите время",
+	"workEnd": "Выберите время",
+	"bookingMessage": "Пожелания или вопрос перед записью",
+	"chatMessage": "Сообщение",
+	"searchServices": "Найдите услуги...",
+	"loginEmail": "you@example.com",
+	"loginPassword": "••••••••",
+	"searchRecords": "Найдите запись..."
+}

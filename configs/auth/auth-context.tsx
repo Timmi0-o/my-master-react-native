@@ -1,5 +1,5 @@
-import { login, logout } from '@/actions/auth/actions'
-import { ILogin } from '@/actions/auth/models/login.schema'
+import { login, logout, register } from '@/actions/auth/actions'
+import { ILogin, IRegister } from '@/actions/auth/models/login.schema'
 import { scopedT } from '@/configs/i18n/scoped-t'
 import { getAuthPayloadFromResponse } from '@/helpers/auth-response.helper'
 import { IActionResponse } from '@/types/i-action.types'
@@ -11,6 +11,7 @@ import { authStore, IAuthSession, IAuthState } from './auth-store'
 export interface IAuthContextValue {
 	state: IAuthState
 	signIn: (credentials: ILogin) => Promise<IActionResponse<IAuthSession | null>>
+	signUp: (credentials: IRegister) => Promise<IActionResponse<IAuthSession | null>>
 	signOut: () => Promise<void>
 }
 
@@ -44,18 +45,44 @@ class AuthContextStore implements IAuthContextValue {
 		})
 
 		if (!session) {
+		return {
+			error: {
+				statusCode: 500,
+				timestamp: new Date().toISOString(),
+				message: scopedT('authTokenParse', 'common', 'errors'),
+			},
+			result: { data: null },
+		}
+	}
+
+		return { result: { data: session }, error: null }
+	}
+
+	signUp: IAuthContextValue['signUp'] = async (credentials) => {
+		const res = await register(credentials)
+
+		const authPayload = getAuthPayloadFromResponse(res)
+		if (!authPayload?.tokens) {
+			return res as IActionResponse<IAuthSession | null>
+		}
+
+		const session = await authStore.commitSession({
+			accessToken: authPayload.tokens.accessToken,
+			refreshToken: authPayload.tokens.refreshToken,
+		})
+
+		if (!session) {
 			return {
 				error: {
 					statusCode: 500,
 					timestamp: new Date().toISOString(),
-					error: 'Invalid Token',
 					message: scopedT('authTokenParse', 'common', 'errors'),
 				},
 				result: { data: null },
 			}
 		}
 
-		return { result: { data: session, success: true } }
+		return { result: { data: session }, error: null }
 	}
 
 	signOut: IAuthContextValue['signOut'] = async () => {

@@ -1,16 +1,16 @@
-import { ILoginResponse } from '@/actions/auth/models/login.schema'
+import { IAuthResponse } from '@/actions/auth/models/auth.model'
 import { IActionResponse } from '@/types/i-action.types'
 
-const isAuthPayload = (value: unknown): value is ILoginResponse =>
+const isAuthPayload = (value: unknown): value is IAuthResponse =>
 	typeof value === 'object' &&
 	value !== null &&
 	'tokens' in value &&
-	typeof (value as ILoginResponse).tokens.accessToken === 'string'
+	typeof (value as IAuthResponse).tokens.accessToken === 'string'
 
 /** Login: result.data.{user,tokens}; refresh: result.{user,tokens} */
 export const getAuthPayloadFromResponse = (
 	res: IActionResponse<unknown>,
-): ILoginResponse | null => {
+): IAuthResponse | null => {
 	if (res.error) return null
 
 	const result = res.result

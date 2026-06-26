@@ -1,0 +1,7 @@
+{
+	"titleClient": "我的预约",
+	"titleMaster": "客户预约",
+	"empty": "暂无预约",
+	"allRecordsTitle": "全部预约",
+	"allRecordsCount": "预约总数：{{count}}"
+}

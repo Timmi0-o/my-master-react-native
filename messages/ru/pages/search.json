@@ -1,0 +1,9 @@
+{
+	"loadingServices": "Загрузка услуг...",
+	"servicesNotFound": "Услуги не найдены",
+	"recommendedForYou": "Специально для вас",
+	"servicesTotalCount": "Всего услуг: {{count}}",
+	"popularMasters": "Популярные мастера",
+	"loadingMasters": "Загрузка мастеров...",
+	"mastersNotFound": "Мастера не найдены"
+}

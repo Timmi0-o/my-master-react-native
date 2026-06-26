@@ -1,0 +1,167 @@
+{
+	"chat": {
+		"clientFallback": "Client",
+		"masterFallback": "Master",
+		"noMessages": "No messages",
+		"firstMessage": "Write the first message"
+	},
+	"fallback": {
+		"client": "Client",
+		"master": "Master",
+		"invalidDate": "date"
+	},
+	"loading": "Loading...",
+	"errorPrefix": "Error: {{message}}",
+	"enums": {
+		"dayOfWeek": {
+			"MONDAY": "Monday",
+			"TUESDAY": "Tuesday",
+			"WEDNESDAY": "Wednesday",
+			"THURSDAY": "Thursday",
+			"FRIDAY": "Friday",
+			"SATURDAY": "Saturday",
+			"SUNDAY": "Sunday"
+		},
+		"bookingStatus": {
+			"ACCEPTING": "Accepting bookings",
+			"PAUSED": "Temporarily not accepting",
+			"CLOSED": "Closed for bookings"
+		},
+		"exceptionKind": {
+			"CLOSED": "Day off / unavailable",
+			"CUSTOM_HOURS": "Custom hours"
+		},
+		"cancelledBy": {
+			"CLIENT": "Client",
+			"MASTER": "Master",
+			"STAFF": "Staff"
+		},
+		"profileMode": {
+			"client": "Client profile",
+			"master": "Master profile"
+		},
+		"appointmentStatus": {
+			"PENDING": "Pending",
+			"CONFIRMED": "Confirmed",
+			"CANCELLED": "Cancelled",
+			"COMPLETED": "Completed",
+			"NO_SHOW": "No-show"
+		}
+	},
+	"toasts": {
+		"saved": "Saved",
+		"appointment": {
+			"createFailed": "Could not create booking",
+			"created": "Booking created",
+			"createdDescription": "The master will receive your request",
+			"loadOneFailed": "Could not load booking",
+			"loadManyFailed": "Could not load bookings"
+		},
+		"appointmentChat": {
+			"loadFailed": "Could not load chat",
+			"sendFailed": "Could not send message"
+		},
+		"masterService": {
+			"loadOneFailed": "Could not load service",
+			"loadManyFailed": "Could not load services",
+			"loadMyManyFailed": "Could not load your services",
+			"slotsLoadFailed": "Could not load time slots",
+			"saveFailed": "Could not save service",
+			"saved": "Service saved",
+			"deleteFailed": "Could not delete service",
+			"deleted": "Service deleted",
+			"recommendedFailed": "Could not load recommended services",
+			"imagesSaved": "Photos saved",
+			"imagesSaveFailed": "Could not save photos"
+		},
+		"masterServiceReview": {
+			"loadManyFailed": "Could not load reviews"
+		},
+		"masterProfile": {
+			"loadOneFailed": "Could not load master profile",
+			"loadManyFailed": "Could not load masters",
+			"loadMineFailed": "Could not load master profile",
+			"saveFailed": "Could not save"
+		},
+		"userProfile": {
+			"loadMineFailed": "Could not load client profile",
+			"loadManyFailed": "Could not load client profiles",
+			"loadOneFailed": "Could not load client profile"
+		},
+		"user": {
+			"loadFailed": "Could not load user"
+		},
+		"weeklySchedule": {
+			"createFailed": "Could not create time slot",
+			"updateFailed": "Could not update time slot",
+			"deleteFailed": "Could not delete time slot",
+			"loadOneFailed": "Could not load time slot",
+			"loadManyFailed": "Could not load schedule"
+		},
+		"scheduleException": {
+			"createFailed": "Could not create exception",
+			"updateFailed": "Could not update exception",
+			"deleteFailed": "Could not delete exception",
+			"loadOneFailed": "Could not load exception",
+			"loadManyFailed": "Could not load exceptions"
+		},
+		"auth": {
+			"loginFailed": "Sign-in failed",
+			"loginFailedDescription": "Could not sign in",
+			"loginSuccess": "Signed in successfully",
+			"registerFailed": "Registration failed",
+			"registerSuccess": "Account created successfully",
+			"resetRequestFailed": "Could not send reset email",
+			"resetRequestSuccess": "Reset instructions sent",
+			"resetTokenInvalid": "Invalid or expired token",
+			"resetFailed": "Could not reset password",
+			"resetSuccess": "Password updated successfully"
+		}
+	},
+	"validation": {
+		"auth": {
+			"emailRequired": "Enter email",
+			"emailInvalid": "Invalid email format",
+			"passwordMin": "Password must be at least 8 characters",
+			"emailRegex": "Invalid email",
+			"confirmPasswordRequired": "Confirm password",
+			"passwordsMismatch": "Passwords do not match",
+			"usernameMin": "Username must be at least 3 characters",
+			"usernameMax": "Username must be at most 32 characters",
+			"usernameInvalid": "Username may only contain letters, numbers, and underscores"
+		},
+		"masterService": {
+			"nameRequired": "Enter service name",
+			"nameTooLong": "Name must be 255 characters or less",
+			"descriptionRequired": "Enter description",
+			"descriptionTooLong": "Description must be 5000 characters or less",
+			"priceInvalid": "Enter a valid price",
+			"durationInvalid": "Duration must be between 1 and 1440 minutes"
+		},
+		"time": {
+			"hhMmFormat": "Time format: HH:mm"
+		},
+		"booking": {
+			"pausedUntilRequired": "Enter when the pause ends",
+			"minNoticeInvalid": "Min. lead time: 0 to 10080 minutes",
+			"maxDaysInvalid": "Max. days ahead: 1 to 365",
+			"slotStepInvalid": "Slot step: 5 to 120 minutes",
+			"gapInvalid": "Gap between appointments: 0 to 240 minutes"
+		},
+		"scheduleException": {
+			"periodRequired": "Select date and time",
+			"invalidDateTime": "Invalid date or time",
+			"periodEndAfterStart": "Period end must be after the start",
+			"customStartRequired": "Select work start time",
+			"customEndRequired": "Select work end time",
+			"workEndAfterStart": "Work end must be after work start",
+			"titleTooLong": "Title must be 255 characters or less",
+			"noteTooLong": "Note must be 5000 characters or less"
+		}
+	},
+	"errors": {
+		"requestFailed": "Request error ({{status}})",
+		"localAppError": "Request error (LOCAL APP ERROR) ({{status}})",
+		"authTokenParse": "Could not parse auth token"
+	}
+}

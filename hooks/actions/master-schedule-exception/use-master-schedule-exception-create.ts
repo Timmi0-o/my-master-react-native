@@ -21,7 +21,7 @@ export const useMasterScheduleExceptionCreate = (masterProfileId: string) => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data
+			return res.result?.data
 		},
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({

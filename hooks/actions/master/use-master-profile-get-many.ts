@@ -33,7 +33,7 @@ export const useMasterProfileGetMany = () => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? []
+			return res.result?.data ?? []
 		},
 	})
 

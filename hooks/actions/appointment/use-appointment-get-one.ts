@@ -24,7 +24,7 @@ export const useAppointmentGetOne = (appointmentId: string) => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? null
+			return res.result?.data ?? null
 		},
 	})
 }

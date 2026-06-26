@@ -7,6 +7,7 @@ import { useAppLocale } from '@/configs/i18n/locale-context'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Link } from 'expo-router'
 import { Button, Card, Spinner, useThemeColor } from 'heroui-native'
 import { ReactElement, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -154,6 +155,23 @@ export default function LoginPage(): ReactElement {
 								)}
 							</Button>
 						</View>
+
+						<Link href='/(auth)/forgot-password' asChild>
+							<Pressable className='mt-2'>
+								<Text className='text-center text-sm text-accent'>
+									{tAuth('forgotPasswordLink')}
+								</Text>
+							</Pressable>
+						</Link>
+
+						<Link href='/(auth)/sign-up' asChild>
+							<Pressable className='mt-1'>
+								<Text className='text-center text-sm text-muted'>
+									{tAuth('signUpPrompt')}{' '}
+									<Text className='text-accent'>{tAuth('signUpLink')}</Text>
+								</Text>
+							</Pressable>
+						</Link>
 					</Animated.View>
 				</Card.Body>
 			</Card>

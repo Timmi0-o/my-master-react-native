@@ -1,0 +1,10 @@
+{
+	"loading": "正在加载服务...",
+	"notFound": "未找到服务",
+	"masterSection": "技师",
+	"bookModal": {
+		"title": "预约服务",
+		"freeTime": "可预约时间",
+		"noSlots": "该日期没有可预约时段"
+	}
+}

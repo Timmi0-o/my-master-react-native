@@ -29,3 +29,19 @@ export type IMasterServiceGetOneFilters = z.infer<
 export type IMasterServicesGetManyFilters = z.infer<
 	typeof MasterServicesGetManyFiltersSchema
 >
+
+export const MasterServicesGetMyFiltersSchema = z.object({
+	preset: GetActionPresetSchema.optional(),
+	page: PageFilterSchema,
+	limit: LimitFilterSchema,
+	orderField: z
+		.enum(['id', 'name', 'price', 'createdAt', 'updatedAt'])
+		.optional(),
+	orderDir: ListOrderDirSchema.optional(),
+	search: SearchFilterSchema.optional(),
+	requiredIds: RequiredIdsFilterSchema.optional(),
+})
+
+export type IMasterServicesGetMyFilters = z.infer<
+	typeof MasterServicesGetMyFiltersSchema
+>

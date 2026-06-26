@@ -31,7 +31,7 @@ export const useAppointmentGetMyMany = (options?: { enabled?: boolean }) => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? []
+			return res.result?.data ?? []
 		},
 	})
 

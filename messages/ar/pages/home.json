@@ -1,0 +1,7 @@
+{
+	"titleClient": "حجوزاتي",
+	"titleMaster": "حجوزات عملائي",
+	"empty": "لا توجد حجوزات بعد",
+	"allRecordsTitle": "كل الحجوزات",
+	"allRecordsCount": "إجمالي الحجوزات: {{count}}"
+}

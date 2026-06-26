@@ -55,6 +55,7 @@ export const MasterServiceGetManyParamsSchema = z.object({
 })
 
 export type IMasterService = z.infer<typeof MasterServiceSchema>
+export type IMasterServiceImage = z.infer<typeof MasterServiceImageSchema>
 export type IMasterServiceGetManyParams = z.infer<
 	typeof MasterServiceGetManyParamsSchema
 >

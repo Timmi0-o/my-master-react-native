@@ -1,0 +1,9 @@
+{
+	"loadingServices": "Cargando servicios...",
+	"servicesNotFound": "No se encontraron servicios",
+	"recommendedForYou": "Especialmente para ti",
+	"servicesTotalCount": "Total de servicios: {{count}}",
+	"popularMasters": "Profesionales populares",
+	"loadingMasters": "Cargando profesionales...",
+	"mastersNotFound": "No se encontraron profesionales"
+}

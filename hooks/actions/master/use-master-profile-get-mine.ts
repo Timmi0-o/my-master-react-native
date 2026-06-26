@@ -27,7 +27,7 @@ export const useMasterProfileGetMine = () => {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? null
+			return res.result?.data ?? null
 		},
 	})
 

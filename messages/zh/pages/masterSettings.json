@@ -1,0 +1,22 @@
+{
+	"hubTitle": "日程与预约",
+	"currentStatus": "当前状态",
+	"bookingRules": "预约与规则",
+	"weeklySchedule": "每周日程",
+	"exceptions": "休息日与例外",
+	"weeklyListTitle": "每周日程",
+	"exceptionsListTitle": "休息日与例外",
+	"bookingTitle": "接受预约",
+	"exceptionEdit": "编辑例外",
+	"exceptionNew": "新建例外",
+	"exceptionPeriod": "时段",
+	"exceptionDetails": "补充信息",
+	"customWorkHours": "工作时间",
+	"intervalEdit": "编辑时段",
+	"intervalNew": "新建时段",
+	"masterProfileNotFound": "未找到技师资料",
+	"pausedUntil": "暂停至：{{date}}",
+	"emptyExceptions": "暂无例外。请添加休息日或假期。",
+	"emptyIntervals": "暂无时段。请按星期添加工作时间。",
+	"customHours": "时间：{{start}} – {{end}}"
+}

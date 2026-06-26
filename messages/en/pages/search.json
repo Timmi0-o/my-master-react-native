@@ -1,0 +1,9 @@
+{
+	"loadingServices": "Loading services...",
+	"servicesNotFound": "No services found",
+	"recommendedForYou": "Picked for you",
+	"servicesTotalCount": "Total services: {{count}}",
+	"popularMasters": "Popular masters",
+	"loadingMasters": "Loading masters...",
+	"mastersNotFound": "No masters found"
+}

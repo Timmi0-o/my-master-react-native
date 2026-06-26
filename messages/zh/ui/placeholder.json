@@ -1,0 +1,15 @@
+{
+	"timeStart": "09:00",
+	"timeEnd": "18:00",
+	"pauseUntil": "选择日期和时间",
+	"periodStart": "选择日期和时间",
+	"periodEnd": "选择日期和时间",
+	"workStart": "选择时间",
+	"workEnd": "选择时间",
+	"bookingMessage": "预约前的需求或问题",
+	"chatMessage": "消息",
+	"searchServices": "搜索服务...",
+	"loginEmail": "you@example.com",
+	"loginPassword": "••••••••",
+	"searchRecords": "搜索预约..."
+}

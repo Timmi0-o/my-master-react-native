@@ -33,7 +33,7 @@ export const useAppointmentGetMyClientsMany = (options?: {
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? []
+			return res.result?.data ?? []
 		},
 	})
 

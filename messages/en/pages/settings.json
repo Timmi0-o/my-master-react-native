@@ -1,0 +1,12 @@
+{
+	"title": "Settings",
+	"appearance": {
+		"title": "Appearance",
+		"darkMode": "Dark theme",
+		"darkModeHint": "Enables dark styling for the app"
+	},
+	"language": {
+		"title": "Language",
+		"hint": "App interface language"
+	}
+}

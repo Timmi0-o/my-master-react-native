@@ -24,7 +24,7 @@ export const useMasterScheduleExceptionGetOne = (id: string, enabled = true) => 
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? null
+			return res.result?.data ?? null
 		},
 	})
 }

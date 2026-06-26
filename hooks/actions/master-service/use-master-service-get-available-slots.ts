@@ -28,7 +28,7 @@ export const useMasterServiceGetAvailableSlots = (
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? null
+			return res.result?.data ?? null
 		},
 	})
 }

@@ -1,0 +1,9 @@
+{
+	"loadingServices": "جارٍ تحميل الخدمات...",
+	"servicesNotFound": "لم يتم العثور على خدمات",
+	"recommendedForYou": "مختار لك",
+	"servicesTotalCount": "إجمالي الخدمات: {{count}}",
+	"popularMasters": "مختصون مشهورون",
+	"loadingMasters": "جارٍ تحميل المختصين...",
+	"mastersNotFound": "لم يتم العثور على مختصين"
+}

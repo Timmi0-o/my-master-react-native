@@ -95,6 +95,12 @@ export function MasterSettingsHub({
 
 	const tiles: ISettingsTile[] = [
 		{
+			key: 'services',
+			label: t('myServices'),
+			href: '/master-settings/services',
+			icon: 'briefcase-outline',
+		},
+		{
 			key: 'booking',
 			label: t('bookingRules'),
 			href: '/master-settings/booking',
@@ -140,7 +146,7 @@ export function MasterSettingsHub({
 						<SettingsTileBlock
 							key={tile.key}
 							tile={tile}
-							variant={index === 2 ? 'wide' : 'compact'}
+							variant={index === tiles.length - 1 ? 'wide' : 'compact'}
 							mutedColor={mutedColor}
 							onPress={() => router.push(tile.href)}
 						/>

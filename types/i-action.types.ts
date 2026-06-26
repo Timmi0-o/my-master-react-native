@@ -1,29 +1,10 @@
 import { IQueryField } from '@/actions/base-models/filters/base-query-field.schema'
+import { IAppActionResponse } from '@/contracts/api-response/types'
 
 export type { IGetActionPresets } from '@/actions/base-models/filters/filter-fields/base-preset-filter.schema'
 
-export interface IActionErrorField {
-	field: string
-	message: string
-}
-
-export interface IActionError {
-	statusCode: number
-	timestamp: string
-	error: string
-	message: string
-	errors?: IActionErrorField[]
-}
-
-export interface IActionResult<T> {
-	data: T
-	success?: boolean
-}
-
-export interface IActionResponse<T> {
-	result: IActionResult<T>
-	error?: IActionError
-}
+/** @deprecated Use IAppActionResponse from contracts/api-response/types */
+export type IActionResponse<T> = IAppActionResponse<T>
 
 export interface IHttpParams<T = unknown> {
 	method?: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH'
@@ -36,7 +17,8 @@ interface IBaseActionOptions {
 	params?: IHttpParams
 }
 
-export interface IMutateActionOptions extends IBaseActionOptions {
+export interface IMutateActionOptions<TBody = unknown> extends IBaseActionOptions {
+	params?: IHttpParams & { body?: TBody }
 	json?: boolean
 	isPublic?: boolean
 	onOk?: () => void
@@ -51,4 +33,6 @@ export interface IGetActionOptions<
 	customFormatter?: (
 		filters: IActionFilters<TFilters>,
 	) => Record<string, string> | undefined
+	isArray?: boolean
+	isPublic?: boolean
 }

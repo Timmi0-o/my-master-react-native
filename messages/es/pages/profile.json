@@ -1,0 +1,7 @@
+{
+	"loading": "Cargando...",
+	"masterNotFound": "Perfil de profesional no encontrado",
+	"clientNotFound": "Perfil de cliente no encontrado",
+	"accountManagement": "Gestión de cuenta",
+	"ratingChip": "Valoración: {{rating}}"
+}

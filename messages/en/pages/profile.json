@@ -1,0 +1,7 @@
+{
+	"loading": "Loading...",
+	"masterNotFound": "Master profile not found",
+	"clientNotFound": "Client profile not found",
+	"accountManagement": "Account",
+	"ratingChip": "Rating: {{rating}}"
+}

@@ -36,7 +36,7 @@ export const useMasterScheduleExceptionGetMany = (
 				throw new Error(res.error.message)
 			}
 
-			return res.result.data ?? []
+			return res.result?.data ?? []
 		},
 	})
 }
