@@ -61,7 +61,6 @@ export const masterServicesGetOne = async (
 		{
 			url: API_ROUTES.masterServices.one(id),
 			params: { method: 'GET' },
-			isPublic: true,
 			...options,
 		},
 		MasterServiceGetOneFiltersSchema,

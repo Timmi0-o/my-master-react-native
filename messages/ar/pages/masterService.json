@@ -2,6 +2,11 @@
 	"loading": "جارٍ تحميل الخدمة...",
 	"notFound": "لم يتم العثور على الخدمة",
 	"masterSection": "مختص",
+	"detailsTab": "التفاصيل",
+	"reviewsTab": "التقييمات",
+	"reviewsTabWithCount": "التقييمات ({{count}})",
+	"descriptionTitle": "الوصف",
+	"reviewsEmpty": "لا توجد تقييمات بعد",
 	"bookModal": {
 		"title": "حجز الخدمة",
 		"freeTime": "الوقت المتاح",

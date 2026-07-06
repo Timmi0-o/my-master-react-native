@@ -4,6 +4,7 @@
 	"masterSection": "Master",
 	"detailsTab": "Details",
 	"reviewsTab": "Reviews",
+	"reviewsTabWithCount": "Reviews ({{count}})",
 	"descriptionTitle": "Description",
 	"reviewsEmpty": "No reviews yet",
 	"bookModal": {

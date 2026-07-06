@@ -2,6 +2,11 @@
 	"loading": "正在加载服务...",
 	"notFound": "未找到服务",
 	"masterSection": "技师",
+	"detailsTab": "详情",
+	"reviewsTab": "评价",
+	"reviewsTabWithCount": "评价 ({{count}})",
+	"descriptionTitle": "描述",
+	"reviewsEmpty": "暂无评价",
 	"bookModal": {
 		"title": "预约服务",
 		"freeTime": "可预约时间",

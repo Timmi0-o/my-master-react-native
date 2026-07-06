@@ -64,7 +64,15 @@
 		"masterService": {
 			"loadOneFailed": "无法加载服务",
 			"loadManyFailed": "无法加载服务列表",
-			"slotsLoadFailed": "无法加载可预约时段"
+			"loadMyManyFailed": "无法加载您的服务",
+			"slotsLoadFailed": "无法加载可预约时段",
+			"saveFailed": "无法保存服务",
+			"saved": "服务已保存",
+			"deleteFailed": "无法删除服务",
+			"deleted": "服务已删除",
+			"recommendedFailed": "无法加载推荐服务",
+			"imagesSaved": "照片已保存",
+			"imagesSaveFailed": "无法保存照片"
 		},
 		"masterProfile": {
 			"loadOneFailed": "无法加载技师资料",
@@ -106,6 +114,14 @@
 			"emailRegex": "邮箱无效",
 			"confirmPasswordRequired": "请确认密码",
 			"passwordsMismatch": "两次输入的密码不一致"
+		},
+		"masterService": {
+			"nameRequired": "请输入服务名称",
+			"nameTooLong": "名称不能超过 255 个字符",
+			"descriptionRequired": "请输入描述",
+			"descriptionTooLong": "描述不能超过 5000 个字符",
+			"priceInvalid": "请输入有效价格",
+			"durationInvalid": "时长须在 1 至 1440 分钟之间"
 		},
 		"time": {
 			"hhMmFormat": "时间格式：HH:mm"

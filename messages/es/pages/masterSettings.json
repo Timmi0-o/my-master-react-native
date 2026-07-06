@@ -21,5 +21,16 @@
 	"customHours": "Horario: {{start}} – {{end}}",
 	"myServices": "Mis servicios",
 	"deleteServiceTitle": "¿Eliminar servicio?",
-	"deleteServiceDescription": "Esta acción no se puede deshacer."
+	"deleteServiceDescription": "Esta acción no se puede deshacer.",
+	"emptyServices": "Aún no hay servicios. Aparecerán aquí después de crearlos.",
+	"serviceEditTitle": "Editar servicio",
+	"serviceEditMainTab": "Principal",
+	"serviceEditImagesTab": "Fotos",
+	"tableColumnName": "Nombre",
+	"tableColumnDescription": "Descripción",
+	"tableColumnPrice": "Precio",
+	"tableColumnDuration": "Duración (min)",
+	"durationMinutes": "{{count}} min",
+	"addPhotos": "Añadir fotos",
+	"emptyPhotos": "Aún no hay fotos"
 }

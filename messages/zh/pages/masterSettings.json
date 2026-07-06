@@ -21,5 +21,16 @@
 	"customHours": "时间：{{start}} – {{end}}",
 	"myServices": "我的服务",
 	"deleteServiceTitle": "删除服务？",
-	"deleteServiceDescription": "此操作无法撤销。"
+	"deleteServiceDescription": "此操作无法撤销。",
+	"emptyServices": "暂无服务。创建后会显示在这里。",
+	"serviceEditTitle": "编辑服务",
+	"serviceEditMainTab": "基本信息",
+	"serviceEditImagesTab": "照片",
+	"tableColumnName": "名称",
+	"tableColumnDescription": "描述",
+	"tableColumnPrice": "价格",
+	"tableColumnDuration": "时长（分钟）",
+	"durationMinutes": "{{count}} 分钟",
+	"addPhotos": "添加照片",
+	"emptyPhotos": "暂无照片"
 }

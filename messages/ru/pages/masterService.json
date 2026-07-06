@@ -2,6 +2,11 @@
 	"loading": "Загрузка услуги...",
 	"notFound": "Услуга не найдена",
 	"masterSection": "Мастер",
+	"detailsTab": "Детали",
+	"reviewsTab": "Отзывы",
+	"reviewsTabWithCount": "Отзывы ({{count}})",
+	"descriptionTitle": "Описание",
+	"reviewsEmpty": "Отзывов пока нет",
 	"bookModal": {
 		"title": "Запись на услугу",
 		"freeTime": "Свободное время",

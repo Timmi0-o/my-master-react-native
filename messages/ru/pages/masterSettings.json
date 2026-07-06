@@ -21,5 +21,16 @@
 	"customHours": "Часы: {{start}} – {{end}}",
 	"myServices": "Мои услуги",
 	"deleteServiceTitle": "Удалить услугу?",
-	"deleteServiceDescription": "Это действие нельзя отменить."
+	"deleteServiceDescription": "Это действие нельзя отменить.",
+	"emptyServices": "Пока нет услуг. Они появятся здесь после создания.",
+	"serviceEditTitle": "Редактирование услуги",
+	"serviceEditMainTab": "Основное",
+	"serviceEditImagesTab": "Фото",
+	"tableColumnName": "Название",
+	"tableColumnDescription": "Описание",
+	"tableColumnPrice": "Цена",
+	"tableColumnDuration": "Длительность (мин)",
+	"durationMinutes": "{{count}} мин",
+	"addPhotos": "Добавить фото",
+	"emptyPhotos": "Фото пока нет"
 }

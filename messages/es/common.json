@@ -64,7 +64,15 @@
 		"masterService": {
 			"loadOneFailed": "No se pudo cargar el servicio",
 			"loadManyFailed": "No se pudieron cargar los servicios",
-			"slotsLoadFailed": "No se pudieron cargar los horarios"
+			"loadMyManyFailed": "No se pudieron cargar tus servicios",
+			"slotsLoadFailed": "No se pudieron cargar los horarios",
+			"saveFailed": "No se pudo guardar el servicio",
+			"saved": "Servicio guardado",
+			"deleteFailed": "No se pudo eliminar el servicio",
+			"deleted": "Servicio eliminado",
+			"recommendedFailed": "No se pudieron cargar los servicios recomendados",
+			"imagesSaved": "Fotos guardadas",
+			"imagesSaveFailed": "No se pudieron guardar las fotos"
 		},
 		"masterProfile": {
 			"loadOneFailed": "No se pudo cargar el perfil del profesional",
@@ -106,6 +114,14 @@
 			"emailRegex": "Correo electrónico no válido",
 			"confirmPasswordRequired": "Confirma la contraseña",
 			"passwordsMismatch": "Las contraseñas no coinciden"
+		},
+		"masterService": {
+			"nameRequired": "Introduce el nombre del servicio",
+			"nameTooLong": "El nombre debe tener 255 caracteres o menos",
+			"descriptionRequired": "Introduce la descripción",
+			"descriptionTooLong": "La descripción debe tener 5000 caracteres o menos",
+			"priceInvalid": "Introduce un precio válido",
+			"durationInvalid": "La duración debe estar entre 1 y 1440 minutos"
 		},
 		"time": {
 			"hhMmFormat": "Formato de hora: HH:mm"

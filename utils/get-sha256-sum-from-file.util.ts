@@ -1,3 +1,5 @@
+import * as Crypto from 'expo-crypto'
+
 const bytesToBase64 = (bytes: Uint8Array): string => {
 	let binary = ''
 	for (let i = 0; i < bytes.length; i++) {
@@ -28,9 +30,18 @@ const bytesToBase64 = (bytes: Uint8Array): string => {
 }
 
 export const getSha256SumFromFile = async (uri: string): Promise<string> => {
-	const response = await fetch(uri)
-	const buffer = await response.arrayBuffer()
-	const hashBuffer = await crypto.subtle.digest('SHA-256', buffer)
+	try {
+		const response = await fetch(uri)
 
-	return bytesToBase64(new Uint8Array(hashBuffer))
+		const buffer = await response.arrayBuffer()
+		const hashBuffer = await Crypto.digest(
+			Crypto.CryptoDigestAlgorithm.SHA256,
+			new Uint8Array(buffer),
+		)
+
+		return bytesToBase64(new Uint8Array(hashBuffer))
+	} catch (error) {
+		console.error('Error getting SHA256 sum from file:', error)
+		throw error
+	}
 }

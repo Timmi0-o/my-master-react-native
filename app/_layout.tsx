@@ -76,7 +76,14 @@ const RootStack = observer(() => {
 	)
 })
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false,
+			retry: 1,
+		},
+	},
+})
 
 const AppNavigation = () => {
 	const { resolvedColorScheme } = useThemeApp()
@@ -102,7 +109,7 @@ export default function RootLayout() {
 		<QueryClientProvider client={queryClient}>
 			<GestureHandlerRootView style={{ flex: 1 }}>
 				<SafeAreaProvider>
-					<HeroUINativeProvider>
+					<HeroUINativeProvider config={{ devInfo: { stylingPrinciples: false } }}>
 						<LocaleProviderApp>
 							<ThemeProviderApp>
 								<ConfirmationProvider>

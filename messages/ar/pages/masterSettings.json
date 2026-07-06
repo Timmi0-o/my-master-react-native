@@ -21,5 +21,16 @@
 	"customHours": "الساعات: {{start}} – {{end}}",
 	"myServices": "خدماتي",
 	"deleteServiceTitle": "حذف الخدمة؟",
-	"deleteServiceDescription": "لا يمكن التراجع عن هذا الإجراء."
+	"deleteServiceDescription": "لا يمكن التراجع عن هذا الإجراء.",
+	"emptyServices": "لا توجد خدمات بعد. ستظهر هنا بعد إنشائها.",
+	"serviceEditTitle": "تعديل الخدمة",
+	"serviceEditMainTab": "الأساسي",
+	"serviceEditImagesTab": "الصور",
+	"tableColumnName": "الاسم",
+	"tableColumnDescription": "الوصف",
+	"tableColumnPrice": "السعر",
+	"tableColumnDuration": "المدة (د)",
+	"durationMinutes": "{{count}} د",
+	"addPhotos": "إضافة صور",
+	"emptyPhotos": "لا توجد صور بعد"
 }

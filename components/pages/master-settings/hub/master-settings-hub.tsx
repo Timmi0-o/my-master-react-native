@@ -9,9 +9,9 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import type { Href } from 'expo-router'
 import { useRouter } from 'expo-router'
-import { Card, Chip, PressableFeedback, useThemeColor } from 'heroui-native'
+import { Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { Text, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 import { MasterSettingsHubHeader } from './components/master-settings-hub-header'
 
 interface IMasterSettingsHubProps {
@@ -41,8 +41,9 @@ function SettingsTileBlock({
 	const isWide = variant === 'wide'
 
 	return (
-		<PressableFeedback
+		<Pressable
 			accessibilityRole='button'
+			className='active:opacity-80'
 			onPress={onPress}
 			style={{
 				minHeight: isWide ? 92 : 132,
@@ -76,7 +77,7 @@ function SettingsTileBlock({
 					)}
 				</Card.Body>
 			</Card>
-		</PressableFeedback>
+		</Pressable>
 	)
 }
 

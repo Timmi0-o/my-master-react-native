@@ -2,6 +2,11 @@
 	"loading": "Cargando servicio...",
 	"notFound": "Servicio no encontrado",
 	"masterSection": "Profesional",
+	"detailsTab": "Detalles",
+	"reviewsTab": "Reseñas",
+	"reviewsTabWithCount": "Reseñas ({{count}})",
+	"descriptionTitle": "Descripción",
+	"reviewsEmpty": "Aún no hay reseñas",
 	"bookModal": {
 		"title": "Reservar servicio",
 		"freeTime": "Horario disponible",

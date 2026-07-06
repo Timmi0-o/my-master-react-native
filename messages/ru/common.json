@@ -64,7 +64,15 @@
 		"masterService": {
 			"loadOneFailed": "Ошибка загрузки услуги",
 			"loadManyFailed": "Ошибка загрузки услуг",
-			"slotsLoadFailed": "Не удалось загрузить слоты"
+			"loadMyManyFailed": "Ошибка загрузки ваших услуг",
+			"slotsLoadFailed": "Не удалось загрузить слоты",
+			"saveFailed": "Не удалось сохранить услугу",
+			"saved": "Услуга сохранена",
+			"deleteFailed": "Не удалось удалить услугу",
+			"deleted": "Услуга удалена",
+			"recommendedFailed": "Не удалось загрузить рекомендуемые услуги",
+			"imagesSaved": "Фото сохранены",
+			"imagesSaveFailed": "Не удалось сохранить фото"
 		},
 		"masterProfile": {
 			"loadOneFailed": "Ошибка загрузки профиля мастера",
@@ -106,6 +114,14 @@
 			"emailRegex": "Неверный email",
 			"confirmPasswordRequired": "Подтвердите пароль",
 			"passwordsMismatch": "Пароли не совпадают"
+		},
+		"masterService": {
+			"nameRequired": "Введите название услуги",
+			"nameTooLong": "Название не длиннее 255 символов",
+			"descriptionRequired": "Введите описание",
+			"descriptionTooLong": "Описание не длиннее 5000 символов",
+			"priceInvalid": "Введите корректную цену",
+			"durationInvalid": "Длительность от 1 до 1440 минут"
 		},
 		"time": {
 			"hhMmFormat": "Формат времени: HH:mm"

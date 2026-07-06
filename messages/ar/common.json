@@ -64,7 +64,15 @@
 		"masterService": {
 			"loadOneFailed": "تعذّر تحميل الخدمة",
 			"loadManyFailed": "تعذّر تحميل الخدمات",
-			"slotsLoadFailed": "تعذّر تحميل المواعيد المتاحة"
+			"loadMyManyFailed": "تعذّر تحميل خدماتك",
+			"slotsLoadFailed": "تعذّر تحميل المواعيد المتاحة",
+			"saveFailed": "تعذّر حفظ الخدمة",
+			"saved": "تم حفظ الخدمة",
+			"deleteFailed": "تعذّر حذف الخدمة",
+			"deleted": "تم حذف الخدمة",
+			"recommendedFailed": "تعذّر تحميل الخدمات الموصى بها",
+			"imagesSaved": "تم حفظ الصور",
+			"imagesSaveFailed": "تعذّر حفظ الصور"
 		},
 		"masterProfile": {
 			"loadOneFailed": "تعذّر تحميل ملف المختص",
@@ -106,6 +114,14 @@
 			"emailRegex": "بريد إلكتروني غير صالح",
 			"confirmPasswordRequired": "أكّد كلمة المرور",
 			"passwordsMismatch": "كلمتا المرور غير متطابقتين"
+		},
+		"masterService": {
+			"nameRequired": "أدخل اسم الخدمة",
+			"nameTooLong": "يجب ألا يتجاوز الاسم 255 حرفًا",
+			"descriptionRequired": "أدخل الوصف",
+			"descriptionTooLong": "يجب ألا يتجاوز الوصف 5000 حرف",
+			"priceInvalid": "أدخل سعرًا صالحًا",
+			"durationInvalid": "يجب أن تكون المدة بين 1 و 1440 دقيقة"
 		},
 		"time": {
 			"hhMmFormat": "صيغة الوقت: HH:mm"
