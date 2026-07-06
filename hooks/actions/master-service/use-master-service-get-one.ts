@@ -1,7 +1,7 @@
 import { masterServicesGetOne } from '@/actions/master-service/actions'
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
-import { useQuery } from '@tanstack/react-query'
 import { scopedT } from '@/configs/i18n/scoped-t'
+import { useQuery } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
 export const useMasterServiceGetOne = (masterServiceId: string) => {
@@ -9,7 +9,7 @@ export const useMasterServiceGetOne = (masterServiceId: string) => {
 
 	return useQuery<IMasterService | null>({
 		queryKey: ['master-services', 'one', masterServiceId],
-		enabled: masterServiceId.length > 0,
+		enabled: !!masterServiceId,
 		queryFn: async () => {
 			const res = await masterServicesGetOne(masterServiceId, {
 				filters: { preset: 'BASE' },

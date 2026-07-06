@@ -14,7 +14,7 @@ import { Button, Card, useToast } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useEffect, useState } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { MasterWeeklyScheduleEditHeader } from './components/master-weekly-schedule-edit-header'
 import { ScheduleSimpleField } from '../../components/schedule-simple-field'
 
 interface IMasterWeeklyScheduleEditPageProps {
@@ -81,7 +81,7 @@ export function MasterWeeklyScheduleEditPage({
 	if (isEdit && isLoading) {
 		return (
 			<BasePage>
-				<ScheduleScreenHeader
+				<MasterWeeklyScheduleEditHeader
 					title={isEdit ? t('intervalEdit') : t('intervalNew')}
 				/>
 				<Text className='text-muted'>{tCommon('loading')}</Text>
@@ -92,9 +92,8 @@ export function MasterWeeklyScheduleEditPage({
 	return (
 		<BasePage
 			headerContent={
-				<ScheduleScreenHeader
-					title={isEdit ? t('intervalEdit') : t('intervalNew')}
-					extraContent={
+				<MasterWeeklyScheduleEditHeader
+					rightContent={
 						<SaveButton
 							isDisabled={isSavePending}
 							isIconOnly
@@ -102,6 +101,7 @@ export function MasterWeeklyScheduleEditPage({
 							onPress={() => void handleSave()}
 						/>
 					}
+					title={isEdit ? t('intervalEdit') : t('intervalNew')}
 				/>
 			}
 			adjustForKeyboard

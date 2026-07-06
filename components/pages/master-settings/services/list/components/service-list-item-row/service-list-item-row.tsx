@@ -1,6 +1,6 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { useEffect, useState, type ReactElement } from 'react'
-import { View, type LayoutChangeEvent } from 'react-native'
+import { Pressable, View, type LayoutChangeEvent } from 'react-native'
 import Animated, {
 	useAnimatedStyle,
 	useSharedValue,
@@ -63,9 +63,9 @@ export function ServiceListItemRow({
 						animatedStyle,
 					]}
 				>
-					<View style={{ width: containerWidth }}>
+					<Pressable onPress={onEdit} style={{ flex: 1 }}>
 						<ServiceItem service={service} />
-					</View>
+					</Pressable>
 
 					<View
 						pointerEvents={isEditMode ? 'auto' : 'none'}

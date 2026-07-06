@@ -16,7 +16,7 @@ import Animated, {
 	LinearTransition,
 } from 'react-native-reanimated'
 import { ScheduleFormField } from '../components/schedule-form-field'
-import { ScheduleScreenHeader } from '../components/schedule-screen-header'
+import { MasterBookingSettingsHeader } from './components/master-booking-settings-header'
 import { BookingStatusField } from './components/booking-status-field'
 import { PausedUntilField } from './components/paused-until-field'
 import { TimezoneSelectField } from './components/timezone-select-field'
@@ -54,9 +54,8 @@ export function MasterBookingSettingsPage({
 	return (
 		<BasePage
 			headerContent={
-				<ScheduleScreenHeader
-					title={t('bookingTitle')}
-					extraContent={
+				<MasterBookingSettingsHeader
+					rightContent={
 						<SaveButton
 							isDisabled={isSaveDisabled}
 							isIconOnly
@@ -64,6 +63,7 @@ export function MasterBookingSettingsPage({
 							onPress={() => void handleSubmit(onSubmit)()}
 						/>
 					}
+					title={t('bookingTitle')}
 				/>
 			}
 			adjustForKeyboard

@@ -7,7 +7,7 @@ import { useMasterServiceGetMyMany } from '@/hooks/actions/master-service/use-ma
 import { useRouter } from 'expo-router'
 import { useState, type ReactElement } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { MasterServicesListHeader } from './components/master-services-list-header'
 import { ServiceListItemRow } from './components/service-list-item-row/service-list-item-row'
 
 interface IMasterServicesListPageProps {
@@ -36,9 +36,9 @@ export function MasterServicesListPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader
-				setIsEditMode={setIsEditMode}
+			<MasterServicesListHeader
 				isEditMode={isEditMode}
+				onEditModeChange={setIsEditMode}
 				onEditSubmit={() => {
 					setIsEditMode(false)
 				}}
@@ -48,7 +48,17 @@ export function MasterServicesListPage({
 			{isLoading ? (
 				<Text className='text-muted'>{tCommon('loading')}</Text>
 			) : (
-				<View style={{ rowGap: 12, paddingBottom: 24, paddingHorizontal: 6 }}>
+				<View
+					onTouchStart={() => {
+						setIsEditMode(false)
+					}}
+					style={{
+						rowGap: 12,
+						paddingBottom: 24,
+						paddingHorizontal: 6,
+						flex: 1,
+					}}
+				>
 					{data.map((item) => (
 						<ServiceListItemRow
 							key={item.id}

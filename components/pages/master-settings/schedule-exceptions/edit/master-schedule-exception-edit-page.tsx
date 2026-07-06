@@ -14,7 +14,7 @@ import { useForm, useWatch } from 'react-hook-form'
 import { Text, View } from 'react-native'
 import { DateTimeSelectField } from '../../components/datetime-select-field'
 import { ScheduleFormField } from '../../components/schedule-form-field'
-import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { MasterScheduleExceptionEditHeader } from './components/master-schedule-exception-edit-header'
 import { ExceptionKindField } from './components/exception-kind-field'
 import { TimeOfDaySelectField } from './components/time-of-day-select-field'
 import { MASTER_SCHEDULE_EXCEPTION_EDIT_DEFAULT_VALUES } from './data/master-schedule-exception-edit-default-values'
@@ -70,7 +70,7 @@ export function MasterScheduleExceptionEditPage({
 	if (isEdit && isLoading) {
 		return (
 			<BasePage>
-				<ScheduleScreenHeader title={t('exceptionEdit')} />
+				<MasterScheduleExceptionEditHeader title={t('exceptionEdit')} />
 				<Text className='text-muted'>{tCommon('loading')}</Text>
 			</BasePage>
 		)
@@ -79,9 +79,8 @@ export function MasterScheduleExceptionEditPage({
 	return (
 		<BasePage
 			headerContent={
-				<ScheduleScreenHeader
-					title={isEdit ? t('exceptionEdit') : t('exceptionNew')}
-					extraContent={
+				<MasterScheduleExceptionEditHeader
+					rightContent={
 						<SaveButton
 							isDisabled={isSaveDisabled}
 							isIconOnly
@@ -89,6 +88,7 @@ export function MasterScheduleExceptionEditPage({
 							onPress={() => void handleSubmit(onSubmit)()}
 						/>
 					}
+					title={isEdit ? t('exceptionEdit') : t('exceptionNew')}
 				/>
 			}
 			adjustForKeyboard

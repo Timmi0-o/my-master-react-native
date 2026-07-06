@@ -15,8 +15,8 @@ import { Card, FieldError, Label, Tabs, TextField } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { View } from 'react-native'
+import { MasterServiceEditHeader } from './components/master-service-edit-header'
 import { MasterServiceImageForm } from './components/master-service-image-form'
 
 const buildDefaultValues = (service: IMasterService): IMasterServiceEdit => ({
@@ -142,7 +142,7 @@ export function MasterServiceEditPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title={t('serviceEditTitle')} />
+			<MasterServiceEditHeader title={t('serviceEditTitle')} />
 			<Tabs value={activeTab} onValueChange={setActiveTab}>
 				<Tabs.List>
 					<Tabs.Trigger value='main'>

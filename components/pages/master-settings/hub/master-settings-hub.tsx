@@ -12,7 +12,7 @@ import { useRouter } from 'expo-router'
 import { Card, Chip, PressableFeedback, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from '../components/schedule-screen-header'
+import { MasterSettingsHubHeader } from './components/master-settings-hub-header'
 
 interface IMasterSettingsHubProps {
 	masterProfile: IMasterProfile
@@ -122,7 +122,7 @@ export function MasterSettingsHub({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader title={t('hubTitle')} />
+			<MasterSettingsHubHeader title={t('hubTitle')} />
 
 			<View style={{ rowGap: 16 }}>
 				<Card>

@@ -10,12 +10,11 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { DAY_OF_WEEK_ORDER } from '@/constants/master-schedule.constants'
 import { useMasterWeeklyScheduleDelete } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-delete'
 import { useMasterWeeklyScheduleGetMany } from '@/hooks/actions/master-weekly-schedule/use-master-weekly-schedule-get-many'
-import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Button, Card, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { MasterWeeklyScheduleListHeader } from './components/master-weekly-schedule-list-header'
 
 interface IMasterWeeklyScheduleListPageProps {
 	masterProfile: IMasterProfile
@@ -51,17 +50,8 @@ export function MasterWeeklyScheduleListPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader
-				extraContent={
-					<Button
-						isIconOnly
-						size='sm'
-						variant='primary'
-						onPress={() => router.push('/master-settings/weekly-schedule/edit')}
-					>
-						<Ionicons name='add' size={24} color='white' />
-					</Button>
-				}
+			<MasterWeeklyScheduleListHeader
+				onAddPress={() => router.push('/master-settings/weekly-schedule/edit')}
 				title={t('weeklyListTitle')}
 			/>
 

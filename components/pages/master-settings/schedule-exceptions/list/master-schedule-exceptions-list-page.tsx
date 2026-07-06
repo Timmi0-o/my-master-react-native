@@ -9,12 +9,11 @@ import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterScheduleExceptionDelete } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-delete'
 import { useMasterScheduleExceptionGetMany } from '@/hooks/actions/master-schedule-exception/use-master-schedule-exception-get-many'
-import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Button, Card, Chip } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Text, View } from 'react-native'
-import { ScheduleScreenHeader } from '../../components/schedule-screen-header'
+import { MasterScheduleExceptionsListHeader } from './components/master-schedule-exceptions-list-header'
 
 interface IMasterScheduleExceptionsListPageProps {
 	masterProfile: IMasterProfile
@@ -42,19 +41,8 @@ export function MasterScheduleExceptionsListPage({
 
 	return (
 		<BasePage>
-			<ScheduleScreenHeader
-				extraContent={
-					<Button
-						isIconOnly
-						size='sm'
-						variant='primary'
-						onPress={() =>
-							router.push('/master-settings/schedule-exceptions/edit')
-						}
-					>
-						<Ionicons name='add' size={24} color='white' />
-					</Button>
-				}
+			<MasterScheduleExceptionsListHeader
+				onAddPress={() => router.push('/master-settings/schedule-exceptions/edit')}
 				title={t('exceptionsListTitle')}
 			/>
 
