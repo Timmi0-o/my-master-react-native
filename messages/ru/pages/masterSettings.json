@@ -18,5 +18,8 @@
 	"pausedUntil": "Пауза до: {{date}}",
 	"emptyExceptions": "Нет исключений. Добавьте выходной или отпуск.",
 	"emptyIntervals": "Нет интервалов. Добавьте рабочие часы по дням недели.",
-	"customHours": "Часы: {{start}} – {{end}}"
+	"customHours": "Часы: {{start}} – {{end}}",
+	"myServices": "Мои услуги",
+	"deleteServiceTitle": "Удалить услугу?",
+	"deleteServiceDescription": "Это действие нельзя отменить."
 }

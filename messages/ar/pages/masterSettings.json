@@ -18,5 +18,8 @@
 	"pausedUntil": "متوقف حتى: {{date}}",
 	"emptyExceptions": "لا توجد استثناءات. أضف يوم إجازة أو عطلة.",
 	"emptyIntervals": "لا توجد فترات. أضف ساعات العمل حسب أيام الأسبوع.",
-	"customHours": "الساعات: {{start}} – {{end}}"
+	"customHours": "الساعات: {{start}} – {{end}}",
+	"myServices": "خدماتي",
+	"deleteServiceTitle": "حذف الخدمة؟",
+	"deleteServiceDescription": "لا يمكن التراجع عن هذا الإجراء."
 }

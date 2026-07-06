@@ -20,6 +20,8 @@
 	"emptyIntervals": "No time slots yet. Add working hours by weekday.",
 	"customHours": "Hours: {{start}} – {{end}}",
 	"myServices": "My services",
+	"deleteServiceTitle": "Delete service?",
+	"deleteServiceDescription": "This action cannot be undone.",
 	"emptyServices": "No services yet. Services appear here after they are created.",
 	"serviceEditTitle": "Edit service",
 	"serviceEditMainTab": "Main",

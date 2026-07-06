@@ -1,9 +1,13 @@
 import { BackButton } from '@/components/shared/ui/back-button/back-button'
-import type { ReactElement } from 'react'
+import { Button } from 'heroui-native'
+import type { Dispatch, ReactElement, SetStateAction } from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { Text, View, type LayoutChangeEvent } from 'react-native'
 
 interface IScheduleScreenHeaderProps {
+	setIsEditMode: Dispatch<SetStateAction<boolean>>
+	isEditMode: boolean
+	onEditSubmit: () => void
 	title: string
 	extraContent?: ReactElement
 }
@@ -16,6 +20,9 @@ const MIN_SIDE_SLOT_WIDTH = 44
 export function ScheduleScreenHeader({
 	title,
 	extraContent,
+	setIsEditMode,
+	isEditMode,
+	onEditSubmit,
 }: IScheduleScreenHeaderProps): ReactElement {
 	const [leftWidth, setLeftWidth] = useState(0)
 	const [rightWidth, setRightWidth] = useState(0)
@@ -35,6 +42,14 @@ export function ScheduleScreenHeader({
 
 	const sideSlotWidth =
 		Math.max(leftWidth, rightWidth, MIN_SIDE_SLOT_WIDTH) + TITLE_SIDE_GAP
+
+	const handleEditPress = () => {
+		if (isEditMode) {
+			onEditSubmit()
+		} else {
+			setIsEditMode(true)
+		}
+	}
 
 	return (
 		<View className='mb-4 flex-row items-center px-2' style={{ minHeight: 44 }}>
@@ -58,6 +73,9 @@ export function ScheduleScreenHeader({
 
 			<View style={{ alignItems: 'flex-end', width: sideSlotWidth }}>
 				<View onLayout={handleRightLayout}>{extraContent ?? null}</View>
+				<Button size='sm' variant='tertiary' onPress={handleEditPress}>
+					<Button.Label>{isEditMode ? 'Сохранить' : 'Изм.'}</Button.Label>
+				</Button>
 			</View>
 		</View>
 	)

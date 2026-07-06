@@ -1,13 +1,15 @@
 import { masterServicesDelete } from '@/actions/master-service/actions'
 import { scopedT } from '@/configs/i18n/scoped-t'
+import { useConfirmation } from '@/hooks/use-confirmation'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useToast } from 'heroui-native'
 
 export const useMasterServiceDelete = () => {
 	const queryClient = useQueryClient()
 	const { toast } = useToast()
+	const confirm = useConfirmation()
 
-	return useMutation({
+	const mutation = useMutation({
 		mutationFn: async (id: string) => {
 			const res = await masterServicesDelete(id)
 
@@ -30,4 +32,27 @@ export const useMasterServiceDelete = () => {
 			})
 		},
 	})
+
+	const deleteService = (id: string, onSuccess?: () => void): void => {
+		confirm({
+			title: scopedT('deleteServiceTitle', 'pages', 'masterSettings'),
+			description: scopedT(
+				'deleteServiceDescription',
+				'pages',
+				'masterSettings',
+			),
+			status: 'danger',
+			primaryLabel: scopedT('delete', 'ui', 'button'),
+			cancelLabel: scopedT('cancel', 'ui', 'button'),
+			onConfirm: () => {
+				void mutation.mutateAsync(id)
+				onSuccess?.()
+			},
+		})
+	}
+
+	return {
+		deleteService,
+		isPending: mutation.isPending,
+	}
 }

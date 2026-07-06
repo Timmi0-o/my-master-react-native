@@ -18,5 +18,8 @@
 	"pausedUntil": "暂停至：{{date}}",
 	"emptyExceptions": "暂无例外。请添加休息日或假期。",
 	"emptyIntervals": "暂无时段。请按星期添加工作时间。",
-	"customHours": "时间：{{start}} – {{end}}"
+	"customHours": "时间：{{start}} – {{end}}",
+	"myServices": "我的服务",
+	"deleteServiceTitle": "删除服务？",
+	"deleteServiceDescription": "此操作无法撤销。"
 }

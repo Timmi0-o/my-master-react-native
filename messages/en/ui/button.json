@@ -5,6 +5,8 @@
 	"more": "More",
 	"edit": "Edit",
 	"delete": "Delete",
+	"confirm": "Confirm",
+	"cancel": "Cancel",
 	"editShort": "Edit",
 	"deleteShort": "Del.",
 	"openChat": "Open chat",

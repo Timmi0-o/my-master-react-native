@@ -18,5 +18,8 @@
 	"pausedUntil": "Pausa hasta: {{date}}",
 	"emptyExceptions": "No hay excepciones. Añade un día libre o vacaciones.",
 	"emptyIntervals": "No hay intervalos. Añade horario laboral por día.",
-	"customHours": "Horario: {{start}} – {{end}}"
+	"customHours": "Horario: {{start}} – {{end}}",
+	"myServices": "Mis servicios",
+	"deleteServiceTitle": "¿Eliminar servicio?",
+	"deleteServiceDescription": "Esta acción no se puede deshacer."
 }

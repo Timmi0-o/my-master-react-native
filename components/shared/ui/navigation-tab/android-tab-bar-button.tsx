@@ -24,13 +24,10 @@ export function AndroidTabBarButton({
 	return (
 		<Pressable
 			{...rest}
+			android_ripple={null}
 			onLongPress={onLongPress}
 			onPress={onPress}
-			style={({ pressed }) => [
-				style,
-				styles.button,
-				pressed && styles.pressed,
-			]}
+			style={({ pressed }) => [style, styles.button, pressed && styles.pressed]}
 		>
 			{children}
 		</Pressable>

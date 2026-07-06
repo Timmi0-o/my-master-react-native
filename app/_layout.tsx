@@ -1,5 +1,6 @@
 import '@/app/global.css'
 import '@/configs/i18n/i18n'
+import { ConfirmationProvider } from '@/components/providers/confirmation-provider'
 import { ActiveProfileModeProvider } from '@/configs/active-profile-mode/active-profile-mode-context'
 import { AuthProvider, useAuth } from '@/configs/auth/auth-context'
 import { LocaleProviderApp } from '@/configs/i18n/locale-context'
@@ -104,7 +105,9 @@ export default function RootLayout() {
 					<HeroUINativeProvider>
 						<LocaleProviderApp>
 							<ThemeProviderApp>
-								<AppNavigation />
+								<ConfirmationProvider>
+									<AppNavigation />
+								</ConfirmationProvider>
 							</ThemeProviderApp>
 						</LocaleProviderApp>
 					</HeroUINativeProvider>

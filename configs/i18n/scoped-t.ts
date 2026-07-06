@@ -7,4 +7,8 @@ export const scopedT = (
 	namespace: I18nNamespace = 'common',
 	keyPrefix?: string,
 	options?: Record<string, unknown>,
-): string => i18n.t(key, { ns: namespace, keyPrefix, ...options })
+): string => {
+	const resolvedKey = keyPrefix ? `${keyPrefix}.${key}` : key
+
+	return i18n.t(resolvedKey, { ns: namespace, ...options })
+}
