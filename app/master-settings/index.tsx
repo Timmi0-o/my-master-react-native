@@ -1,13 +1,14 @@
 import { MasterSettingsHub } from '@/components/pages/master-settings/hub/master-settings-hub'
 import { useMasterSettingsProfile } from '@/components/pages/master-settings/hooks/use-master-settings-profile'
+import { BasePage } from '@/components/shared/components/base-page/base-page'
+import { BasePageLoader } from '@/components/shared/components/base-page-loader/base-page-loader'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
 	routeErrorText,
-	routeLoadingText,
 } from '@/configs/i18n/use-route-feedback'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import type { ReactElement } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function MasterSettingsIndexScreen(): ReactElement {
@@ -17,12 +18,9 @@ export default function MasterSettingsIndexScreen(): ReactElement {
 
 	if (isLoading) {
 		return (
-			<View
-				className='flex-1 items-center justify-center bg-background'
-				style={{ paddingTop: insets.top }}
-			>
-				<Text className='text-muted'>{routeLoadingText()}</Text>
-			</View>
+			<BasePage>
+				<BasePageLoader variant='hub' />
+			</BasePage>
 		)
 	}
 

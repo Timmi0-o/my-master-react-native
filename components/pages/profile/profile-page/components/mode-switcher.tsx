@@ -28,8 +28,7 @@ export function ProfileModeSwitcher({
 				{ACTIVE_PROFILE_MODES.map((profileMode) => (
 					<Tabs.Trigger
 						key={profileMode}
-						className='flex-1 py-3'
-						style={{ minHeight: 44 }}
+						className='flex-1 py-2'
 						value={profileMode}
 					>
 						<Tabs.Label className='text-sm font-semibold'>

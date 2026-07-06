@@ -3,5 +3,13 @@
 	"masterNotFound": "Master profile not found",
 	"clientNotFound": "Client profile not found",
 	"accountManagement": "Account",
-	"ratingChip": "Rating: {{rating}}"
+	"ratingChip": "Rating: {{rating}}",
+	"masterMenu": {
+		"sectionTitle": "Schedule and bookings",
+		"myServicesLabel": "My services",
+		"myServicesSubtitle": "Manage your service list",
+		"scheduleLabel": "Configure schedule",
+		"scheduleSubtitle": "Weekly schedule",
+		"bookingRulesLabel": "Booking rules"
+	}
 }

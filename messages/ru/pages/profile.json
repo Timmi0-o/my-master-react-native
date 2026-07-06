@@ -3,5 +3,13 @@
 	"masterNotFound": "Профиль мастера не найден",
 	"clientNotFound": "Профиль клиента не найден",
 	"accountManagement": "Управление аккаунтом",
-	"ratingChip": "Рейтинг: {{rating}}"
+	"ratingChip": "Рейтинг: {{rating}}",
+	"masterMenu": {
+		"sectionTitle": "Расписание и записи",
+		"myServicesLabel": "Мои услуги",
+		"myServicesSubtitle": "Список и редактирование услуг",
+		"scheduleLabel": "Настроить расписание",
+		"scheduleSubtitle": "Недельное расписание",
+		"bookingRulesLabel": "Приём записей и правила"
+	}
 }

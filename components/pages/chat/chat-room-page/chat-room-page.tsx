@@ -5,7 +5,7 @@ import { BackButton } from '@/components/shared/ui/back-button/back-button'
 import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import { GlassWrapper } from '@/components/shared/ui/glass-wrapper/glass-wrapper'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
-import { useAuth } from '@/configs/auth/auth-context'
+import { useAuth } from '@/stores/auth'
 import {
 	resolveLocale,
 	toDateTimeLocale,

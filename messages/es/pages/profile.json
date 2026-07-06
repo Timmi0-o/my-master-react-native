@@ -3,5 +3,13 @@
 	"masterNotFound": "Perfil de profesional no encontrado",
 	"clientNotFound": "Perfil de cliente no encontrado",
 	"accountManagement": "Gestión de cuenta",
-	"ratingChip": "Valoración: {{rating}}"
+	"ratingChip": "Valoración: {{rating}}",
+	"masterMenu": {
+		"sectionTitle": "Horario y reservas",
+		"myServicesLabel": "Mis servicios",
+		"myServicesSubtitle": "Gestionar la lista de servicios",
+		"scheduleLabel": "Configurar horario",
+		"scheduleSubtitle": "Horario semanal",
+		"bookingRulesLabel": "Reglas de reservas"
+	}
 }

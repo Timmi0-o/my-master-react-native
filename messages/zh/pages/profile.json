@@ -3,5 +3,13 @@
 	"masterNotFound": "未找到技师资料",
 	"clientNotFound": "未找到客户资料",
 	"accountManagement": "账户管理",
-	"ratingChip": "评分：{{rating}}"
+	"ratingChip": "评分：{{rating}}",
+	"masterMenu": {
+		"sectionTitle": "日程与预约",
+		"myServicesLabel": "我的服务",
+		"myServicesSubtitle": "管理服务列表",
+		"scheduleLabel": "配置日程",
+		"scheduleSubtitle": "每周日程",
+		"bookingRulesLabel": "预约规则"
+	}
 }

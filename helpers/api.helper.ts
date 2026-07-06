@@ -1,4 +1,4 @@
-import { authStore } from '@/configs/auth/auth-store'
+import { authStore } from '@/stores/auth'
 
 export interface IHttpParams<
 	T extends BodyInit | null | undefined | unknown = unknown,

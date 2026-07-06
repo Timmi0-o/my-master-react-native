@@ -49,8 +49,6 @@ function SettingsTileBlock({
 				width: isWide ? '100%' : '48%',
 			}}
 		>
-			<PressableFeedback.Ripple />
-
 			<Card>
 				<Card.Body>
 					{isWide ? (

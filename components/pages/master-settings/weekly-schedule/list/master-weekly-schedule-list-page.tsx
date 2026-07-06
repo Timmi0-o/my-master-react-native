@@ -3,6 +3,7 @@ import type {
 	TDayOfWeek,
 } from '@/actions/master-weekly-schedule/models/master-weekly-schedule.schema'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
+import { BasePageLoaderListBody } from '@/components/shared/components/base-page-loader/base-page-loader'
 import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
@@ -39,7 +40,6 @@ export function MasterWeeklyScheduleListPage({
 }: IMasterWeeklyScheduleListPageProps): ReactElement {
 	const router = useRouter()
 	const { t } = useScopedTranslation('pages', 'masterSettings')
-	const { t: tCommon } = useScopedTranslation('common')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const dayOfWeekLabel = useEnumLabel('enums.dayOfWeek')
 	const { data = [], isLoading } = useMasterWeeklyScheduleGetMany(
@@ -56,7 +56,7 @@ export function MasterWeeklyScheduleListPage({
 			/>
 
 			{isLoading ? (
-				<Text className='text-muted'>{tCommon('loading')}</Text>
+				<BasePageLoaderListBody itemCount={3} />
 			) : (
 				<View style={{ rowGap: 12 }}>
 					{DAY_OF_WEEK_ORDER.map((day) => {

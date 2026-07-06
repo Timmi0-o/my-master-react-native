@@ -1,4 +1,5 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
+import { BasePageLoaderListBody } from '@/components/shared/components/base-page-loader/base-page-loader'
 import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import {
@@ -25,7 +26,6 @@ export function MasterScheduleExceptionsListPage({
 	const router = useRouter()
 
 	const { t, i18n } = useScopedTranslation('pages', 'masterSettings')
-	const { t: tCommon } = useScopedTranslation('common')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 
 	const exceptionKindLabel = useEnumLabel('enums.exceptionKind')
@@ -47,7 +47,7 @@ export function MasterScheduleExceptionsListPage({
 			/>
 
 			{isLoading ? (
-				<Text className='text-muted'>{tCommon('loading')}</Text>
+				<BasePageLoaderListBody itemCount={3} />
 			) : (
 				<View style={{ rowGap: 12 }}>
 					{data.map((item) => (

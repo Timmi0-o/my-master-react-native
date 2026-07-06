@@ -3,7 +3,7 @@ import {
 	AppointmentChatWsMessageCreatedPayloadSchema,
 	AppointmentChatWsMessageDeletedPayloadSchema,
 } from '@/actions/appointment-chat/models/ws/appointment-chat-ws-payload.schema'
-import { authStore } from '@/configs/auth/auth-store'
+import { authStore } from '@/stores/auth'
 import { APPOINTMENT_CHAT_WS_EVENTS } from '@/constants/appointment-chat-ws.events'
 import {
 	queryCacheRemoveAppointmentChatMessage,

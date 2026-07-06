@@ -1,14 +1,13 @@
 import { masterProfilesGetMe } from '@/actions/master/actions'
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
-import { useAuth } from '@/configs/auth/auth-context'
+import { useAuth } from '@/stores/auth'
 import { useQuery } from '@tanstack/react-query'
 import { scopedT } from '@/configs/i18n/scoped-t'
 import { useToast } from 'heroui-native'
 
 export const useMasterProfileGetMine = () => {
 	const { toast } = useToast()
-	const { state } = useAuth()
-	const isAuthenticated = state.status === 'authenticated'
+	const { isAuthenticated } = useAuth()
 
 	const { data, isLoading, error } = useQuery<IMasterProfile | null>({
 		queryKey: ['master-profiles', 'me'],

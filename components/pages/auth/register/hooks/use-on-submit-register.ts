@@ -1,5 +1,5 @@
 import type { IRegister } from '@/actions/auth/models/login.schema'
-import { useAuth } from '@/configs/auth/auth-context'
+import { useAuth } from '@/stores/auth'
 import { scopedT } from '@/configs/i18n/scoped-t'
 import { useRouter } from 'expo-router'
 import { useToast } from 'heroui-native'

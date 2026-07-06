@@ -3,5 +3,13 @@
 	"masterNotFound": "لم يتم العثور على ملف المختص",
 	"clientNotFound": "لم يتم العثور على ملف العميل",
 	"accountManagement": "إدارة الحساب",
-	"ratingChip": "التقييم: {{rating}}"
+	"ratingChip": "التقييم: {{rating}}",
+	"masterMenu": {
+		"sectionTitle": "الجدول والحجوزات",
+		"myServicesLabel": "خدماتي",
+		"myServicesSubtitle": "إدارة قائمة الخدمات",
+		"scheduleLabel": "إعداد الجدول",
+		"scheduleSubtitle": "الجدول الأسبوعي",
+		"bookingRulesLabel": "قواعد الحجز"
+	}
 }

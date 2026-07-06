@@ -1,4 +1,5 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
+import { BasePageLoaderListBody } from '@/components/shared/components/base-page-loader/base-page-loader'
 import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -6,7 +7,7 @@ import { useMasterServiceDelete } from '@/hooks/actions/master-service/use-maste
 import { useMasterServiceGetMyMany } from '@/hooks/actions/master-service/use-master-service-get-my-many'
 import { useRouter } from 'expo-router'
 import { useState, type ReactElement } from 'react'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import { MasterServicesListHeader } from './components/master-services-list-header'
 import { ServiceListItemRow } from './components/service-list-item-row/service-list-item-row'
 
@@ -22,7 +23,6 @@ export function MasterServicesListPage({
 	const [isEditMode, setIsEditMode] = useState(false)
 
 	const { t } = useScopedTranslation('pages', 'masterSettings')
-	const { t: tCommon } = useScopedTranslation('common')
 
 	const {
 		data = [],
@@ -46,7 +46,7 @@ export function MasterServicesListPage({
 			/>
 
 			{isLoading ? (
-				<Text className='text-muted'>{tCommon('loading')}</Text>
+				<BasePageLoaderListBody itemCount={3} />
 			) : (
 				<View
 					onTouchStart={() => {

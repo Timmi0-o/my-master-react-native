@@ -1,4 +1,4 @@
-import { authStore } from '@/configs/auth/auth-store'
+import { authStore } from '@/stores/auth'
 import { parseJwt } from '@/helpers/jwt.helper'
 
 export const getCurrentUserId = async (): Promise<string | null> => {

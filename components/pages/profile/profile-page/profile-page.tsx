@@ -1,15 +1,16 @@
 import type { IMasterProfile } from '@/actions/master/models/master-profile.schema'
 import type { IUserProfile } from '@/actions/user-profile/models/user-profile.schema'
+import { BasePageLoader } from '@/components/shared/components/base-page-loader/base-page-loader'
 import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
-import { useAuth } from '@/configs/auth/auth-context'
+import { useAuth } from '@/stores/auth'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import { Avatar, Spinner, useThemeColor } from 'heroui-native'
+import { Avatar, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Pressable, Text, View } from 'react-native'
 import { ProfileModeSwitcher } from './components/mode-switcher'
@@ -90,10 +91,11 @@ export default function ProfilePage({
 	isMasterLoading,
 }: IProfilePageProps): ReactElement {
 	const { signOut } = useAuth()
+
 	const router = useRouter()
 
 	const { t } = useScopedTranslation('pages', 'profile')
-	const { t: tMasterSettings } = useScopedTranslation('pages', 'masterSettings')
+	const { t: tMasterMenu } = useScopedTranslation('pages', 'profile.masterMenu')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 
 	const profileModeLabel = useEnumLabel('enums.profileMode')
@@ -103,6 +105,7 @@ export default function ProfilePage({
 
 	const activeProfile = mode === 'master' ? masterProfile : clientProfile
 	const isLoading = mode === 'master' ? isMasterLoading : isClientLoading
+
 	const displayName = activeProfile?.displayName ?? ''
 	const rating = activeProfile?.rating
 	const avatarLetter = displayName.trim()[0]?.toUpperCase() ?? '?'
@@ -152,21 +155,12 @@ export default function ProfilePage({
 						</View>
 
 						{isLoading ? (
-							<View className='flex-row items-center gap-2'>
-								<Spinner size='sm' />
-								<Text className='text-base text-muted'>{t('loading')}</Text>
-							</View>
+							<BasePageLoader variant='profile' showHeader={false} />
 						) : activeProfile ? (
 							<View className='w-full items-center gap-3'>
 								<Text className='text-center text-2xl font-bold text-foreground'>
 									{displayName}
 								</Text>
-
-								<View className='rounded-full bg-surface px-3 py-2'>
-									<Text className='text-xs font-medium uppercase tracking-wide text-muted'>
-										{profileModeLabel(mode)}
-									</Text>
-								</View>
 
 								<View className='mt-1 mb-2 flex-row items-center gap-2 rounded-2xl bg-surface p-3'>
 									<Ionicons name='star' size={18} color={accentColor} />
@@ -198,19 +192,25 @@ export default function ProfilePage({
 				{mode === 'master' && masterProfile ? (
 					<View className='gap-2 p-2'>
 						<Text className='px-1 text-sm font-semibold uppercase tracking-wide text-muted'>
-							{tMasterSettings('hubTitle')}
+							{tMasterMenu('sectionTitle')}
 						</Text>
 						<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
 							<ProfileMenuRow
+								icon='briefcase-outline'
+								label={tMasterMenu('myServicesLabel')}
+								subtitle={tMasterMenu('myServicesSubtitle')}
+								onPress={() => router.push('/master-settings/services')}
+							/>
+							<ProfileMenuRow
 								icon='calendar-outline'
-								label={tBtn('configureSchedule')}
-								subtitle={tMasterSettings('weeklySchedule')}
+								label={tMasterMenu('scheduleLabel')}
+								subtitle={tMasterMenu('scheduleSubtitle')}
 								onPress={() => router.push('/master-settings')}
 							/>
 							<ProfileMenuRow
 								icon='settings-outline'
 								isLast
-								label={tMasterSettings('bookingRules')}
+								label={tMasterMenu('bookingRulesLabel')}
 								onPress={() => router.push('/master-settings/booking')}
 							/>
 						</View>
