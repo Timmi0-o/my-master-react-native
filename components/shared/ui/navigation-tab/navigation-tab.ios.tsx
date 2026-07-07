@@ -6,6 +6,7 @@ import type {
 } from '@/components/shared/ui/navigation-tab/navigation-tab.types'
 import { createNavigationTabCompound } from '@/components/shared/ui/navigation-tab/create-navigation-tab-compound'
 import { NativeTabs } from 'expo-router/unstable-native-tabs'
+import { useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 
 export function NavigationTabRoot({
@@ -13,8 +14,16 @@ export function NavigationTabRoot({
 	blurEffect = 'systemDefault',
 	minimizeBehavior = 'automatic',
 }: NavigationTabRootProps): ReactElement {
+	const [accentColor, mutedColor] = useThemeColor(['accent', 'muted'])
+
 	return (
-		<NativeTabs blurEffect={blurEffect} minimizeBehavior={minimizeBehavior}>
+		<NativeTabs
+			blurEffect={blurEffect}
+			iconColor={{ default: mutedColor, selected: accentColor }}
+			labelVisibilityMode='unlabeled'
+			minimizeBehavior={minimizeBehavior}
+			tintColor={accentColor}
+		>
 			{children}
 		</NativeTabs>
 	)

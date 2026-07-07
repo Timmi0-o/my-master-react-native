@@ -1,12 +1,10 @@
 import { NavigationTab } from '@/components/shared/ui/navigation-tab'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
-import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useRouter, useSegments } from 'expo-router'
 import { useEffect } from 'react'
 
 export default function TabLayout() {
 	const { mode } = useActiveProfileMode()
-	const { t } = useScopedTranslation('pages', 'tabs')
 	const router = useRouter()
 	const segments = useSegments()
 	const showSearchTab = mode === 'client'
@@ -20,9 +18,8 @@ export default function TabLayout() {
 	return (
 		<NavigationTab blurEffect='systemDefault' minimizeBehavior='automatic'>
 			<NavigationTab.Trigger name='general/index'>
-				<NavigationTab.Trigger.Label>{t('home')}</NavigationTab.Trigger.Label>
 				<NavigationTab.Trigger.Icon
-					md={{ default: 'home', selected: 'home-filled' }}
+					ion={{ default: 'home-outline', selected: 'home' }}
 					sf={{
 						default: 'house',
 						selected: 'house.fill',
@@ -32,49 +29,45 @@ export default function TabLayout() {
 
 			{showSearchTab ? (
 				<NavigationTab.Trigger name='search/index'>
-					<NavigationTab.Trigger.Label>
-						{t('search')}
-					</NavigationTab.Trigger.Label>
 					<NavigationTab.Trigger.Icon
-						md={{ default: 'search', selected: 'search' }}
+						ion={{ default: 'search-outline', selected: 'search' }}
 						sf={{
 							default: 'magnifyingglass',
-							selected: 'magnifyingglass.circle.fill',
+							selected: 'magnifyingglass',
 						}}
 					/>
 				</NavigationTab.Trigger>
 			) : null}
 
 			<NavigationTab.Trigger name='chats/index'>
-				<NavigationTab.Trigger.Label>{t('chats')}</NavigationTab.Trigger.Label>
 				<NavigationTab.Trigger.Icon
-					md={{ default: 'chat-bubble-outline', selected: 'chat-bubble' }}
+					ion={{
+						default: 'chatbubbles-outline',
+						selected: 'chatbubbles',
+					}}
 					sf={{
-						default: 'message',
-						selected: 'message.fill',
+						default: 'bubble.left.and.bubble.right',
+						selected: 'bubble.left.and.bubble.right.fill',
 					}}
 				/>
 			</NavigationTab.Trigger>
 
 			<NavigationTab.Trigger name='index'>
-				<NavigationTab.Trigger.Label>
-					{t('profile')}
-				</NavigationTab.Trigger.Label>
 				<NavigationTab.Trigger.Icon
-					md={{ default: 'person-outline', selected: 'person' }}
+					ion={{
+						default: 'person-circle-outline',
+						selected: 'person-circle',
+					}}
 					sf={{
-						default: 'person',
-						selected: 'person.fill',
+						default: 'person.crop.circle',
+						selected: 'person.crop.circle.fill',
 					}}
 				/>
 			</NavigationTab.Trigger>
 
 			<NavigationTab.Trigger name='settings/index'>
-				<NavigationTab.Trigger.Label>
-					{t('settings')}
-				</NavigationTab.Trigger.Label>
 				<NavigationTab.Trigger.Icon
-					md={{ default: 'settings', selected: 'settings' }}
+					ion={{ default: 'settings-outline', selected: 'settings' }}
 					sf={{
 						default: 'gearshape',
 						selected: 'gearshape.fill',

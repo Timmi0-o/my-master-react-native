@@ -1,3 +1,4 @@
+import { useFloatingTabBarContentExtension } from '@/components/shared/ui/navigation-tab/floating-tab-bar-content-context'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
 import { useState, type ReactElement } from 'react'
@@ -33,6 +34,7 @@ export function BasePage({
 }: IBasePageProps): ReactElement {
 	const { resolvedColorScheme } = useThemeApp()
 	const insets = useSafeAreaInsets()
+	const extendUnderFloatingTabBar = useFloatingTabBarContentExtension()
 	const backgroundColor = THEME_BACKGROUND_COLORS[resolvedColorScheme]
 	const [headerOverlayHeight, setHeaderOverlayHeight] = useState(0)
 	const [footerOverlayHeight, setFooterOverlayHeight] = useState(0)
@@ -52,6 +54,7 @@ export function BasePage({
 		backgroundColor,
 		headerOverlayHeight,
 		footerOverlayHeight,
+		extendUnderFloatingTabBar,
 	})
 
 	const {

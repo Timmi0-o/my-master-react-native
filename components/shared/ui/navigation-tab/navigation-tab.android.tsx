@@ -5,16 +5,26 @@ import type {
 	NavigationTabTriggerProps,
 } from '@/components/shared/ui/navigation-tab/navigation-tab.types'
 import { NAVIGATION_TAB_SCREEN_NAMES } from '@/components/shared/ui/navigation-tab/navigation-tab.types'
+import { AndroidFloatingTabBarBackground } from '@/components/shared/ui/navigation-tab/android-floating-tab-bar-background'
 import { AndroidTabBarButton } from '@/components/shared/ui/navigation-tab/android-tab-bar-button'
+import {
+	FLOATING_TAB_BAR_BORDER_RADIUS,
+	FLOATING_TAB_BAR_BOTTOM_OFFSET,
+	FLOATING_TAB_BAR_HEIGHT,
+	FLOATING_TAB_BAR_HORIZONTAL_INSET,
+	FLOATING_TAB_BAR_ICON_SIZE,
+} from '@/components/shared/ui/navigation-tab/constants/floating-tab-bar.constants'
 import { createNavigationTabCompound } from '@/components/shared/ui/navigation-tab/create-navigation-tab-compound'
+import { FloatingTabBarContentExtensionProvider } from '@/components/shared/ui/navigation-tab/floating-tab-bar-content-context'
 import { extractTabTriggers } from '@/components/shared/ui/navigation-tab/utils/extract-tab-triggers'
-import { resolveMaterialIconName } from '@/components/shared/ui/navigation-tab/utils/resolve-material-icon-name'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { resolveIonIconName } from '@/components/shared/ui/navigation-tab/utils/resolve-ion-icon-name'
+import { Ionicons } from '@expo/vector-icons'
+import { BlurTargetView } from 'expo-blur'
 import { Tabs } from 'expo-router'
 import { useThemeColor } from 'heroui-native'
-import { useMemo, type ReactElement } from 'react'
-
-const TAB_ICON_SIZE = 24
+import { useMemo, useRef, type ReactElement } from 'react'
+import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export function NavigationTabRoot({
 	children,
@@ -40,68 +50,84 @@ export function NavigationTabRoot({
 		[tabs],
 	)
 
-	const [accentColor, mutedColor, backgroundColor] = useThemeColor([
-		'accent',
-		'muted',
-		'background',
-	])
+	const insets = useSafeAreaInsets()
+	const blurTargetRef = useRef<View>(null)
+
+	const [accentColor, mutedColor] = useThemeColor(['accent', 'muted'])
 
 	return (
-		<Tabs
-			screenOptions={{
-				headerShown: false,
-				tabBarActiveTintColor: accentColor,
-				tabBarInactiveTintColor: mutedColor,
-				tabBarActiveBackgroundColor: 'transparent',
-				tabBarButton: (props) => <AndroidTabBarButton {...props} />,
-				tabBarItemStyle: {
-					minHeight: 48,
-					paddingVertical: 4,
-				},
-				tabBarLabelStyle: {
-					fontSize: 12,
-					marginTop: 2,
-				},
-				tabBarStyle: {
-					backgroundColor,
-					borderTopColor: mutedColor,
-					borderTopWidth: 0.5,
-				},
-			}}
-		>
-			{NAVIGATION_TAB_SCREEN_NAMES.map((name) => {
-				const tab = tabOptionsByName.get(name)
+		<FloatingTabBarContentExtensionProvider>
+			<BlurTargetView ref={blurTargetRef} style={{ flex: 1 }}>
+				<Tabs
+					screenOptions={{
+						animation: 'none',
+						headerShown: false,
+						tabBarActiveTintColor: accentColor,
+						tabBarInactiveTintColor: mutedColor,
+						tabBarActiveBackgroundColor: 'transparent',
+						tabBarBackground: () => (
+							<AndroidFloatingTabBarBackground blurTarget={blurTargetRef} />
+						),
+						tabBarButton: (props) => <AndroidTabBarButton {...props} />,
+						tabBarItemStyle: {
+							justifyContent: 'center',
+							minHeight: 48,
+							paddingVertical: 0,
+						},
+						tabBarShowLabel: false,
+						tabBarStyle: {
+							position: 'absolute',
+							left: 0,
+							right: 0,
+							marginHorizontal: FLOATING_TAB_BAR_HORIZONTAL_INSET,
+							bottom: insets.bottom + FLOATING_TAB_BAR_BOTTOM_OFFSET,
+							height: FLOATING_TAB_BAR_HEIGHT,
+							borderRadius: FLOATING_TAB_BAR_BORDER_RADIUS,
+							borderTopWidth: 0,
+							backgroundColor: 'transparent',
+							paddingBottom: 0,
+							paddingHorizontal: 0,
+							paddingTop: 0,
+							elevation: 0,
+							overflow: 'hidden',
+							shadowOpacity: 0,
+						},
+					}}
+				>
+				{NAVIGATION_TAB_SCREEN_NAMES.map((name) => {
+					const tab = tabOptionsByName.get(name)
 
-				if (!visibleTabNames.has(name)) {
+					if (!visibleTabNames.has(name)) {
+						return (
+							<Tabs.Screen
+								key={name}
+								name={name}
+								options={{
+									href: null,
+								}}
+							/>
+						)
+					}
+
 					return (
 						<Tabs.Screen
 							key={name}
 							name={name}
 							options={{
-								href: null,
+								tabBarIcon: ({ focused, color }) => (
+									<Ionicons
+										color={color}
+										name={resolveIonIconName(tab?.icon, focused)}
+										size={FLOATING_TAB_BAR_ICON_SIZE}
+									/>
+								),
 							}}
 						/>
 					)
-				}
-
-				return (
-					<Tabs.Screen
-						key={name}
-						name={name}
-						options={{
-							title: tab?.label ?? '',
-							tabBarIcon: ({ focused, color }) => (
-								<MaterialIcons
-									color={color}
-									name={resolveMaterialIconName(tab?.icon, focused)}
-									size={TAB_ICON_SIZE}
-								/>
-							),
-						}}
-					/>
-				)
-			})}
-		</Tabs>
+				})}
+				</Tabs>
+			</BlurTargetView>
+		</FloatingTabBarContentExtensionProvider>
 	)
 }
 

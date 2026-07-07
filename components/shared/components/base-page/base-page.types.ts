@@ -48,6 +48,7 @@ export interface IBasePageLayoutInput {
 	backgroundColor: string
 	headerOverlayHeight: number
 	footerOverlayHeight: number
+	extendUnderFloatingTabBar?: boolean
 }
 
 export interface IBasePageLayoutState {

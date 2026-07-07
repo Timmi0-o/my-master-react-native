@@ -1,10 +1,12 @@
 import type { AndroidSymbol } from 'expo-symbols'
 import type MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import type { Ionicons } from '@expo/vector-icons'
 import type { ReactNode } from 'react'
 import type { StyleProp, TextStyle } from 'react-native'
 import type { SFSymbol } from 'sf-symbols-typescript'
 
 export type MaterialIconName = keyof typeof MaterialIcons.glyphMap
+export type IonIconName = keyof typeof Ionicons.glyphMap
 
 export type NavigationTabLabelStyle = Pick<
 	TextStyle,
@@ -18,6 +20,7 @@ export type NavigationTabIconState<T extends string> = {
 
 export type NavigationTabIconProps = {
 	sf?: NavigationTabIconState<SFSymbol> | SFSymbol
+	ion?: NavigationTabIconState<IonIconName> | IonIconName
 	md?: NavigationTabIconState<MaterialIconName> | MaterialIconName
 }
 

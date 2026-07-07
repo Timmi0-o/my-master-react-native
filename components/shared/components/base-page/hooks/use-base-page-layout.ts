@@ -9,6 +9,7 @@ import {
 	BASE_PAGE_HEADER_CONTENT_MIN_HEIGHT,
 	BASE_PAGE_OVERLAY_FADE_HEIGHT,
 } from '../constants/base-page.constants'
+import { getFloatingTabBarContentPaddingBottom } from '@/components/shared/ui/navigation-tab/constants/floating-tab-bar.constants'
 import { buildEdgeFadeStops } from '../helpers/build-edge-fade-stops'
 
 export function useBasePageLayout({
@@ -26,6 +27,7 @@ export function useBasePageLayout({
 	backgroundColor,
 	headerOverlayHeight,
 	footerOverlayHeight,
+	extendUnderFloatingTabBar = false,
 }: IBasePageLayoutInput): IBasePageLayoutState {
 	const hasHeader = headerContent != null
 	const hasFooter = footerContent != null
@@ -38,13 +40,20 @@ export function useBasePageLayout({
 	const useAbsoluteFooter =
 		hasFixedFooter && !useKeyboardAvoidingFooter && !useOverlayChrome
 
+	const floatingTabBarPaddingBottom = extendUnderFloatingTabBar
+		? getFloatingTabBarContentPaddingBottom(insets.bottom)
+		: 0
+
 	const paddingTop =
 		!disableTopSafeArea && !hasHeader && edges.includes('top') ? insets.top : 0
-	const paddingBottom = useAbsoluteFooter
-		? 0
-		: edges.includes('bottom')
-			? insets.bottom + 10
-			: 0
+	const paddingBottom =
+		extendUnderFloatingTabBar
+			? floatingTabBarPaddingBottom
+			: useAbsoluteFooter
+				? 0
+				: edges.includes('bottom')
+					? insets.bottom + 10
+					: 0
 	const paddingLeft = edges.includes('left') ? insets.left : 0
 	const paddingRight = edges.includes('right') ? insets.right : 0
 	const headerPaddingTop =
@@ -66,11 +75,13 @@ export function useBasePageLayout({
 		? effectiveFooterHeight
 		: paddingBottom
 
-	const scrollPaddingBottom = useOverlayChrome
-		? effectiveFooterHeight + BASE_PAGE_OVERLAY_FADE_HEIGHT
-		: useAbsoluteFooter
-			? footerReservedHeight + BASE_PAGE_EDGE_FADE_EXTENT
-			: paddingBottom
+	const scrollPaddingBottom = extendUnderFloatingTabBar
+		? floatingTabBarPaddingBottom
+		: useOverlayChrome
+			? effectiveFooterHeight + BASE_PAGE_OVERLAY_FADE_HEIGHT
+			: useAbsoluteFooter
+				? footerReservedHeight + BASE_PAGE_EDGE_FADE_EXTENT
+				: paddingBottom
 
 	const showTopEdgeBackground =
 		!useOverlayChrome &&
