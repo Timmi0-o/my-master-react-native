@@ -3,11 +3,24 @@ const S3_FILE_URL_PATTERN = /^s3:\/\/([^/]+)\/(.+)$/
 
 const DEFAULT_PUBLIC_FILES_STORAGE_URL = 'http://localhost:9010'
 
-const getPublicFilesStorageBase = (): string =>
-	(
-		process.env.EXPO_PUBLIC_FILES_STORAGE_URL ??
-		DEFAULT_PUBLIC_FILES_STORAGE_URL
-	).replace(/\/$/, '')
+export const getPublicFilesStorageBase = (): string => {
+	if (process.env.EXPO_PUBLIC_FILES_STORAGE_URL) {
+		return process.env.EXPO_PUBLIC_FILES_STORAGE_URL.replace(/\/$/, '')
+	}
+
+	const apiUrl = process.env.EXPO_PUBLIC_API_URL
+
+	if (apiUrl) {
+		try {
+			const { hostname } = new URL(apiUrl)
+			return `http://${hostname}:9010`
+		} catch {
+			// fall through to default
+		}
+	}
+
+	return DEFAULT_PUBLIC_FILES_STORAGE_URL
+}
 
 export const resolvePresignUrlForClient = (url: string): string =>
 	url.replace(INTERNAL_FILES_HOST_PATTERN, getPublicFilesStorageBase())

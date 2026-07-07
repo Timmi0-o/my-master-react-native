@@ -134,7 +134,7 @@ export function useOnSubmitMasterServiceImageForm(
 
 					if (!uploadResponse.ok) {
 						throw new Error(
-							scopedT('imagesSaveFailed', 'common', 'toasts.masterService'),
+							`Upload failed with status ${uploadResponse.status}${uploadResponse.body ? `: ${uploadResponse.body}` : ''}`,
 						)
 					}
 				}

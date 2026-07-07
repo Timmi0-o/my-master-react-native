@@ -5,9 +5,9 @@ import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import { useActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode-context'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
-import { useAuth } from '@/stores/auth'
 import { useEnumLabel } from '@/configs/i18n/use-enum-label'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import { useAuth } from '@/stores/auth'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, useThemeColor } from 'heroui-native'
@@ -59,19 +59,19 @@ function ProfileMenuRow({
 			disabled={isDisabled}
 			onPress={onPress}
 		>
-			<View className='items-center justify-center rounded-2xl bg-surface p-3'>
+			<View className='justify-center items-center bg-surface p-3 rounded-2xl'>
 				<Ionicons name={icon} size={22} color={iconColor} />
 			</View>
 
 			<View className='flex-1 gap-1'>
 				<Text
-					className='text-base font-semibold text-foreground'
+					className='font-semibold text-foreground text-base'
 					style={{ color: labelColor }}
 				>
 					{label}
 				</Text>
 				{subtitle ? (
-					<Text className='text-sm text-muted' numberOfLines={2}>
+					<Text className='text-muted text-sm' numberOfLines={2}>
 						{subtitle}
 					</Text>
 				) : null}
@@ -107,8 +107,11 @@ export default function ProfilePage({
 	const isLoading = mode === 'master' ? isMasterLoading : isClientLoading
 
 	const displayName = activeProfile?.displayName ?? ''
+
 	const rating = activeProfile?.rating
+
 	const avatarLetter = displayName.trim()[0]?.toUpperCase() ?? '?'
+
 	const masterDescription =
 		mode === 'master' && masterProfile?.description
 			? masterProfile.description
@@ -130,9 +133,9 @@ export default function ProfilePage({
 				</View>
 
 				<View className='overflow-hidden'>
-					<View className='items-center px-5 pb-6 pt-8'>
+					<View className='items-center px-5 pt-8 pb-6'>
 						<View
-							className='mb-5 items-center justify-center rounded-full border-4 bg-surface'
+							className='justify-center items-center bg-surface mb-5 border-4 rounded-full'
 							style={{
 								borderColor: accentColor,
 								width: 112,
@@ -157,21 +160,21 @@ export default function ProfilePage({
 						{isLoading ? (
 							<BasePageLoader variant='profile' showHeader={false} />
 						) : activeProfile ? (
-							<View className='w-full items-center gap-3'>
-								<Text className='text-center text-2xl font-bold text-foreground'>
+							<View className='items-center gap-3 w-full'>
+								<Text className='font-bold text-foreground text-2xl text-center'>
 									{displayName}
 								</Text>
 
-								<View className='mt-1 mb-2 flex-row items-center gap-2 rounded-2xl bg-surface p-3'>
+								<View className='flex-row items-center gap-2 bg-surface mt-1 mb-2 p-3 rounded-2xl'>
 									<Ionicons name='star' size={18} color={accentColor} />
-									<Text className='text-base font-semibold text-foreground'>
+									<Text className='font-semibold text-foreground text-base'>
 										{t('ratingChip', { rating })}
 									</Text>
 								</View>
 
 								{masterDescription ? (
 									<Text
-										className='mt-1 px-2 py-2 text-center text-sm text-muted'
+										className='mt-1 px-2 py-2 text-muted text-sm text-center'
 										numberOfLines={3}
 									>
 										{masterDescription}
@@ -191,10 +194,10 @@ export default function ProfilePage({
 
 				{mode === 'master' && masterProfile ? (
 					<View className='gap-2 p-2'>
-						<Text className='px-1 text-sm font-semibold uppercase tracking-wide text-muted'>
+						<Text className='px-1 font-semibold text-muted text-sm uppercase tracking-wide'>
 							{tMasterMenu('sectionTitle')}
 						</Text>
-						<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
+						<View className='bg-background-secondary border border-border rounded-2xl overflow-hidden'>
 							<ProfileMenuRow
 								icon='briefcase-outline'
 								label={tMasterMenu('myServicesLabel')}
@@ -218,10 +221,10 @@ export default function ProfilePage({
 				) : null}
 
 				<View className='gap-2 p-2'>
-					<Text className='px-1 text-sm font-semibold uppercase tracking-wide text-muted'>
+					<Text className='px-1 font-semibold text-muted text-sm uppercase tracking-wide'>
 						{t('accountManagement')}
 					</Text>
-					<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
+					<View className='bg-background-secondary border border-border rounded-2xl overflow-hidden'>
 						<ProfileMenuRow
 							icon='lock-closed-outline'
 							isDisabled

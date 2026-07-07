@@ -1,3 +1,4 @@
+import { File } from 'expo-file-system'
 import * as Crypto from 'expo-crypto'
 
 const bytesToBase64 = (bytes: Uint8Array): string => {
@@ -31,9 +32,8 @@ const bytesToBase64 = (bytes: Uint8Array): string => {
 
 export const getSha256SumFromFile = async (uri: string): Promise<string> => {
 	try {
-		const response = await fetch(uri)
-
-		const buffer = await response.arrayBuffer()
+		const file = new File(uri)
+		const buffer = await file.arrayBuffer()
 		const hashBuffer = await Crypto.digest(
 			Crypto.CryptoDigestAlgorithm.SHA256,
 			new Uint8Array(buffer),
