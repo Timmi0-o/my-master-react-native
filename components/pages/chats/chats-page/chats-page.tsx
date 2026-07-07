@@ -32,13 +32,13 @@ export const ChatsPage = ({
 		<BasePage onRefresh={onRefresh} refreshing={isRefreshing}>
 			<View className='gap-3 py-5'>
 				<View className='mb-2'>
-					<Text className='ml-2 text-2xl font-bold text-foreground'>
+					<Text className='ml-2 font-bold text-foreground text-2xl'>
 						{t('title')}
 					</Text>
 				</View>
 
 				{isLoading ? (
-					<View className='overflow-hidden rounded-2xl border border-border bg-background-secondary'>
+					<View className='bg-surface rounded-2xl overflow-hidden'>
 						{Array.from({ length: CHAT_SKELETON_COUNT }).map((_, index) => (
 							<ChatSkeletonItem
 								key={index}
@@ -47,7 +47,7 @@ export const ChatsPage = ({
 						))}
 					</View>
 				) : chats.length ? (
-					<View className='overflow-hidden bg-background-secondary'>
+					<View className='bg-surface mx-2 rounded-2xl overflow-hidden'>
 						{chats.map((appointment, index) => (
 							<ChatListItem
 								key={appointment.chat?.id ?? appointment.id}

@@ -23,6 +23,7 @@ alwaysApply: true
 ## Data and code organization
 
 - **Группировка страниц** (`components/pages/`): каждый экран — в своей подпапке; локальные `components/`, `hooks/`, `data/`, `helpers/` — рядом с экраном. Общее для фичи — только в корне модуля. Подробно: `.cursor/rules/page-folder-structure.mdc`.
+- **Глобальные vs локальные утилиты**: в корневые `utils/`, `helpers/`, `constants/` — только то, что реально используется в **разных** модулях/фичах. Утилиты под конкретный экран, компонент или фичу (формат заголовка группы, группировка списка, маппинг полей карточки) — в локальную папку рядом с владельцем: `components/pages/<feature>/<screen>/utils/`, `components/shared/components/<component>/utils/`, `helpers/` модуля. Не раздувать общий `utils/` доменной логикой одного UI.
 - Arrays for rendering (menu/stats/actions/options) store in nearby `data/` files, not inline in large screen components.
 - Avoid long inline object types in component files; define reusable interfaces/types.
 - Keep screens focused on composition; move business logic to hooks/helpers/actions.

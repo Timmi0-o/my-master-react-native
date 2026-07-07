@@ -11,11 +11,11 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterServiceUpdate } from '@/hooks/actions/master-service/use-master-service-update'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'expo-router'
-import { Card, FieldError, Label, TextField, cn } from 'heroui-native'
+import { Card, FieldError, Label, Tabs, TextField } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
-import { Pressable, Text, View } from 'react-native'
+import { View } from 'react-native'
 import { MasterServiceEditHeader } from './components/master-service-edit-header'
 import { MasterServiceImageForm } from './components/master-service-image-form'
 
@@ -145,56 +145,47 @@ export function MasterServiceEditPage({
 		{ value: 'images', label: t('serviceEditImagesTab') },
 	]
 
+	const handleTabChange = (value: string): void => {
+		if (value === 'main' || value === 'images') {
+			setActiveTab(value)
+		}
+	}
+
 	return (
 		<BasePage adjustForKeyboard>
 			<MasterServiceEditHeader title={t('serviceEditTitle')} />
-			<View className='gap-4'>
-				<View
-					accessibilityRole='tablist'
-					className='w-full flex-row gap-1 rounded-2xl bg-surface p-1'
-				>
-					{tabs.map((tab) => {
-						const isActive = activeTab === tab.value
+			<Tabs
+				className='gap-4'
+				onValueChange={handleTabChange}
+				value={activeTab}
+				variant='primary'
+			>
+				<Tabs.List className='w-full self-stretch'>
+					<Tabs.Indicator />
+					{tabs.map((tab) => (
+						<Tabs.Trigger key={tab.value} className='flex-1' value={tab.value}>
+							<Tabs.Label className='text-sm' numberOfLines={1}>
+								{tab.label}
+							</Tabs.Label>
+						</Tabs.Trigger>
+					))}
+				</Tabs.List>
 
-						return (
-							<Pressable
-								key={tab.value}
-								accessibilityRole='tab'
-								accessibilityState={{ selected: isActive }}
-								className={cn(
-									'flex-1 items-center justify-center rounded-xl py-2.5 active:opacity-80',
-									isActive && 'bg-accent',
-								)}
-								style={{ minHeight: 30 }}
-								onPress={() => setActiveTab(tab.value)}
-							>
-								<Text
-									className={cn(
-										'text-center text-sm font-semibold',
-										isActive ? 'text-accent-foreground' : 'text-muted',
-									)}
-									numberOfLines={1}
-								>
-									{tab.label}
-								</Text>
-							</Pressable>
-						)
-					})}
-				</View>
-
-				{activeTab === 'main' ? (
+				<Tabs.Content value='main'>
 					<Card>
 						<Card.Body>
 							<EditMasterServiceForm service={service} />
 						</Card.Body>
 					</Card>
-				) : (
+				</Tabs.Content>
+
+				<Tabs.Content value='images'>
 					<MasterServiceImageForm
 						images={service.images ?? []}
 						masterServiceId={service.id}
 					/>
-				)}
-			</View>
+				</Tabs.Content>
+			</Tabs>
 		</BasePage>
 	)
 }

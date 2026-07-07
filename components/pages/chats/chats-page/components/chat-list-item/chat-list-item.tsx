@@ -67,7 +67,7 @@ export function ChatListItem({
 	return (
 		<Pressable
 			accessibilityRole='button'
-			className={`flex-row items-center gap-3 px-4 py-3 active:opacity-80 ${
+			className={`flex-row items-center gap-3 bg-surface px-4 py-3 active:opacity-80 ${
 				isLast ? '' : 'border-b border-border'
 			}`}
 			onPress={() => router.push(`/chat/${chat.id}`)}

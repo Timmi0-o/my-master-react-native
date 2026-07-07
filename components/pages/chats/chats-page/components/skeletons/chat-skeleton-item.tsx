@@ -11,7 +11,7 @@ export const ChatSkeletonItem = ({
 }: IChatSkeletonItemProps): ReactElement => {
 	return (
 		<View
-			className={`flex-row items-center gap-3 px-4 py-3 ${
+			className={`flex-row items-center gap-3 bg-surface px-4 py-3 ${
 				isLast ? '' : 'border-b border-border'
 			}`}
 		>

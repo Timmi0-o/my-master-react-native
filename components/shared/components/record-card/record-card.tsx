@@ -1,7 +1,7 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
-import { formatDate, formatTimeByDate } from '@/utils/format-date.util'
+import { formatTimeByDate } from '@/utils/format-date.util'
 import {
 	ECurrency,
 	formatPriceByCurrency,
@@ -41,7 +41,7 @@ export function RecordCard({
 	)
 
 	const { t: tUi } = useScopedTranslation('ui')
-	const [accentColor, mutedColor] = useThemeColor(['accent', 'muted'])
+	const mutedColor = useThemeColor('muted')
 
 	const durationLabel = tUi('durationMinutes', {
 		count: appointment.durationMinutes,
@@ -52,6 +52,7 @@ export function RecordCard({
 	)
 
 	const isMasterMode = mode === 'master'
+
 	const peerTitle = isMasterMode
 		? appointment.clientUser
 			? [
@@ -66,6 +67,7 @@ export function RecordCard({
 		: (appointment.masterProfile?.displayName ?? tFallback('master'))
 
 	const peerRoleLabel = isMasterMode ? tFallback('client') : tFallback('master')
+
 	const avatarLetter = peerTitle.trim()[0]?.toUpperCase() ?? '?'
 
 	const handlePress = (): void => {
@@ -73,95 +75,56 @@ export function RecordCard({
 		router.push(`/record/${appointment.id}`)
 	}
 
-	const formattedDate = formatDate(appointment.startsAt.slice(0, 10))
 	const timeLabel = formatTimeByDate(appointment.startsAt)
 
 	return (
 		<PressableFeedback onPress={handlePress}>
-			<Card className='border border-border' style={style}>
-				<Card.Body>
-					<View className='gap-3'>
-						<View className='flex-row items-start justify-between gap-3'>
-							<View className='flex-1 gap-2'>
-								<Chip
-									color={getStatusChipColor(appointment.status)}
-									size='sm'
-									variant='soft'
-								>
-									{tStatus(appointment.status)}
-								</Chip>
-								<Text
-									className='text-base font-bold text-foreground'
-									numberOfLines={2}
-								>
-									{appointment.serviceName}
-								</Text>
-							</View>
-
-							<Ionicons name='chevron-forward' size={18} color={mutedColor} />
-						</View>
-
-						{/* Date and time section */}
-						<View className='flex-row items-center gap-3 rounded-2xl border border-border bg-surface p-3'>
-							<View className='items-center px-1'>
-								<Text
-									className='text-2xl font-bold'
-									style={{ color: accentColor }}
-								>
-									{formattedDate.day}
-								</Text>
-								<Text
-									className='text-xs font-bold uppercase'
-									style={{ color: accentColor }}
-								>
-									{formattedDate.month}
-								</Text>
-							</View>
-
-							<View className='flex-1 gap-1 border-l border-border pl-3'>
-								<Text className='text-base font-semibold text-foreground'>
-									{timeLabel}
-								</Text>
-								<View className='flex-row items-center gap-1'>
-									<View className='flex-row items-center gap-1'>
-										<Ionicons
-											name='calendar-outline'
-											size={16}
-											color={mutedColor}
-										/>
-										<Text className='text-sm text-muted'>
-											{formattedDate.full}
-										</Text>
-									</View>
-									<View className='flex-row items-center gap-1'>
-										<Ionicons
-											name='time-outline'
-											size={16}
-											color={mutedColor}
-										/>
-										<Text className='text-sm text-muted'>{durationLabel}</Text>
-									</View>
-								</View>
-							</View>
-
-							<Text className='text-base font-bold text-foreground'>
-								{priceLabel}
+			<Card className='bg-surface border border-border' style={style}>
+				<Card.Body className='gap-3'>
+					<View className='flex-row justify-between items-start gap-3'>
+						<View className='flex-row flex-1 justify-between items-center gap-2'>
+							<Text
+								className='font-bold text-foreground text-base'
+								numberOfLines={1}
+							>
+								{appointment.serviceName}
 							</Text>
+							<Chip
+								color={getStatusChipColor(appointment.status)}
+								size='sm'
+								variant='soft'
+							>
+								{tStatus(appointment.status)}
+							</Chip>
 						</View>
+
+						<Ionicons name='chevron-forward' size={18} color={mutedColor} />
 					</View>
 
-					{/* Peer section */}
-					<View className='flex-row items-center gap-3 border-t border-border mt-2'>
-						<Avatar alt={peerTitle} color='accent' size='md'>
+					<View className='flex-row justify-between items-center bg-background-secondary px-3 py-2 rounded-xl'>
+						<View className='flex-row items-center gap-2'>
+							<Text className='font-bold text-foreground text-lg'>
+								{timeLabel}
+							</Text>
+							<Text className='text-muted text-sm'>{durationLabel}</Text>
+						</View>
+
+						<Text className='font-semibold text-foreground text-base'>
+							{priceLabel}
+						</Text>
+					</View>
+
+					<View className='flex-row items-center gap-3'>
+						<Avatar alt={peerTitle} color='accent' size='sm'>
 							<Avatar.Fallback>{avatarLetter}</Avatar.Fallback>
 						</Avatar>
 
-						<View className='flex-1 gap-1'>
-							<Text className='text-xs uppercase text-muted'>
+						<View className='flex-1 gap-0.5'>
+							<Text className='text-muted text-xs uppercase'>
 								{peerRoleLabel}
 							</Text>
 							<Text
-								className='text-base font-semibold text-foreground'
+								className='font-semibold text-foreground text-base'
 								ellipsizeMode='tail'
 								numberOfLines={1}
 							>

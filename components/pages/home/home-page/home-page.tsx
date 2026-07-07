@@ -1,7 +1,7 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
 import { BasePage } from '@/components/shared/components/base-page/base-page'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
-import { RecordCard } from '@/components/shared/components/record-card/record-card'
+import { RecordCardList } from '@/components/shared/components/record-card/record-card-list'
 import { GlassInput } from '@/components/shared/ui/glass-input/glass-input'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -32,8 +32,6 @@ export default function HomePage({
 	const foregroundColor = useThemeColor('foreground')
 
 	const hasRecords = appointments.length > 0
-	const previewRecords = appointments.slice(0, HOME_RECORDS_PREVIEW_LIMIT)
-
 	const shouldShowAllRecordsButton =
 		appointments.length > HOME_RECORDS_PREVIEW_LIMIT
 	const title = mode === 'master' ? t('titleMaster') : t('titleClient')
@@ -41,28 +39,26 @@ export default function HomePage({
 	return (
 		<BasePage>
 			<View className='flex-1 gap-3'>
-				<Text className='text-2xl font-bold text-foreground ml-2'>{title}</Text>
+				<Text className='ml-2 font-bold text-foreground text-2xl'>{title}</Text>
 
 				<GlassInput
-					style={{ minHeight: 60 }}
+					style={{ minHeight: 60, marginHorizontal: 4 }}
 					placeholder={tPlaceholder('searchRecords')}
 				/>
 
 				{hasRecords ? (
 					<View className='gap-3'>
-						{previewRecords.map((appointment) => (
-							<RecordCard
-								key={appointment.id}
-								appointment={appointment}
-								mode={mode}
-							/>
-						))}
+						<RecordCardList
+							appointments={appointments}
+							limit={HOME_RECORDS_PREVIEW_LIMIT}
+							mode={mode}
+						/>
 
 						{shouldShowAllRecordsButton && (
 							<Button
 								className='rounded-2xl'
 								onPress={() => setIsRecordsModalVisible(true)}
-								variant='outline'
+								variant='ghost'
 							>
 								<Ionicons
 									name='albums-outline'

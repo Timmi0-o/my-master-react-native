@@ -1,5 +1,5 @@
 import type { IAppointment } from '@/actions/appointment/models/appointment.schema'
-import { RecordCard } from '@/components/shared/components/record-card/record-card'
+import { RecordCardList } from '@/components/shared/components/record-card/record-card-list'
 import { DataNotFound } from '@/components/shared/components/data-not-found/data-not-found'
 import type { ActiveProfileMode } from '@/configs/active-profile-mode/active-profile-mode.types'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
@@ -51,14 +51,11 @@ export function ClientRecordsModal({
 						{appointments.length === 0 ? (
 							<DataNotFound compact message={t('empty')} />
 						) : (
-							appointments.map((appointment) => (
-								<RecordCard
-									key={appointment.id}
-									onBeforeNavigate={onClose}
-									appointment={appointment}
-									mode={mode}
-								/>
-							))
+							<RecordCardList
+								appointments={appointments}
+								mode={mode}
+								onBeforeNavigate={onClose}
+							/>
 						)}
 					</BottomSheetScrollView>
 				</BottomSheet.Content>

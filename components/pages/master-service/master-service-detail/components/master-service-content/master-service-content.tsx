@@ -1,10 +1,10 @@
 import type { IMasterService } from '@/actions/master-service/models/master-service.schema'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useMasterServiceReviewGetMany } from '@/hooks/actions/master-service-review/use-master-service-review-get-many'
-import { cn } from 'heroui-native'
+import { Tabs } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { useState } from 'react'
-import { Pressable, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { MasterServiceGallery } from '../master-service-gallery/master-service-gallery'
 import { MasterServiceReviewsSection } from '../master-service-reviews-section/master-service-reviews-section'
 
@@ -13,6 +13,9 @@ interface IMasterServiceContentProps {
 }
 
 type MasterServiceTab = 'details' | 'reviews'
+
+const isMasterServiceTab = (value: string): value is MasterServiceTab =>
+	value === 'details' || value === 'reviews'
 
 export function MasterServiceContent({
 	service,
@@ -41,41 +44,31 @@ export function MasterServiceContent({
 		{ value: 'reviews', label: reviewsTabLabel },
 	]
 
+	const handleTabChange = (value: string): void => {
+		if (isMasterServiceTab(value)) {
+			setActiveTab(value)
+		}
+	}
+
 	return (
-		<View className='gap-4'>
-			<View
-				accessibilityRole='tablist'
-				className='w-full flex-row gap-1 rounded-2xl bg-surface p-1'
-			>
-				{tabs.map((tab) => {
-					const isActive = activeTab === tab.value
+		<Tabs
+			className='gap-4'
+			onValueChange={handleTabChange}
+			value={activeTab}
+			variant='primary'
+		>
+			<Tabs.List className='w-full self-stretch'>
+				<Tabs.Indicator />
+				{tabs.map((tab) => (
+					<Tabs.Trigger key={tab.value} className='flex-1' value={tab.value}>
+						<Tabs.Label className='text-sm' numberOfLines={1}>
+							{tab.label}
+						</Tabs.Label>
+					</Tabs.Trigger>
+				))}
+			</Tabs.List>
 
-					return (
-						<Pressable
-							key={tab.value}
-							accessibilityRole='tab'
-							accessibilityState={{ selected: isActive }}
-							className={cn(
-								'flex-1 items-center rounded-xl py-2.5 active:opacity-80',
-								isActive && 'bg-accent',
-							)}
-							onPress={() => setActiveTab(tab.value)}
-						>
-							<Text
-								className={cn(
-									'text-center text-sm font-semibold',
-									isActive ? 'text-accent-foreground' : 'text-muted',
-								)}
-								numberOfLines={1}
-							>
-								{tab.label}
-							</Text>
-						</Pressable>
-					)
-				})}
-			</View>
-
-			{activeTab === 'details' ? (
+			<Tabs.Content value='details'>
 				<View className='gap-4'>
 					<MasterServiceGallery service={service} />
 					{service.description ? (
@@ -89,12 +82,14 @@ export function MasterServiceContent({
 						</View>
 					) : null}
 				</View>
-			) : (
+			</Tabs.Content>
+
+			<Tabs.Content value='reviews'>
 				<MasterServiceReviewsSection
 					reviews={reviews}
 					isLoading={isReviewsLoading}
 				/>
-			)}
-		</View>
+			</Tabs.Content>
+		</Tabs>
 	)
 }

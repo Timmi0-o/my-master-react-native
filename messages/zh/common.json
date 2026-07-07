@@ -10,6 +10,9 @@
 		"master": "技师",
 		"invalidDate": "日期"
 	},
+	"date": {
+		"today": "今天"
+	},
 	"loading": "加载中...",
 	"errorPrefix": "错误：{{message}}",
 	"enums": {

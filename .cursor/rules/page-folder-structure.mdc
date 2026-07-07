@@ -39,6 +39,7 @@ components/pages/<feature>/
 | Поле формы, модалка **только этого экрана** | `.../<screen>/components/` |
 | `use-on-submit-*`, локальный hook экрана | `.../<screen>/hooks/` |
 | `*-default-values`, константы меню экрана | `.../<screen>/data/` |
+| Утилиты **только этого экрана/компонента** | `.../<screen>/utils/` или `.../components/<block>/utils/` |
 | Хук профиля / guard для всех роутов модуля | `<feature>/hooks/` |
 | Header, field, util **2+ экранов модуля** | `<feature>/components/` или `<feature>/helpers/` |
 | Action, Zod-схема API | `actions/<feature>/` (не в `components/pages/`) |
@@ -47,6 +48,7 @@ components/pages/<feature>/
 
 - Плоский корень с десятком `*-page.tsx`, общим `hooks/`, `data/`, `components/` «на всех».
 - Выносить в корень модуля то, что используется **одним** экраном.
+- Класть в корневой `utils/` проекта логику, нужную одному экрану или одному shared-компоненту — только локальный `utils/` рядом с владельцем.
 - Дублировать общий компонент в каждой подпапке вместо `<feature>/components/`.
 
 ## Эталоны

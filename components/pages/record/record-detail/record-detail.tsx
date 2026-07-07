@@ -13,7 +13,7 @@ import {
 	ECurrency,
 	formatPriceByCurrency,
 } from '@/utils/format-price-by-currency'
-import { IconifyIcon } from '@huymobile/react-native-iconify'
+import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
 import { Avatar, Button, Card, Chip, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
@@ -94,9 +94,9 @@ export default function RecordDetail({
 							style={{ maxWidth: '90%', marginHorizontal: 'auto' }}
 							onPress={() => router.push(`/chat/${chatId}`)}
 						>
-							<IconifyIcon
+							<Ionicons
 								color={accentForegroundColor}
-								name='ion:chatbubble-outline'
+								name='chatbubble-outline'
 								size={20}
 							/>
 							<Button.Label>{tBtn('openChat')}</Button.Label>
@@ -105,12 +105,12 @@ export default function RecordDetail({
 				) : undefined
 			}
 		>
-			<View style={{ rowGap: 10 }}>
-				<Card className='rounded-none shadow-none bg-background-secondary p-1'>
+			<View className='gap-3'>
+				<Card className='bg-surface border border-border'>
 					<Card.Header className='gap-3'>
-						<View className='flex-row items-start justify-between gap-3'>
+						<View className='flex-row justify-between items-start gap-3'>
 							<View className='flex-1 gap-2'>
-								<Text className='text-2xl font-bold text-foreground'>
+								<Text className='font-bold text-foreground text-2xl'>
 									{appointment.serviceName}
 								</Text>
 								<Chip color='accent' variant='soft'>
@@ -118,11 +118,11 @@ export default function RecordDetail({
 								</Chip>
 							</View>
 
-							<View className='items-center rounded-2xl bg-accent px-4 py-3'>
-								<Text className='text-xl font-bold text-accent-foreground'>
+							<View className='items-center bg-accent px-4 py-3 rounded-2xl'>
+								<Text className='font-bold text-xl text-accent-foreground'>
 									{formattedDate.day}
 								</Text>
-								<Text className='text-xs font-semibold text-accent-foreground'>
+								<Text className='font-semibold text-xs text-accent-foreground'>
 									{formattedDate.month}
 								</Text>
 							</View>
@@ -132,24 +132,24 @@ export default function RecordDetail({
 					<Card.Body className='mt-2'>
 						<View className='flex-row flex-wrap justify-between gap-3'>
 							<RecordInfoTile
-								icon='ion:calendar-outline'
+								icon='calendar-outline'
 								label={tField('date')}
 								value={formattedDate.full}
 							/>
 							<RecordInfoTile
-								icon='ion:time-outline'
+								icon='time-outline'
 								label={tField('startTime')}
 								value={timeLabel}
 							/>
 							<RecordInfoTile
-								icon='ion:hourglass-outline'
+								icon='hourglass-outline'
 								label={tField('duration')}
 								value={tUi('durationMinutes', {
 									count: appointment.durationMinutes,
 								})}
 							/>
 							<RecordInfoTile
-								icon='ion:cash-outline'
+								icon='cash-outline'
 								label={tField('cost')}
 								value={formatPriceByCurrency(
 									appointment.totalPrice,
@@ -161,30 +161,30 @@ export default function RecordDetail({
 				</Card>
 
 				{isCancelled ? (
-					<Card>
+					<Card className='bg-surface border border-border'>
 						<Card.Header>
-							<Text className='text-lg font-bold text-foreground'>
+							<Text className='font-bold text-foreground text-lg'>
 								{t('cancellation')}
 							</Text>
 						</Card.Header>
-						<Card.Body className='mt-2 gap-3 p-0'>
+						<Card.Body className='gap-3 mt-2 p-0'>
 							{appointment.cancelledAt ? (
 								<RecordInfoRow
-									icon='ion:close-circle-outline'
+									icon='close-circle-outline'
 									label={tField('cancelledAt')}
 									value={FormatDateTime(new Date(appointment.cancelledAt))}
 								/>
 							) : null}
 							{cancelledByValue ? (
 								<RecordInfoRow
-									icon='ion:person-circle-outline'
+									icon='person-circle-outline'
 									label={tField('cancelledBy')}
 									value={cancelledByValue}
 								/>
 							) : null}
 							{appointment.cancelReason ? (
 								<RecordInfoRow
-									icon='ion:chatbox-ellipses-outline'
+									icon='chatbubble-ellipses-outline'
 									label={tField('cancelReason')}
 									value={appointment.cancelReason}
 								/>
@@ -193,20 +193,20 @@ export default function RecordDetail({
 					</Card>
 				) : null}
 
-				<Card>
+				<Card className='bg-surface border border-border'>
 					<Card.Header>
-						<Text className='text-lg font-bold text-foreground'>
+						<Text className='font-bold text-foreground text-lg'>
 							{peerSectionTitle}
 						</Text>
 					</Card.Header>
-					<Card.Body className='mt-2 gap-3 p-0'>
+					<Card.Body className='gap-3 mt-2 p-0'>
 						<View className='flex-row items-center gap-3'>
 							<Avatar alt={peerTitle} color='accent'>
 								<Avatar.Fallback>
 									{peerTitle.trim()[0]?.toUpperCase() ?? '?'}
 								</Avatar.Fallback>
 							</Avatar>
-							<Text className='text-lg font-semibold text-foreground'>
+							<Text className='font-semibold text-foreground text-lg'>
 								{peerTitle}
 							</Text>
 						</View>
@@ -214,17 +214,17 @@ export default function RecordDetail({
 						{isMasterMode && clientUser ? (
 							<>
 								<RecordInfoRow
-									icon='ion:at-outline'
+									icon='at-outline'
 									label={tField('username')}
 									value={clientUser.username}
 								/>
 								<RecordInfoRow
-									icon='ion:call-outline'
+									icon='call-outline'
 									label={tField('phone')}
 									value={clientUser.phone ?? '—'}
 								/>
 								<RecordInfoRow
-									icon='ion:mail-outline'
+									icon='mail-outline'
 									label={tField('email')}
 									value={clientUser.email}
 								/>
@@ -234,13 +234,13 @@ export default function RecordDetail({
 						{!isMasterMode && masterProfile ? (
 							<>
 								<RecordInfoRow
-									icon='ion:star-outline'
+									icon='star-outline'
 									label={tField('rating')}
 									value={String(masterProfile.rating)}
 								/>
 								{masterProfile.description ? (
 									<RecordInfoRow
-										icon='ion:information-circle-outline'
+										icon='information-circle-outline'
 										label={tField('description')}
 										value={masterProfile.description}
 									/>
@@ -250,36 +250,36 @@ export default function RecordDetail({
 					</Card.Body>
 				</Card>
 
-				<Card>
+				<Card className='bg-surface border border-border'>
 					<Card.Header>
-						<Text className='text-lg font-bold text-foreground'>
+						<Text className='font-bold text-foreground text-lg'>
 							{t('serviceSection')}
 						</Text>
 					</Card.Header>
-					<Card.Body className='mt-2 gap-3 p-0'>
+					<Card.Body className='gap-3 mt-2 p-0'>
 						<RecordInfoRow
-							icon='ion:briefcase-outline'
+							icon='briefcase-outline'
 							label={tField('name')}
 							value={appointment.serviceName}
 						/>
 						{masterService?.name &&
 						masterService.name !== appointment.serviceName ? (
 							<RecordInfoRow
-								icon='ion:pricetag-outline'
+								icon='pricetag-outline'
 								label={tField('masterService')}
 								value={masterService.name}
 							/>
 						) : null}
 						{masterService?.description ? (
 							<RecordInfoRow
-								icon='ion:document-text-outline'
+								icon='document-text-outline'
 								label={tField('description')}
 								value={masterService.description}
 							/>
 						) : null}
 						{masterService?.price != null ? (
 							<RecordInfoRow
-								icon='ion:wallet-outline'
+								icon='wallet-outline'
 								label={tField('servicePrice')}
 								value={formatPriceByCurrency(
 									masterService.price,
@@ -289,7 +289,7 @@ export default function RecordDetail({
 						) : null}
 						{masterService?.durationMinutes != null ? (
 							<RecordInfoRow
-								icon='ion:timer-outline'
+								icon='timer-outline'
 								label={tField('serviceDuration')}
 								value={tUi('durationMinutes', {
 									count: masterService.durationMinutes,
@@ -304,7 +304,7 @@ export default function RecordDetail({
 }
 
 interface IRecordInfoTileProps {
-	icon: string
+	icon: keyof typeof Ionicons.glyphMap
 	label: string
 	value: string
 	wide?: boolean
@@ -320,15 +320,15 @@ function RecordInfoTile({
 
 	return (
 		<View
-			className='gap-2 rounded-2xl border border-border bg-surface p-3'
+			className='gap-2 bg-background-secondary p-3 border border-border rounded-2xl'
 			style={{ width: wide ? '100%' : '48%' }}
 		>
-			<View className='self-start rounded-xl bg-background-secondary p-2'>
-				<IconifyIcon color={mutedColor} name={icon} size={18} />
+			<View className='self-start bg-surface p-2 rounded-xl'>
+				<Ionicons color={mutedColor} name={icon} size={18} />
 			</View>
-			<Text className='text-xs text-muted'>{label}</Text>
+			<Text className='text-muted text-xs'>{label}</Text>
 			<Text
-				className='text-sm font-semibold text-foreground'
+				className='font-semibold text-foreground text-sm'
 				numberOfLines={wide ? undefined : 2}
 			>
 				{value}
@@ -338,7 +338,7 @@ function RecordInfoTile({
 }
 
 interface IRecordInfoRowProps {
-	icon: string
+	icon: keyof typeof Ionicons.glyphMap
 	label: string
 	value: string
 }
@@ -351,11 +351,11 @@ function RecordInfoRow({
 	const mutedColor = useThemeColor('muted')
 
 	return (
-		<View className='flex-row items-center gap-3 rounded-xl bg-surface px-3 py-3'>
-			<IconifyIcon color={mutedColor} name={icon} size={20} />
+		<View className='flex-row items-center gap-3 bg-background-secondary px-3 py-3 rounded-xl'>
+			<Ionicons color={mutedColor} name={icon} size={20} />
 			<View className='flex-1 gap-0.5'>
-				<Text className='text-xs text-muted'>{label}</Text>
-				<Text className='text-base text-foreground'>{value}</Text>
+				<Text className='text-muted text-xs'>{label}</Text>
+				<Text className='text-foreground text-base'>{value}</Text>
 			</View>
 		</View>
 	)

@@ -10,6 +10,9 @@
 		"master": "مختص",
 		"invalidDate": "تاريخ"
 	},
+	"date": {
+		"today": "اليوم"
+	},
 	"loading": "جارٍ التحميل...",
 	"errorPrefix": "خطأ: {{message}}",
 	"enums": {

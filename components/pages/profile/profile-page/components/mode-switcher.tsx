@@ -1,10 +1,10 @@
 import {
 	ACTIVE_PROFILE_MODES,
+	isActiveProfileMode,
 	type ActiveProfileMode,
 } from '@/configs/active-profile-mode/active-profile-mode.types'
-import { cn } from 'heroui-native'
+import { Tabs } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { Pressable, Text, View } from 'react-native'
 
 interface IProfileModeSwitcherProps {
 	mode: ActiveProfileMode
@@ -17,37 +17,33 @@ export function ProfileModeSwitcher({
 	onModeChange,
 	getModeLabel,
 }: IProfileModeSwitcherProps): ReactElement {
-	return (
-		<View
-			accessibilityRole='tablist'
-			className='w-full flex-row gap-1 rounded-2xl bg-surface p-1'
-		>
-			{ACTIVE_PROFILE_MODES.map((profileMode) => {
-				const isActive = mode === profileMode
+	const handleValueChange = (value: string): void => {
+		if (isActiveProfileMode(value)) {
+			onModeChange(value)
+		}
+	}
 
-				return (
-					<Pressable
+	return (
+		<Tabs
+			className='w-full'
+			onValueChange={handleValueChange}
+			value={mode}
+			variant='primary'
+		>
+			<Tabs.List className='w-full self-stretch'>
+				<Tabs.Indicator />
+				{ACTIVE_PROFILE_MODES.map((profileMode) => (
+					<Tabs.Trigger
 						key={profileMode}
-						accessibilityRole='tab'
-						accessibilityState={{ selected: isActive }}
-						className={cn(
-							'flex-1 items-center rounded-xl py-2 active:opacity-80',
-							isActive && 'bg-accent',
-						)}
-						onPress={() => onModeChange(profileMode)}
+						className='flex-1'
+						value={profileMode}
 					>
-						<Text
-							className={cn(
-								'text-center text-sm font-semibold',
-								isActive ? 'text-accent-foreground' : 'text-muted',
-							)}
-							numberOfLines={1}
-						>
+						<Tabs.Label className='text-sm' numberOfLines={1}>
 							{getModeLabel(profileMode)}
-						</Text>
-					</Pressable>
-				)
-			})}
-		</View>
+						</Tabs.Label>
+					</Tabs.Trigger>
+				))}
+			</Tabs.List>
+		</Tabs>
 	)
 }

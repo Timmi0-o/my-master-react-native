@@ -10,6 +10,9 @@
 		"master": "Master",
 		"invalidDate": "date"
 	},
+	"date": {
+		"today": "Today"
+	},
 	"loading": "Loading...",
 	"errorPrefix": "Error: {{message}}",
 	"enums": {

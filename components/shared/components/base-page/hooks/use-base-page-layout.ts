@@ -114,6 +114,7 @@ export function useBasePageLayout({
 			paddingLeft,
 			paddingRight,
 			paddingTop: headerPaddingTop,
+			paddingBottom: 8,
 		},
 		headerOverlayStyle: {
 			paddingLeft,
