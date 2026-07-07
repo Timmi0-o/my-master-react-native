@@ -19,7 +19,9 @@ export function SaveButton({
 	onPress,
 }: ISaveButtonProps): ReactElement {
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
-	const surfaceColor = useThemeColor('surface')
+
+	const accentForegroundColor = useThemeColor('accent-foreground')
+
 	const accentColor = useThemeColor('accent')
 
 	const label = isLoading ? tBtn('saving') : tBtn('save')
@@ -51,12 +53,15 @@ export function SaveButton({
 			tintColor={accentColor}
 		>
 			{isLoading ? (
-				<Spinner size='sm' color={surfaceColor} />
+				<Spinner size='sm' color={accentForegroundColor} />
 			) : (
-				<Ionicons name='save-outline' size={20} color={surfaceColor} />
+				<Ionicons name='save-outline' size={20} color={accentForegroundColor} />
 			)}
 			{!isIconOnly ? (
-				<Text className='text-base font-semibold' style={{ color: surfaceColor }}>
+				<Text
+					className='font-semibold text-base'
+					style={{ color: accentForegroundColor }}
+				>
 					{label}
 				</Text>
 			) : null}

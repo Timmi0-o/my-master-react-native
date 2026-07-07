@@ -14,4 +14,7 @@ if ! adb -s "$SERIAL" get-state >/dev/null 2>&1; then
 fi
 
 # Управление через scrcpy обходит баг мыши в окне эмулятора на Wayland.
-exec scrcpy -s "$SERIAL" --window-title "Pixel_8 mirror" --max-size 1080
+exec scrcpy -s "$SERIAL" \
+	--window-title "Pixel_8 mirror" \
+	--max-size="${SCRCPY_MAX_SIZE:-1680}" \
+	--video-bit-rate="${SCRCPY_VIDEO_BIT_RATE:-12M}"

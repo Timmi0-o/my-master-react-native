@@ -11,7 +11,7 @@ import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as ImagePicker from 'expo-image-picker'
-import { Button } from 'heroui-native'
+import { Button, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
@@ -30,6 +30,8 @@ export function MasterServiceImageForm({
 	masterServiceId,
 }: IMasterServiceImageFormProps): ReactElement {
 	const { t } = useScopedTranslation('pages', 'masterSettings')
+
+	const accentColor = useThemeColor('accent')
 
 	const {
 		control,
@@ -133,7 +135,12 @@ export function MasterServiceImageForm({
 										}
 										variant='secondary'
 									>
-										<Ionicons name='image-outline' size={18} />
+										<Ionicons
+											name='image-outline'
+											size={18}
+											color={accentColor}
+										/>
+
 										<Button.Label>{t('addPhotos')}</Button.Label>
 									</Button>
 								</View>
