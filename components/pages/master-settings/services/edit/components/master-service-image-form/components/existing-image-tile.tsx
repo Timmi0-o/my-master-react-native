@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons'
 import { Image } from 'expo-image'
 import { useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
-import { Pressable, View } from 'react-native'
+import { Pressable, Text, View } from 'react-native'
 
 const IMAGE_SIZE = 120
 
@@ -20,6 +20,7 @@ export function ExistingImageTile({
 	isMarkedForDelete,
 	onToggleDelete,
 }: IExistingImageTileProps): ReactElement {
+	const { t } = useScopedTranslation('pages', 'masterSettings')
 	const { t: tBtn } = useScopedTranslation('ui', 'button')
 	const dangerColor = useThemeColor('danger')
 	const uri = resolveFileUrlForClient(image.file?.fileUrl ?? '')
@@ -28,27 +29,39 @@ export function ExistingImageTile({
 
 	return (
 		<View style={{ width: IMAGE_SIZE, height: IMAGE_SIZE }}>
-			<Pressable accessibilityRole='button' onPress={onToggleDelete}>
+			<Pressable
+				accessibilityRole='button'
+				accessibilityState={{ selected: isMarkedForDelete }}
+				className='overflow-hidden rounded-xl active:opacity-90'
+				onPress={onToggleDelete}
+			>
 				<Image
 					source={{ uri }}
 					style={{
 						width: IMAGE_SIZE,
 						height: IMAGE_SIZE,
-						borderRadius: 12,
 						opacity: isMarkedForDelete ? 0.4 : 1,
 					}}
 					contentFit='cover'
 				/>
+				{isMarkedForDelete ? (
+					<View className='absolute inset-0 items-center justify-center bg-background/30'>
+						<Text className='text-sm font-semibold text-danger'>
+							{t('photoMarkedForDeletion')}
+						</Text>
+					</View>
+				) : null}
 			</Pressable>
-			<Pressable
-				accessibilityLabel={tBtn('delete')}
-				accessibilityRole='button'
-				accessibilityState={{ selected: isMarkedForDelete }}
-				className='absolute right-1 top-1 rounded-full bg-background/90 p-1 active:opacity-80'
-				onPress={onToggleDelete}
-			>
-				<Ionicons color={dangerColor} name='close' size={16} />
-			</Pressable>
+			{!isMarkedForDelete ? (
+				<Pressable
+					accessibilityLabel={tBtn('delete')}
+					accessibilityRole='button'
+					className='absolute right-1 top-1 rounded-full bg-background/90 p-1 active:opacity-80'
+					onPress={onToggleDelete}
+				>
+					<Ionicons color={dangerColor} name='close' size={16} />
+				</Pressable>
+			) : null}
 		</View>
 	)
 }

@@ -32,5 +32,6 @@
 	"tableColumnDuration": "Длительность (мин)",
 	"durationMinutes": "{{count}} мин",
 	"addPhotos": "Добавить фото",
-	"emptyPhotos": "Фото пока нет"
+	"emptyPhotos": "Фото пока нет",
+	"photoMarkedForDeletion": "Удаление"
 }

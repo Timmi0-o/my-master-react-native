@@ -32,5 +32,6 @@
 	"tableColumnDuration": "المدة (د)",
 	"durationMinutes": "{{count}} د",
 	"addPhotos": "إضافة صور",
-	"emptyPhotos": "لا توجد صور بعد"
+	"emptyPhotos": "لا توجد صور بعد",
+	"photoMarkedForDeletion": "حذف"
 }

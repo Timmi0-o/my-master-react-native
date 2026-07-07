@@ -32,5 +32,6 @@
 	"tableColumnDuration": "时长（分钟）",
 	"durationMinutes": "{{count}} 分钟",
 	"addPhotos": "添加照片",
-	"emptyPhotos": "暂无照片"
+	"emptyPhotos": "暂无照片",
+	"photoMarkedForDeletion": "删除中"
 }

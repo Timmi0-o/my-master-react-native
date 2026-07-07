@@ -32,5 +32,6 @@
 	"tableColumnDuration": "Duration (min)",
 	"durationMinutes": "{{count}} min",
 	"addPhotos": "Add photos",
-	"emptyPhotos": "No photos yet"
+	"emptyPhotos": "No photos yet",
+	"photoMarkedForDeletion": "Deleting"
 }
