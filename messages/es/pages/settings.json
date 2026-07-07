@@ -8,5 +8,9 @@
 	"language": {
 		"title": "Idioma",
 		"hint": "Idioma de la interfaz de la aplicación"
+	},
+	"accent": {
+		"title": "Color de acento",
+		"hint": "Se aplica a botones, enlaces y elementos activos de la interfaz"
 	}
 }

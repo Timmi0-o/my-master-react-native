@@ -8,5 +8,9 @@
 	"language": {
 		"title": "Language",
 		"hint": "App interface language"
+	},
+	"accent": {
+		"title": "Accent color",
+		"hint": "Applied to buttons, links, and active UI elements"
 	}
 }
