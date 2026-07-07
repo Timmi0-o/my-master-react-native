@@ -24,6 +24,7 @@
 	"deleteServiceDescription": "Это действие нельзя отменить.",
 	"emptyServices": "Пока нет услуг. Они появятся здесь после создания.",
 	"serviceEditTitle": "Редактирование услуги",
+	"serviceCreateTitle": "Новая услуга",
 	"serviceEditMainTab": "Основное",
 	"serviceEditImagesTab": "Фото",
 	"tableColumnName": "Название",

@@ -10,6 +10,7 @@ import type {
 	IMasterServiceDeleteImagesResponse,
 } from './models/master-service-delete-images.schema'
 import type { IMasterServiceEditPayload } from './models/master-service-edit.schema'
+import type { IMasterServiceCreatePayload } from './models/master-service-create.schema'
 import {
 	MasterServiceGetOneFiltersSchema,
 	MasterServicesGetManyFiltersSchema,
@@ -84,6 +85,17 @@ export const masterServicesGetAvailableSlots = async (
 		url,
 		params: { method: 'GET' },
 	})
+}
+
+export const masterServicesCreate = async (
+	payload: IMasterServiceCreatePayload,
+): Promise<IActionResponse<IMasterService | null>> => {
+	return abstractMutateAction<IMasterService | null, IMasterServiceCreatePayload>(
+		{
+			url: API_ROUTES.masterServices.many,
+			params: { method: 'POST', body: payload },
+		},
+	)
 }
 
 export const masterServicesUpdate = async (

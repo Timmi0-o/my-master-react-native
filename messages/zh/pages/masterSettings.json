@@ -24,6 +24,7 @@
 	"deleteServiceDescription": "此操作无法撤销。",
 	"emptyServices": "暂无服务。创建后会显示在这里。",
 	"serviceEditTitle": "编辑服务",
+	"serviceCreateTitle": "新建服务",
 	"serviceEditMainTab": "基本信息",
 	"serviceEditImagesTab": "照片",
 	"tableColumnName": "名称",

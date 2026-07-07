@@ -24,6 +24,7 @@
 	"deleteServiceDescription": "Esta acción no se puede deshacer.",
 	"emptyServices": "Aún no hay servicios. Aparecerán aquí después de crearlos.",
 	"serviceEditTitle": "Editar servicio",
+	"serviceCreateTitle": "Nuevo servicio",
 	"serviceEditMainTab": "Principal",
 	"serviceEditImagesTab": "Fotos",
 	"tableColumnName": "Nombre",

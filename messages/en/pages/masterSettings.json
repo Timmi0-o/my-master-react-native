@@ -24,6 +24,7 @@
 	"deleteServiceDescription": "This action cannot be undone.",
 	"emptyServices": "No services yet. Services appear here after they are created.",
 	"serviceEditTitle": "Edit service",
+	"serviceCreateTitle": "New service",
 	"serviceEditMainTab": "Main",
 	"serviceEditImagesTab": "Photos",
 	"tableColumnName": "Name",

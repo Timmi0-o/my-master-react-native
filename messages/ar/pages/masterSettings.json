@@ -24,6 +24,7 @@
 	"deleteServiceDescription": "لا يمكن التراجع عن هذا الإجراء.",
 	"emptyServices": "لا توجد خدمات بعد. ستظهر هنا بعد إنشائها.",
 	"serviceEditTitle": "تعديل الخدمة",
+	"serviceCreateTitle": "خدمة جديدة",
 	"serviceEditMainTab": "الأساسي",
 	"serviceEditImagesTab": "الصور",
 	"tableColumnName": "الاسم",

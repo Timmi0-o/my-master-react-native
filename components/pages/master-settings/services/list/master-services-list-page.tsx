@@ -38,6 +38,7 @@ export function MasterServicesListPage({
 		<BasePage>
 			<MasterServicesListHeader
 				isEditMode={isEditMode}
+				onAddPress={() => router.push('/master-settings/services/create')}
 				onEditModeChange={setIsEditMode}
 				onEditSubmit={() => {
 					setIsEditMode(false)
