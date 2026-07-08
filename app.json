@@ -48,7 +48,14 @@
       "expo-status-bar",
       "expo-web-browser",
       "expo-localization",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos to upload service images.",
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to take service photos."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

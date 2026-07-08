@@ -10,7 +10,7 @@ import { SaveButton } from '@/components/shared/ui/save-button/save-button'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { Ionicons } from '@expo/vector-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import * as ImagePicker from 'expo-image-picker'
+import type { ImagePickerAsset } from 'expo-image-picker'
 import { Button, useThemeColor } from 'heroui-native'
 import type { ReactElement } from 'react'
 import { Controller, useForm } from 'react-hook-form'
@@ -58,6 +58,8 @@ export function MasterServiceImageForm({
 		onChange: (value: ILocalImageAsset[]) => void,
 		currentImages: ILocalImageAsset[],
 	) => {
+		const ImagePicker = await import('expo-image-picker')
+
 		const result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ['images'],
 			allowsMultipleSelection: true,
@@ -67,7 +69,7 @@ export function MasterServiceImageForm({
 		if (result.canceled) return
 
 		const assets: ILocalImageAsset[] = result.assets.map(
-			(asset: ImagePicker.ImagePickerAsset, index: number) => ({
+			(asset: ImagePickerAsset, index: number) => ({
 				uri: asset.uri,
 				name: asset.fileName ?? `image-${Date.now()}-${index}.jpg`,
 				mimeType: asset.mimeType ?? 'image/jpeg',

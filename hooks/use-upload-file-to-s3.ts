@@ -1,6 +1,5 @@
 import { getSha256SumFromFile } from '@/utils/get-sha256-sum-from-file.util'
 import { resolvePresignUrlForClient } from '@/utils/resolve-file-url-for-client.util'
-import { File, UploadType } from 'expo-file-system'
 
 interface IUploadFileToS3Params {
 	uri: string
@@ -20,6 +19,7 @@ export const useUploadFileToS3 = () => {
 		contentType,
 		presignUrl,
 	}: IUploadFileToS3Params): Promise<IUploadFileToS3Result> => {
+		const { File, UploadType } = await import('expo-file-system')
 		const uploadUrl = resolvePresignUrlForClient(presignUrl)
 		const checksum = await getSha256SumFromFile(uri)
 		const file = new File(uri)

@@ -46,6 +46,7 @@ const RootStack = observer(() => {
 				contentStyle: { backgroundColor },
 			}}
 		>
+			<Stack.Screen name='index' />
 			<Stack.Protected guard={isAuthenticated}>
 				<Stack.Screen name='(tabs)' />
 				<Stack.Screen
@@ -72,6 +73,7 @@ const RootStack = observer(() => {
 			<Stack.Protected guard={!isAuthenticated}>
 				<Stack.Screen name='(auth)' />
 			</Stack.Protected>
+			<Stack.Screen name='+not-found' />
 		</Stack>
 	)
 })

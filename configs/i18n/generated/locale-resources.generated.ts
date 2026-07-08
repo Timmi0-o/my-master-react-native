@@ -13,6 +13,7 @@ import ar_pages_home_json from '../../../messages/ar/pages/home.json'
 import ar_pages_master_json from '../../../messages/ar/pages/master.json'
 import ar_pages_masterService_json from '../../../messages/ar/pages/masterService.json'
 import ar_pages_masterSettings_json from '../../../messages/ar/pages/masterSettings.json'
+import ar_pages_not_found_not_found_json from '../../../messages/ar/pages/not-found/not-found.json'
 import ar_pages_profile_json from '../../../messages/ar/pages/profile.json'
 import ar_pages_record_json from '../../../messages/ar/pages/record.json'
 import ar_pages_routes_json from '../../../messages/ar/pages/routes.json'
@@ -38,6 +39,7 @@ import en_pages_home_json from '../../../messages/en/pages/home.json'
 import en_pages_master_json from '../../../messages/en/pages/master.json'
 import en_pages_masterService_json from '../../../messages/en/pages/masterService.json'
 import en_pages_masterSettings_json from '../../../messages/en/pages/masterSettings.json'
+import en_pages_not_found_not_found_json from '../../../messages/en/pages/not-found/not-found.json'
 import en_pages_profile_json from '../../../messages/en/pages/profile.json'
 import en_pages_record_json from '../../../messages/en/pages/record.json'
 import en_pages_routes_json from '../../../messages/en/pages/routes.json'
@@ -60,6 +62,7 @@ import es_pages_home_json from '../../../messages/es/pages/home.json'
 import es_pages_master_json from '../../../messages/es/pages/master.json'
 import es_pages_masterService_json from '../../../messages/es/pages/masterService.json'
 import es_pages_masterSettings_json from '../../../messages/es/pages/masterSettings.json'
+import es_pages_not_found_not_found_json from '../../../messages/es/pages/not-found/not-found.json'
 import es_pages_profile_json from '../../../messages/es/pages/profile.json'
 import es_pages_record_json from '../../../messages/es/pages/record.json'
 import es_pages_routes_json from '../../../messages/es/pages/routes.json'
@@ -82,6 +85,7 @@ import ru_pages_home_json from '../../../messages/ru/pages/home.json'
 import ru_pages_master_json from '../../../messages/ru/pages/master.json'
 import ru_pages_masterService_json from '../../../messages/ru/pages/masterService.json'
 import ru_pages_masterSettings_json from '../../../messages/ru/pages/masterSettings.json'
+import ru_pages_not_found_not_found_json from '../../../messages/ru/pages/not-found/not-found.json'
 import ru_pages_profile_json from '../../../messages/ru/pages/profile.json'
 import ru_pages_record_json from '../../../messages/ru/pages/record.json'
 import ru_pages_routes_json from '../../../messages/ru/pages/routes.json'
@@ -104,6 +108,7 @@ import zh_pages_home_json from '../../../messages/zh/pages/home.json'
 import zh_pages_master_json from '../../../messages/zh/pages/master.json'
 import zh_pages_masterService_json from '../../../messages/zh/pages/masterService.json'
 import zh_pages_masterSettings_json from '../../../messages/zh/pages/masterSettings.json'
+import zh_pages_not_found_not_found_json from '../../../messages/zh/pages/not-found/not-found.json'
 import zh_pages_profile_json from '../../../messages/zh/pages/profile.json'
 import zh_pages_record_json from '../../../messages/zh/pages/record.json'
 import zh_pages_routes_json from '../../../messages/zh/pages/routes.json'
@@ -175,6 +180,7 @@ export const localeResources = {
 			wrap(["pages","master"], ar_pages_master_json),
 			wrap(["pages","masterService"], ar_pages_masterService_json),
 			wrap(["pages","masterSettings"], ar_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], ar_pages_not_found_not_found_json),
 			wrap(["pages","profile"], ar_pages_profile_json),
 			wrap(["pages","record"], ar_pages_record_json),
 			wrap(["pages","routes"], ar_pages_routes_json),
@@ -201,6 +207,7 @@ export const localeResources = {
 			wrap(["pages","master"], ar_pages_master_json),
 			wrap(["pages","masterService"], ar_pages_masterService_json),
 			wrap(["pages","masterSettings"], ar_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], ar_pages_not_found_not_found_json),
 			wrap(["pages","profile"], ar_pages_profile_json),
 			wrap(["pages","record"], ar_pages_record_json),
 			wrap(["pages","routes"], ar_pages_routes_json),
@@ -223,6 +230,7 @@ export const localeResources = {
 			wrap(["pages","master"], ar_pages_master_json),
 			wrap(["pages","masterService"], ar_pages_masterService_json),
 			wrap(["pages","masterSettings"], ar_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], ar_pages_not_found_not_found_json),
 			wrap(["pages","profile"], ar_pages_profile_json),
 			wrap(["pages","record"], ar_pages_record_json),
 			wrap(["pages","routes"], ar_pages_routes_json),
@@ -250,6 +258,7 @@ export const localeResources = {
 			wrap(["pages","master"], en_pages_master_json),
 			wrap(["pages","masterService"], en_pages_masterService_json),
 			wrap(["pages","masterSettings"], en_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], en_pages_not_found_not_found_json),
 			wrap(["pages","profile"], en_pages_profile_json),
 			wrap(["pages","record"], en_pages_record_json),
 			wrap(["pages","routes"], en_pages_routes_json),
@@ -279,6 +288,7 @@ export const localeResources = {
 			wrap(["pages","master"], en_pages_master_json),
 			wrap(["pages","masterService"], en_pages_masterService_json),
 			wrap(["pages","masterSettings"], en_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], en_pages_not_found_not_found_json),
 			wrap(["pages","profile"], en_pages_profile_json),
 			wrap(["pages","record"], en_pages_record_json),
 			wrap(["pages","routes"], en_pages_routes_json),
@@ -304,6 +314,7 @@ export const localeResources = {
 			wrap(["pages","master"], en_pages_master_json),
 			wrap(["pages","masterService"], en_pages_masterService_json),
 			wrap(["pages","masterSettings"], en_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], en_pages_not_found_not_found_json),
 			wrap(["pages","profile"], en_pages_profile_json),
 			wrap(["pages","record"], en_pages_record_json),
 			wrap(["pages","routes"], en_pages_routes_json),
@@ -328,6 +339,7 @@ export const localeResources = {
 			wrap(["pages","master"], es_pages_master_json),
 			wrap(["pages","masterService"], es_pages_masterService_json),
 			wrap(["pages","masterSettings"], es_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], es_pages_not_found_not_found_json),
 			wrap(["pages","profile"], es_pages_profile_json),
 			wrap(["pages","record"], es_pages_record_json),
 			wrap(["pages","routes"], es_pages_routes_json),
@@ -354,6 +366,7 @@ export const localeResources = {
 			wrap(["pages","master"], es_pages_master_json),
 			wrap(["pages","masterService"], es_pages_masterService_json),
 			wrap(["pages","masterSettings"], es_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], es_pages_not_found_not_found_json),
 			wrap(["pages","profile"], es_pages_profile_json),
 			wrap(["pages","record"], es_pages_record_json),
 			wrap(["pages","routes"], es_pages_routes_json),
@@ -376,6 +389,7 @@ export const localeResources = {
 			wrap(["pages","master"], es_pages_master_json),
 			wrap(["pages","masterService"], es_pages_masterService_json),
 			wrap(["pages","masterSettings"], es_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], es_pages_not_found_not_found_json),
 			wrap(["pages","profile"], es_pages_profile_json),
 			wrap(["pages","record"], es_pages_record_json),
 			wrap(["pages","routes"], es_pages_routes_json),
@@ -400,6 +414,7 @@ export const localeResources = {
 			wrap(["pages","master"], ru_pages_master_json),
 			wrap(["pages","masterService"], ru_pages_masterService_json),
 			wrap(["pages","masterSettings"], ru_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], ru_pages_not_found_not_found_json),
 			wrap(["pages","profile"], ru_pages_profile_json),
 			wrap(["pages","record"], ru_pages_record_json),
 			wrap(["pages","routes"], ru_pages_routes_json),
@@ -426,6 +441,7 @@ export const localeResources = {
 			wrap(["pages","master"], ru_pages_master_json),
 			wrap(["pages","masterService"], ru_pages_masterService_json),
 			wrap(["pages","masterSettings"], ru_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], ru_pages_not_found_not_found_json),
 			wrap(["pages","profile"], ru_pages_profile_json),
 			wrap(["pages","record"], ru_pages_record_json),
 			wrap(["pages","routes"], ru_pages_routes_json),
@@ -448,6 +464,7 @@ export const localeResources = {
 			wrap(["pages","master"], ru_pages_master_json),
 			wrap(["pages","masterService"], ru_pages_masterService_json),
 			wrap(["pages","masterSettings"], ru_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], ru_pages_not_found_not_found_json),
 			wrap(["pages","profile"], ru_pages_profile_json),
 			wrap(["pages","record"], ru_pages_record_json),
 			wrap(["pages","routes"], ru_pages_routes_json),
@@ -472,6 +489,7 @@ export const localeResources = {
 			wrap(["pages","master"], zh_pages_master_json),
 			wrap(["pages","masterService"], zh_pages_masterService_json),
 			wrap(["pages","masterSettings"], zh_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], zh_pages_not_found_not_found_json),
 			wrap(["pages","profile"], zh_pages_profile_json),
 			wrap(["pages","record"], zh_pages_record_json),
 			wrap(["pages","routes"], zh_pages_routes_json),
@@ -498,6 +516,7 @@ export const localeResources = {
 			wrap(["pages","master"], zh_pages_master_json),
 			wrap(["pages","masterService"], zh_pages_masterService_json),
 			wrap(["pages","masterSettings"], zh_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], zh_pages_not_found_not_found_json),
 			wrap(["pages","profile"], zh_pages_profile_json),
 			wrap(["pages","record"], zh_pages_record_json),
 			wrap(["pages","routes"], zh_pages_routes_json),
@@ -520,6 +539,7 @@ export const localeResources = {
 			wrap(["pages","master"], zh_pages_master_json),
 			wrap(["pages","masterService"], zh_pages_masterService_json),
 			wrap(["pages","masterSettings"], zh_pages_masterSettings_json),
+			wrap(["pages","not-found","not-found"], zh_pages_not_found_not_found_json),
 			wrap(["pages","profile"], zh_pages_profile_json),
 			wrap(["pages","record"], zh_pages_record_json),
 			wrap(["pages","routes"], zh_pages_routes_json),

@@ -1,6 +1,3 @@
-import { File } from 'expo-file-system'
-import * as Crypto from 'expo-crypto'
-
 const bytesToBase64 = (bytes: Uint8Array): string => {
 	let binary = ''
 	for (let i = 0; i < bytes.length; i++) {
@@ -32,6 +29,11 @@ const bytesToBase64 = (bytes: Uint8Array): string => {
 
 export const getSha256SumFromFile = async (uri: string): Promise<string> => {
 	try {
+		const [{ File }, Crypto] = await Promise.all([
+			import('expo-file-system'),
+			import('expo-crypto'),
+		])
+
 		const file = new File(uri)
 		const buffer = await file.arrayBuffer()
 		const hashBuffer = await Crypto.digest(

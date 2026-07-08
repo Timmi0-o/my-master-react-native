@@ -1,13 +1,14 @@
+import type { NavigationTabCompound } from '@/components/shared/ui/navigation-tab/create-navigation-tab-compound'
+import { createNavigationTabCompound } from '@/components/shared/ui/navigation-tab/create-navigation-tab-compound'
 import type {
 	NavigationTabIconProps,
 	NavigationTabLabelProps,
 	NavigationTabRootProps,
 	NavigationTabTriggerProps,
 } from '@/components/shared/ui/navigation-tab/navigation-tab.types'
-import { createNavigationTabCompound } from '@/components/shared/ui/navigation-tab/create-navigation-tab-compound'
 import { NativeTabs } from 'expo-router/unstable-native-tabs'
 import { useThemeColor } from 'heroui-native'
-import type { ReactElement } from 'react'
+import type { ComponentType, ReactElement } from 'react'
 
 export function NavigationTabRoot({
 	children,
@@ -29,33 +30,24 @@ export function NavigationTabRoot({
 	)
 }
 
-export function NavigationTabTrigger({
-	name,
-	children,
-}: NavigationTabTriggerProps): ReactElement {
-	return <NativeTabs.Trigger name={name}>{children}</NativeTabs.Trigger>
-}
+// Must be the exact NativeTabs.Trigger component — expo-router only registers
+// direct Trigger children when building the native tab navigator.
+export const NavigationTabTrigger = NativeTabs.Trigger as ComponentType<
+	NavigationTabTriggerProps
+>
 
-export function NavigationTabLabel({
-	children,
-	hidden,
-	selectedStyle,
-}: NavigationTabLabelProps): ReactElement {
-	return (
-		<NativeTabs.Trigger.Label hidden={hidden} selectedStyle={selectedStyle}>
-			{children}
-		</NativeTabs.Trigger.Label>
-	)
-}
+export const NavigationTabLabel = NativeTabs.Trigger.Label as ComponentType<
+	NavigationTabLabelProps
+>
 
-export function NavigationTabIcon(props: NavigationTabIconProps): ReactElement {
-	return <NativeTabs.Trigger.Icon {...props} />
-}
+export const NavigationTabIcon = NativeTabs.Trigger.Icon as ComponentType<
+	NavigationTabIconProps
+>
 
 NavigationTabTrigger.Label = NavigationTabLabel
 NavigationTabTrigger.Icon = NavigationTabIcon
 
 export const NavigationTab = createNavigationTabCompound(
 	NavigationTabRoot,
-	NavigationTabTrigger,
+	NavigationTabTrigger as NavigationTabCompound['Trigger'],
 )
