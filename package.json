@@ -17,6 +17,8 @@
     "emulator:headless": "EMULATOR_MODE=headless ./scripts/start-emulator.sh",
     "emulator:gui": "EMULATOR_MODE=gui ./scripts/start-emulator.sh",
     "emulator:mirror": "./scripts/start-emulator-mirror.sh",
+    "emulator:mirror:lite": "SCRCPY_PROFILE=lite ./scripts/start-emulator-mirror.sh",
+    "emulator:mirror:sharp": "SCRCPY_PROFILE=sharp ./scripts/start-emulator-mirror.sh",
     "reset-project": "node ./scripts/reset-project.js",
     "android": "expo run:android --no-bundler",
     "android:full": "expo run:android",

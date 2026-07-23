@@ -52,7 +52,4 @@ fi
 node "$PROJECT_DIR/scripts/adb-reverse-minio.mjs"
 
 echo "[emulator] Launching scrcpy mirror..."
-exec scrcpy -s "$SERIAL" \
-	--window-title "Pixel_8" \
-	--max-size="${SCRCPY_MAX_SIZE:-1680}" \
-	--video-bit-rate="${SCRCPY_VIDEO_BIT_RATE:-12M}"
+SCRCPY_WINDOW_TITLE="Pixel_8" exec "$SCRIPT_DIR/scrcpy-mirror.sh" "$SERIAL"
