@@ -21,7 +21,8 @@ export const queryCacheUpsertAppointmentChatMessage = (
 			if (!prev) {
 				return {
 					id: chatId,
-					appointmentId: '',
+					masterProfileId: '',
+					clientUserId: '',
 					createdAt: message.createdAt,
 					updatedAt: message.updatedAt,
 					messages: [message],

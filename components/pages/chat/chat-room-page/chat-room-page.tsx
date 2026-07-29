@@ -231,7 +231,6 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 					</Text>
 				}
 				renderItem={({ item }) => {
-					const isMine = item.senderUserId === currentUserId
 					const timeDate = new Date(item.createdAt)
 					const timeLabel = Number.isNaN(timeDate.getTime())
 						? ''
@@ -239,6 +238,24 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 								hour: '2-digit',
 								minute: '2-digit',
 							})
+
+					if (item.actor === 'SYSTEM' || item.actor === 'SUPPORT') {
+						return (
+							<View
+								className='w-full items-center px-4 py-1'
+								style={{ alignSelf: 'center' }}
+							>
+								<Text
+									className='text-center text-muted'
+									style={{ fontSize: 12, lineHeight: 16 }}
+								>
+									{item.body}
+								</Text>
+							</View>
+						)
+					}
+
+					const isMine = item.senderUserId === currentUserId
 
 					return (
 						<View

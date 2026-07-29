@@ -26,7 +26,8 @@ const AppointmentChatAppointmentSchema = z.object({
 
 export const AppointmentChatSchema = z.object({
 	id: z.string(),
-	appointmentId: z.string(),
+	masterProfileId: z.string(),
+	clientUserId: z.string(),
 	createdAt: z.string(),
 	updatedAt: z.string(),
 	deletedAt: z.string().nullable().optional(),

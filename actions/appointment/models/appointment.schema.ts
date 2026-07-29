@@ -28,6 +28,7 @@ export const AppointmentSchema = z.object({
 	masterProfileId: z.string(),
 	masterServiceId: z.string(),
 	clientUserId: z.string(),
+	chatId: z.string().nullable().optional(),
 	startsAt: z.string(),
 	durationMinutes: z.number(),
 	status: AppointmentStatusSchema,
