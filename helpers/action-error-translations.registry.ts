@@ -9,7 +9,7 @@ export const ACTION_ERROR_TRANSLATION_REGISTRY: ReadonlyArray<{
 	ref: ActionErrorTranslationRef
 }> = [
 	{
-		match: 'Master service cannot have more than',
+		match: 'cannot have more than',
 		ref: {
 			keyPrefix: 'actionErrors.masterService',
 			key: 'maxImagesCount',

@@ -1,3 +1,3 @@
 {
-	"MASTER_SERVICE_MAX_IMAGES_COUNT": "Master service cannot have more than 10 images"
+	"IMAGE_MAX_COUNT": "Master service cannot have more than 10 images"
 }

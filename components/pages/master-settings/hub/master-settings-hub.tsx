@@ -54,23 +54,23 @@ function SettingsTileBlock({
 				<Card.Body>
 					{isWide ? (
 						<View className='flex-row items-center gap-3'>
-							<View className='rounded-2xl bg-surface p-3'>
+							<View className='bg-surface p-3 rounded-2xl'>
 								<Ionicons name={tile.icon} size={22} color={mutedColor} />
 							</View>
-							<Text className='flex-1 text-base font-semibold text-foreground'>
+							<Text className='flex-1 font-semibold text-foreground text-base'>
 								{tile.label}
 							</Text>
 							<Ionicons name='chevron-forward' size={20} color={mutedColor} />
 						</View>
 					) : (
 						<>
-							<View className='mb-2 flex-row items-start justify-between'>
-								<View className='rounded-2xl bg-surface p-3'>
+							<View className='flex-row justify-between items-start mb-2'>
+								<View className='bg-surface p-3 rounded-2xl'>
 									<Ionicons name={tile.icon} size={26} color={mutedColor} />
 								</View>
 								<Ionicons name='chevron-forward' size={18} color={mutedColor} />
 							</View>
-							<Text className='text-sm font-semibold text-foreground'>
+							<Text className='font-semibold text-foreground text-sm'>
 								{tile.label}
 							</Text>
 						</>
@@ -129,7 +129,7 @@ export function MasterSettingsHub({
 						<Text className='text-muted'>{t('currentStatus')}</Text>
 						<Chip color='accent'>{statusLabel}</Chip>
 						{masterProfile.pausedUntil ? (
-							<Text className='text-sm text-muted'>
+							<Text className='text-muted text-sm'>
 								{t('pausedUntil', {
 									date: new Date(masterProfile.pausedUntil).toLocaleString(
 										dateTimeLocale,
