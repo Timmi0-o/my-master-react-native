@@ -140,7 +140,7 @@ const kebabToCamel = (value: string): string =>
 const ACTION_ERROR_KEY_MAP: Record<string, string> = {
 	APPOINTMENT_NOT_AVAILABLE: 'slotNotAvailable',
 	NO_SUBSCRIBERS: 'noSubscribers',
-	IMAGE_MAX_COUNT: 'maxImagesCount',
+	MASTER_SERVICE_MAX_IMAGES_COUNT: 'maxImagesCount',
 }
 
 const actionErrorsGroupFromPath = (segments: string[]): string => {

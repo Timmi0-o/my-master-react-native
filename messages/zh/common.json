@@ -3,7 +3,10 @@
 		"clientFallback": "客户",
 		"masterFallback": "技师",
 		"noMessages": "暂无消息",
-		"firstMessage": "发送第一条消息"
+		"firstMessage": "发送第一条消息",
+		"systemAppointmentCreated": "服务「{serviceName}」已创建",
+		"systemAppointmentConfirmed": "预约「{serviceName}」已确认",
+		"systemAppointmentCancelled": "预约「{serviceName}」已取消"
 	},
 	"fallback": {
 		"client": "客户",

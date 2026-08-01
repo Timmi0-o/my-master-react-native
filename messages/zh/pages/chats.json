@@ -1,5 +1,8 @@
 {
 	"title": "聊天",
 	"emptyClient": "暂无与技师的聊天",
-	"emptyMaster": "暂无与客户的聊天"
+	"emptyMaster": "暂无与客户的聊天",
+	"systemAppointmentCreated": "服务「{serviceName}」已创建",
+	"systemAppointmentConfirmed": "预约「{serviceName}」已确认",
+	"systemAppointmentCancelled": "预约「{serviceName}」已取消"
 }

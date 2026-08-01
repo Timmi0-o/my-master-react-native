@@ -1,5 +1,8 @@
 {
 	"title": "Чаты",
 	"emptyClient": "Пока нет чатов с мастерами",
-	"emptyMaster": "Пока нет чатов с клиентами"
+	"emptyMaster": "Пока нет чатов с клиентами",
+	"systemAppointmentCreated": "Услуга «{serviceName}» создана",
+	"systemAppointmentConfirmed": "Запись «{serviceName}» подтверждена",
+	"systemAppointmentCancelled": "Запись «{serviceName}» отменена"
 }

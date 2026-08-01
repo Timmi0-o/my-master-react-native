@@ -3,7 +3,10 @@
 		"clientFallback": "Клиент",
 		"masterFallback": "Мастер",
 		"noMessages": "Нет сообщений",
-		"firstMessage": "Напишите первое сообщение"
+		"firstMessage": "Напишите первое сообщение",
+		"systemAppointmentCreated": "Услуга «{serviceName}» создана",
+		"systemAppointmentConfirmed": "Запись «{serviceName}» подтверждена",
+		"systemAppointmentCancelled": "Запись «{serviceName}» отменена"
 	},
 	"fallback": {
 		"client": "Клиент",

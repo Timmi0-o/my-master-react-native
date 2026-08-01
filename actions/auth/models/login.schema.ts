@@ -31,6 +31,9 @@ export const createRegisterSchema = () =>
 		password: z
 			.string()
 			.min(8, scopedT('passwordMin', 'common', 'validation.auth')),
+		language: z
+			.enum(['RU', 'EN', 'ES', 'ZH', 'AR', 'FR', 'DE', 'PT', 'JA', 'HI'])
+			.optional(),
 	})
 
 export type IRegister = z.infer<ReturnType<typeof createRegisterSchema>>

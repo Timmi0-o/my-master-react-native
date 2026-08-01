@@ -13,6 +13,7 @@ import {
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
 import { useThemeApp } from '@/configs/theme/theme-context'
 import { THEME_BACKGROUND_COLORS } from '@/constants/theme-colors'
+import { formatSystemChatMessage } from '@/helpers/appointment-chat/format-system-chat-message'
 import { parseJwt } from '@/helpers/jwt.helper'
 import { useAppointmentChatGetOne } from '@/hooks/actions/appointment-chat/use-appointment-chat-get-one'
 import { useAppointmentChatMessageCreate } from '@/hooks/actions/appointment-chat/use-appointment-chat-message-create'
@@ -240,6 +241,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 							})
 
 					if (item.actor === 'SYSTEM' || item.actor === 'SUPPORT') {
+						const systemText = formatSystemChatMessage(item, tChat)
 						return (
 							<View
 								className='w-full items-center px-4 py-1'
@@ -249,7 +251,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 									className='text-center text-muted'
 									style={{ fontSize: 12, lineHeight: 16 }}
 								>
-									{item.body}
+									{systemText}
 								</Text>
 							</View>
 						)

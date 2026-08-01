@@ -3,7 +3,10 @@
 		"clientFallback": "Client",
 		"masterFallback": "Master",
 		"noMessages": "No messages",
-		"firstMessage": "Write the first message"
+		"firstMessage": "Write the first message",
+		"systemAppointmentCreated": "Service «{serviceName}» created",
+		"systemAppointmentConfirmed": "Appointment «{serviceName}» confirmed",
+		"systemAppointmentCancelled": "Appointment «{serviceName}» cancelled"
 	},
 	"fallback": {
 		"client": "Client",

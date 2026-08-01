@@ -1,5 +1,8 @@
 {
 	"title": "Chats",
 	"emptyClient": "Aún no hay chats con profesionales",
-	"emptyMaster": "Aún no hay chats con clientes"
+	"emptyMaster": "Aún no hay chats con clientes",
+	"systemAppointmentCreated": "Servicio «{serviceName}» creado",
+	"systemAppointmentConfirmed": "Cita «{serviceName}» confirmada",
+	"systemAppointmentCancelled": "Cita «{serviceName}» cancelada"
 }

@@ -1,5 +1,8 @@
 {
 	"title": "Chats",
 	"emptyClient": "No chats with masters yet",
-	"emptyMaster": "No chats with clients yet"
+	"emptyMaster": "No chats with clients yet",
+	"systemAppointmentCreated": "Service «{serviceName}» created",
+	"systemAppointmentConfirmed": "Appointment «{serviceName}» confirmed",
+	"systemAppointmentCancelled": "Appointment «{serviceName}» cancelled"
 }

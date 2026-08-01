@@ -49,6 +49,9 @@ export const API_ROUTES = {
 		me: `${API_URL}/user-profiles/me`,
 		one: (id: string) => `${API_URL}/user-profiles/${id}`,
 	},
+	users: {
+		updateOwnLanguage: `${API_URL}/users/me/language`,
+	},
 	appointmentChats: {
 		one: (id: string) => `${API_URL}/appointment-chats/${id}`,
 	},

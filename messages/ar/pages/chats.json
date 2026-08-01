@@ -1,5 +1,8 @@
 {
 	"title": "المحادثات",
 	"emptyClient": "لا توجد محادثات مع المختصين بعد",
-	"emptyMaster": "لا توجد محادثات مع العملاء بعد"
+	"emptyMaster": "لا توجد محادثات مع العملاء بعد",
+	"systemAppointmentCreated": "تم إنشاء الخدمة «{serviceName}»",
+	"systemAppointmentConfirmed": "تم تأكيد الموعد «{serviceName}»",
+	"systemAppointmentCancelled": "تم إلغاء الموعد «{serviceName}»"
 }

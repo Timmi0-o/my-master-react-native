@@ -3,7 +3,10 @@
 		"clientFallback": "عميل",
 		"masterFallback": "مختص",
 		"noMessages": "لا توجد رسائل",
-		"firstMessage": "اكتب أول رسالة"
+		"firstMessage": "اكتب أول رسالة",
+		"systemAppointmentCreated": "تم إنشاء الخدمة «{serviceName}»",
+		"systemAppointmentConfirmed": "تم تأكيد الموعد «{serviceName}»",
+		"systemAppointmentCancelled": "تم إلغاء الموعد «{serviceName}»"
 	},
 	"fallback": {
 		"client": "عميل",

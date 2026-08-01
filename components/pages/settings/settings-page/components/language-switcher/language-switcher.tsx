@@ -1,12 +1,30 @@
+import { updateOwnLanguage } from '@/actions/user/actions'
 import { useAppLocale } from '@/configs/i18n/locale-context'
-import { LOCALE_OPTIONS } from '@/configs/i18n/supported-locales'
+import { LOCALE_OPTIONS, type AppLocale } from '@/configs/i18n/supported-locales'
 import { useScopedTranslation } from '@/configs/i18n/use-scoped-translation'
+import { appLocaleToApiLanguage } from '@/helpers/i18n/api-language'
+import { useAuth } from '@/stores/auth'
 import { Button, Card } from 'heroui-native'
 import { Text, View } from 'react-native'
 
 export const LanguageSwitcher = () => {
 	const { locale, setLocale } = useAppLocale()
+	const { isAuthenticated } = useAuth()
 	const { t } = useScopedTranslation('pages', 'settings.language')
+
+	const handleSelect = (optionLocale: AppLocale) => {
+		void setLocale(optionLocale)
+
+		if (!isAuthenticated) {
+			return
+		}
+
+		void updateOwnLanguage({
+			language: appLocaleToApiLanguage(optionLocale),
+		}).catch((error: unknown) => {
+			console.error('Failed to sync user language', error)
+		})
+	}
 
 	return (
 		<Card>
@@ -26,7 +44,7 @@ export const LanguageSwitcher = () => {
 								key={optionLocale}
 								size='sm'
 								onPress={() => {
-									void setLocale(optionLocale)
+									handleSelect(optionLocale)
 								}}
 								variant={isSelected ? 'primary' : 'outline'}
 							>
