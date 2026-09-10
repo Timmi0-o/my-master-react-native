@@ -3,6 +3,24 @@ import { sanitizeQueryFiltersBySchema } from '@/helpers/actions/sanitize-query-f
 import { IActionFilters } from '@/types/i-action.types'
 import { ZodSchema } from 'zod'
 
+const appendRequiredIds = (
+	searchParams: URLSearchParams,
+	requiredIds: unknown,
+): void => {
+	if (Array.isArray(requiredIds)) {
+		requiredIds.forEach((id) => {
+			if (typeof id === 'string' && id.length > 0) {
+				searchParams.append('requiredIds', id)
+			}
+		})
+		return
+	}
+
+	if (typeof requiredIds === 'string' && requiredIds.length > 0) {
+		searchParams.append('requiredIds', requiredIds)
+	}
+}
+
 export const setQueryFilters = <TFilters>(
 	url: string,
 	filters: IActionFilters<TFilters> | undefined,
@@ -22,8 +40,21 @@ export const setQueryFilters = <TFilters>(
 				? customFormatter(sanitizedFilters)
 				: defaultQueryFormatter(sanitizedFilters)
 
-			if (formattedParams && Object.keys(formattedParams).length > 0) {
-				url += `?${new URLSearchParams(formattedParams as Record<string, string>)}`
+			const searchParams = new URLSearchParams()
+
+			if (formattedParams) {
+				Object.entries(formattedParams).forEach(([key, value]) => {
+					searchParams.set(key, value)
+				})
+			}
+
+			appendRequiredIds(
+				searchParams,
+				(sanitizedFilters as Record<string, unknown>).requiredIds,
+			)
+
+			if ([...searchParams.keys()].length > 0) {
+				url += `?${searchParams.toString()}`
 			}
 		}
 	}

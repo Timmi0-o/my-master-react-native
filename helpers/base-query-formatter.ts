@@ -8,6 +8,8 @@ const SCALAR_FILTER_KEYS = new Set([
 	'orderDir',
 ])
 
+const QUERY_PARAMS_HANDLED_SEPARATELY = new Set(['requiredIds'])
+
 export const defaultQueryFormatter = <TFilters>(
 	filters: IActionFilters<TFilters>,
 ): Record<string, string> | undefined => {
@@ -15,6 +17,10 @@ export const defaultQueryFormatter = <TFilters>(
 
 	Object.entries(filters).forEach(([key, value]) => {
 		if (value === undefined || value === null) {
+			return
+		}
+
+		if (QUERY_PARAMS_HANDLED_SEPARATELY.has(key)) {
 			return
 		}
 

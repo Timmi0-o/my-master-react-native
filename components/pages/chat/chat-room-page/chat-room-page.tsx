@@ -240,7 +240,7 @@ export function ChatRoomPage({ chat }: IChatRoomPageProps): ReactElement {
 								minute: '2-digit',
 							})
 
-					if (item.actor === 'SYSTEM' || item.actor === 'SUPPORT') {
+					if (item.actor === 'SYSTEM') {
 						const systemText = formatSystemChatMessage(item, tChat)
 						return (
 							<View
