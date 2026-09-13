@@ -62,7 +62,9 @@ export const masterProfilesGetMany = async (
 | `appointmentChatsGetOne` | `useAppointmentChatGetOne` |
 | `appointmentChatMessagesCreate` | `useAppointmentChatMessageCreate` |
 
-**Операции:** `GetMany`, `GetOne`, `GetMine`, `GetMyMany`, `GetMyClientsMany`, `Create`, `Update`, `Delete` — как у use-case / HTTP-сценария, не синонимы.
+**Операции:** `GetMany`, `GetOne`, `GetMine`, `GetMyMany`, `GetMyClientsMany`, `Create`, `Update`, `Delete`, `Sync` — как у use-case / HTTP-сценария, не синонимы (`useRoles` ≠ `useRolesGetMany`).
+
+**Запрещено:** несколько хуков в одном `index.ts` — только re-export. Общий канон: `../../.cursor/rules/hooks-actions-naming.mdc`.
 
 **Файл:** `hooks/actions/<feature>/use-<entity-kebab>-<operation-kebab>.ts`  
 Пример: `use-appointment-chat-message-create.ts`.
